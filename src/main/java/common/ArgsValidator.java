@@ -6,7 +6,7 @@ public class ArgsValidator {
             throw new IllegalArgumentException("Empty arguments");
         }
         if (args.length < expected) {
-            throw new IllegalArgumentException("Empty arguments");
+            throw new IllegalArgumentException("Few arguments");
         }
     }
 }
