@@ -34,9 +34,9 @@ public class Converter {
 
     public String getRequiredValue(final List<Integer> number) {
         List<Integer> buffer = new ArrayList<Integer>();
-        do { // сделать по другому всё что дальше
+        while (!this.hasOnlyZeroes(number)) {
             buffer.add(this.getNumber(number));
-        } while (!this.hasOnlyZeroes(number));
+        }
         StringBuilder temp = new StringBuilder();
         for (int i = buffer.size() - 1; i >= 0; i--) {
             temp.append(intToChar(buffer.get(i)));
