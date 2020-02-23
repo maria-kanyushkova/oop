@@ -5,18 +5,15 @@ import java.util.List;
 
 public class Converter {
     private static final String SYMBOLS = "0123456789ABCDEFGHIJKLMNOPQRASUVWXYZ";
-    private final int fromRadix;
-    private final int toRadix;
-    private final String value;
+    private int fromRadix;
+    private int toRadix;
+    private String value;
     private boolean negative = false;
 
-    Converter(final int from, final int to, String value) {
+    public String convert(final int from, final int to, String value) {
         this.fromRadix = from;
         this.toRadix = to;
         this.value = value;
-    }
-
-    public String convert() {
         List<Integer> number = getInitNumber();
         return getRequiredValue(number);
     }

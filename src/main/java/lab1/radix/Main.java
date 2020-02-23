@@ -13,8 +13,8 @@ public class Main {
             Helper.checkNumberSystemsValid(from, to);
             Helper.checkValueValid(value, from);
 
-            Converter converter = new Converter(from, to, value);
-            System.out.println(converter.convert());
+            Converter converter = new Converter();
+            System.out.println(converter.convert(from, to, value));
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
         }
