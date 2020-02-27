@@ -12,8 +12,6 @@ public class Main {
             File inputFile = FileManager.create(args[0]);
             String fileContent = FileManager.read(inputFile);
             double[][] array = Helper.parse(fileContent);
-            Helper.print(array);
-            System.out.println();
             Helper.print(Matrix.inverse(array));
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
