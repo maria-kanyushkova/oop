@@ -1,50 +1,84 @@
 package lab1.invert;
 
 public class Matrix {
-    private static int size = Helper.MATRIX_SIZE;
-    private static double[][] data;
-
-    public static void setValueAt(int row, int col, double value) {
-        data[row][col] = value;
+    static double[][] inverse(double[][] matrix) {
+        double determinant = getDeterminant(matrix);
+        if (determinant == 0) {
+            throw new ArithmeticException("No inverse matrix");
+        }
+        return multiply(transpose(cofactor(matrix)), 1.0 / determinant);
     }
 
-    public static double getValueAt(int row, int col) {
-        return data[row][col];
-    }
-
-    public static double[][] multiply(double[][] matrix, double constant) {
-        data = matrix;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                double value = data[i][j] * constant;
-                setValueAt(i, j, value);
+    static double[][] transpose(final double[][] matrix) {
+        double[][] transposed = new double[matrix.length][matrix.length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                transposed[j][i] = matrix[i][j];
             }
         }
-        return data;
+        return transposed;
     }
 
-    public static double[][] transpose(double[][] matrix) {
-        data = matrix;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                setValueAt(i, j, data[j][i]);
+    static double[][] multiply(final double[][] matrix, double constant) {
+        double[][] nextMatrix = new double[matrix.length][matrix.length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                nextMatrix[i][j] =  matrix[i][j] * constant;
             }
         }
-        return data;
+        return nextMatrix;
     }
 
-    public static double determinant(double[][] matrix) {
-        double sum = 0.0;
-        for (int i = 0; i < size; i++) {
-            sum += inverseValue(i) * getValueAt(0, i) * determinant(createSubMatrix(matrix, new ImmutablePair<>(0, i)));
+    static double getDeterminant(final double[][] matrix) {
+        if (matrix.length == 2) {
+            return (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]);
         }
-        return sum;
+        if (matrix.length == 3) {
+            return (
+                    matrix[0][0] * matrix[1][1] * matrix[2][2] +
+                    matrix[0][1] * matrix[1][2] * matrix[2][0] +
+                    matrix[0][2] * matrix[1][0] * matrix[2][1] -
+                    matrix[0][2] * matrix[1][1] * matrix[2][0] -
+                    matrix[0][1] * matrix[1][0] * matrix[2][2] -
+                    matrix[0][0] * matrix[1][2] * matrix[2][1]
+            );
+        }
+        return 0;
     }
 
-    public static int inverseValue(final int i) {
+    private static int inverse(final int i) {
         if (i % 2 == 0) {
             return 1;
         }
         return -1;
+    }
+
+    static double[][] createSubMatrix(final double[][] matrix, int rows, int cols) {
+        double[][] mat = new double[matrix.length - 1][matrix.length - 1];
+        int r = -1;
+        for (int i = 0; i < matrix.length; i++) {
+            if (i == rows) {
+                continue;
+            }
+            r++;
+            int c = -1;
+            for (int j = 0; j < matrix.length; j++) {
+                if (j == cols) {
+                    continue;
+                }
+                mat[r][++c] = matrix[i][j];
+            }
+        }
+        return mat;
+    }
+
+    static double[][] cofactor(final double[][] matrix) {
+        double[][] mat = new double[matrix.length][matrix.length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                mat[i][j] = inverse(i + j) * getDeterminant(createSubMatrix(matrix, i, j));
+            }
+        }
+        return mat;
     }
 }
