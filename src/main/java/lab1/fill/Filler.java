@@ -4,4 +4,8 @@ public class Filler {
     public static char[][] fill(char[][] aria) {
 
     }
+
+    public static char[][] wave(char[][] aria) {
+
+    }
 }

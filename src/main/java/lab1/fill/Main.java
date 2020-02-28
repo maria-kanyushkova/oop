@@ -9,9 +9,9 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) {
         try {
-            ArgsValidator.validate(args, 2);
-            File inputFile = FileManager.create(args[0]);
-            File outputFile = FileManager.create(args[1]);
+//            ArgsValidator.validate(args, 2);
+//            File inputFile = FileManager.create(args[0]);
+//            File outputFile = FileManager.create(args[1]);
 
             String fileContent = "\n" +
                     "\n" +
@@ -33,6 +33,7 @@ public class Main {
                     "\n" +
                     "\n";//FileManager.read(inputFile);
             char[][] aria = Helper.parse(fileContent);
+            Filler filler = new Filler();
             Helper.print(Filler.fill(aria));
 
         } catch (Exception error) {
