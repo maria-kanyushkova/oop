@@ -23,7 +23,7 @@ public class Matrix {
         double[][] nextMatrix = new double[matrix.length][matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
-                nextMatrix[i][j] =  matrix[i][j] * constant;
+                nextMatrix[i][j] = matrix[i][j] * constant;
             }
         }
         return nextMatrix;
@@ -35,12 +35,12 @@ public class Matrix {
         }
         if (matrix.length == 3) {
             return (
-                matrix[0][0] * matrix[1][1] * matrix[2][2] +
-                matrix[0][1] * matrix[1][2] * matrix[2][0] +
-                matrix[0][2] * matrix[1][0] * matrix[2][1] -
-                matrix[0][2] * matrix[1][1] * matrix[2][0] -
-                matrix[0][1] * matrix[1][0] * matrix[2][2] -
-                matrix[0][0] * matrix[1][2] * matrix[2][1]
+                    matrix[0][0] * matrix[1][1] * matrix[2][2] +
+                            matrix[0][1] * matrix[1][2] * matrix[2][0] +
+                            matrix[0][2] * matrix[1][0] * matrix[2][1] -
+                            matrix[0][2] * matrix[1][1] * matrix[2][0] -
+                            matrix[0][1] * matrix[1][0] * matrix[2][2] -
+                            matrix[0][0] * matrix[1][2] * matrix[2][1]
             );
         }
         return 0;

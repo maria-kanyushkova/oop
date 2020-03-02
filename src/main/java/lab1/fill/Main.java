@@ -11,11 +11,10 @@ public class Main {
             ArgsValidator.validate(args, 2);
             File inputFile = FileManager.create(args[0]);
             File outputFile = FileManager.create(args[1]);
-
             String fileContent = FileManager.read(inputFile);
             char[][] aria = Helper.parse(fileContent);
-            Helper.print(Filler.fill(aria));
-
+            aria = Filler.fill(aria);
+            FileManager.write(outputFile, Helper.print(aria));
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
         }
