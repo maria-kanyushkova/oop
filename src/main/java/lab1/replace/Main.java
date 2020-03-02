@@ -14,10 +14,7 @@ public class Main {
             String search = args[2];
             String replace = args[3];
 
-            String fileContent = FileManager.read(inputFile);
-            String replaced = StringReplacer.replaceString(fileContent, search, replace);
-            FileManager.write(outputFile, replaced);
-
+            Replacer.replaceFile(inputFile, outputFile, search, replace);
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
         }
