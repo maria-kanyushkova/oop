@@ -41,4 +41,13 @@ public class FileManager {
         writer.write(content);
         writer.close();
     }
+
+    public static void validate(File file) throws IOException {
+        if (!file.exists()) {
+            final boolean isCreated = file.createNewFile();
+            if (!isCreated) {
+                throw new IOException("Cannot create input file!");
+            }
+        }
+    }
 }

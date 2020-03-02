@@ -8,7 +8,8 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) {
         try {
-            ArgsValidator.validate(args, 1);
+            String expectedFormat = "<inputFile>";
+            ArgsValidator.validate(args, 1, expectedFormat);
             File inputFile = FileManager.create(args[0]);
             String fileContent = FileManager.read(inputFile);
             double[][] array = Helper.parse(fileContent);

@@ -8,7 +8,8 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) {
         try {
-            ArgsValidator.validate(args, 2);
+            String expectedFormat = "<inputFile> <inputFile>";
+            ArgsValidator.validate(args, 2, expectedFormat);
             File inputFile = FileManager.create(args[0]);
             File outputFile = FileManager.create(args[1]);
             String fileContent = FileManager.read(inputFile);

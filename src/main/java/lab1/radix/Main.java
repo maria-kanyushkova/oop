@@ -5,7 +5,8 @@ import common.ArgsValidator;
 public class Main {
     public static void main(String[] args) {
         try {
-            ArgsValidator.validate(args, 3);
+            String expectedFormat = "<from> <to> <value>";
+            ArgsValidator.validate(args, 3, expectedFormat);
             final int from = Integer.parseInt(args[0]);
             final int to = Integer.parseInt(args[1]);
             String value = args[2];
