@@ -3,11 +3,11 @@ package lab1.radix;
 public class Main {
     public static void main(String[] args) {
         try {
-            RadixDTO radixDto = new RadixDTO(args);
+            RadixDTO radixDTO = new RadixDTO(args);
             System.out.println(Converter.convert(
-                    radixDto.getValue(),
-                    radixDto.getFromRadix(),
-                    radixDto.getToRadix()
+                    radixDTO.getValue(),
+                    radixDTO.getFromRadix(),
+                    radixDTO.getToRadix()
             ));
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
