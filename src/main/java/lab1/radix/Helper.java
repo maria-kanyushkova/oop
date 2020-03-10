@@ -10,7 +10,7 @@ public class Helper {
 
     public static boolean isValueValid(final String value, final int radix) {
         for (int i = 0; i < value.length(); ++i) {
-            int symbol = Converter.charToInt(value.charAt(i), radix);
+            int symbol = Utils.charToInt(value.charAt(i), radix);
             if (symbol > radix - 1) {
                 return false;
             }

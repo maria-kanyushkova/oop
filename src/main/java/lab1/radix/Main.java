@@ -14,8 +14,7 @@ public class Main {
             Helper.checkNumberSystemsValid(from, to);
             Helper.checkValueValid(value, from);
 
-            Converter converter = new Converter();
-            System.out.println(converter.convert(from, to, value));
+            System.out.println(Converter.convert(value, from, to));
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
         }

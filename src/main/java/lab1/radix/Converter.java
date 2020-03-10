@@ -1,85 +1,34 @@
 package lab1.radix;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Converter {
     private static final String SYMBOLS = "0123456789ABCDEFGHIJKLMNOPQRASUVWXYZ";
-    private int fromRadix;
-    private int toRadix;
-    private String value;
-    private boolean negative = false;
 
-    public String convert(final int from, final int to, String value) {
-        this.fromRadix = from;
-        this.toRadix = to;
-        this.value = value;
-        List<Integer> number = getInitNumber();
-        return getRequiredValue(number);
-    }
-
-    public List<Integer> getInitNumber() {
-        List<Integer> number = new ArrayList<Integer>();
+    public static String convert(String value, final int fromRadix, final int toRadix) throws ArithmeticException {
+        boolean isNegative = false;
+        int number = 0;
         for (int i = 0; i < value.length(); ++i) {
             char symbol = value.charAt(i);
             if (symbol == '-') {
-                this.negative = true;
+                isNegative = true;
+                continue;
             }
             if (SYMBOLS.indexOf(symbol) != -1) {
-                number.add(Converter.charToInt(symbol, this.fromRadix));
+                int digit = Utils.charToInt(symbol, fromRadix);
+                if (number > Integer.MAX_VALUE / fromRadix || number > Integer.MAX_VALUE - digit) {
+                    throw new ArithmeticException("Value is larger than the allowed size");
+                }
+                number *= fromRadix;
+                number += digit;
             }
         }
-        return number;
-    }
-
-    public String getRequiredValue(final List<Integer> number) {
-        List<Integer> buffer = new ArrayList<Integer>();
-        do {
-            buffer.add(this.getNumber(number));
-        } while (!this.hasOnlyZeroes(number));
         StringBuilder temp = new StringBuilder();
-        for (int i = buffer.size() - 1; i >= 0; i--) {
-            temp.append(intToChar(buffer.get(i)));
-        }
-        if (negative) {
+        do {
+            temp.insert(0, Utils.intToChar(number % toRadix));
+            number /= toRadix;
+        } while (number > 0);
+        if (isNegative) {
             temp.insert(0, '-');
         }
         return temp.toString();
-    }
-
-    public int getNumber(List<Integer> number) {
-        int temp = 0;
-        for (int i = 0; i < number.size(); i++) {
-            temp = temp * this.fromRadix + number.get(i);
-            number.set(i, temp / this.toRadix);
-            temp = temp % this.toRadix;
-        }
-        return temp;
-    }
-
-    private boolean hasOnlyZeroes(List<Integer> number) {
-        for (int integer : number) {
-            if (integer != 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static int charToInt(final char symbol, final int radix) {
-        if (Helper.isDigitSymbol(symbol) && (symbol - '0') < radix) {
-            return symbol - '0';
-        }
-        if (Helper.isAlphaSymbol(symbol) && (symbol - 'A') < radix) {
-            return symbol - 'A' + 10;
-        }
-        return -1;
-    }
-
-    public static char intToChar(final int digit) {
-        if (Helper.isDigit(digit)) {
-            return (char) (digit + '0');
-        }
-        return (char) (digit + 'A' - 10);
     }
 }
