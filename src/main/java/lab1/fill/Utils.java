@@ -2,18 +2,16 @@ package lab1.fill;
 
 import java.io.IOException;
 
-public class Helper {
+public class Utils {
     static final String DELIMITER_LINES = "\n";
-    static int rows = 0;
-    static int cols = 0;
 
     public static char[][] parse(String fileContent) throws IOException {
         String[] lines = fileContent.split(DELIMITER_LINES);
-        rows = lines.length;
-        cols = getMaxCols(lines);
+        int rows = lines.length;
+        int cols = getMaxCols(lines);
         char value = ' ';
         char[][] aria = fillingBorders(new char[rows + 2][cols + 2]);
-        for (int i = 0; i < lines.length; i++) {
+        for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (j >= lines[i].length()) {
                     aria[i + 1][j + 1] = ' ';
@@ -27,9 +25,11 @@ public class Helper {
     }
 
     public static String print(final char[][] aria) {
+        int rows = aria.length - 1;
+        int cols = aria[1].length - 1;
         StringBuilder out = new StringBuilder();
-        for (int i = 1; i < rows + 1; i++) {
-            for (int j = 1; j < cols + 1; j++) {
+        for (int i = 1; i < rows; i++) {
+            for (int j = 1; j < cols; j++) {
                 out.append(String.valueOf(aria[i][j]));
             }
             out.append(DELIMITER_LINES);
@@ -53,6 +53,8 @@ public class Helper {
     }
 
     private static char[][] fillingBorders(char[][] aria) {
+        int rows = aria.length - 2;
+        int cols = aria[0].length - 2;
         for (int i = 0; i < rows + 2; i++) {
             aria[i][0] = '#';
             aria[i][cols + 1] = '#';
