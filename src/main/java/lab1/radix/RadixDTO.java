@@ -1,7 +1,5 @@
 package lab1.radix;
 
-import javax.management.StringValueExp;
-
 public class RadixDTO {
     private static int fromRadix;
     private static int toRadix;

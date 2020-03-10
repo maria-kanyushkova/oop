@@ -2,7 +2,7 @@ package lab1.invert;
 
 import java.io.IOException;
 
-public class Helper {
+public class Utils {
     static final int MATRIX_SIZE = 3;
     static final String DELIMITER_LINES = "\n";
     static final String DELIMITER_LINE = "\t";
