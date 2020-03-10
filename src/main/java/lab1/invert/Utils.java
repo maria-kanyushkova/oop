@@ -19,6 +19,15 @@ public class Utils {
         return matrix;
     }
 
+    public static void print(final double[][] matrix) {
+        for (int i = 0; i < MATRIX_SIZE; i++) {
+            for (int j = 0; j < MATRIX_SIZE; j++) {
+                System.out.printf("%.3f ", matrix[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
     private static double verifySymbol(String digit) throws ArithmeticException {
         for (int i = 0; i < digit.length(); i++) {
             char symbol = digit.charAt(i);
@@ -35,14 +44,5 @@ public class Utils {
             throw new IOException("Incorrect matrix size!");
         }
         return array;
-    }
-
-    public static void print(final double[][] matrix) {
-        for (int i = 0; i < MATRIX_SIZE; i++) {
-            for (int j = 0; j < MATRIX_SIZE; j++) {
-                System.out.printf("%.3f ", matrix[i][j]);
-            }
-            System.out.println();
-        }
     }
 }

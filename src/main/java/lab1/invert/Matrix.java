@@ -1,7 +1,7 @@
 package lab1.invert;
 
 public class Matrix {
-    static double[][] inverse(double[][] matrix) throws ArithmeticException {
+    public static double[][] inverse(double[][] matrix) throws ArithmeticException {
         double determinant = getDeterminant(matrix);
         if (determinant == 0) {
             throw new ArithmeticException("No inverse matrix");
@@ -9,7 +9,7 @@ public class Matrix {
         return multiply(transpose(calculateAdditionalMatrix(matrix)), 1.0 / determinant);
     }
 
-    static double[][] transpose(final double[][] matrix) {
+    private static double[][] transpose(final double[][] matrix) {
         double[][] transposedMatrix = new double[matrix.length][matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -19,7 +19,7 @@ public class Matrix {
         return transposedMatrix;
     }
 
-    static double[][] multiply(final double[][] matrix, double constant) {
+    private static double[][] multiply(final double[][] matrix, double constant) {
         double[][] nextMatrix = new double[matrix.length][matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -29,7 +29,7 @@ public class Matrix {
         return nextMatrix;
     }
 
-    static double getDeterminant(final double[][] matrix) {
+    private static double getDeterminant(final double[][] matrix) {
         if (matrix.length == 2) {
             return (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]);
         }
@@ -46,7 +46,7 @@ public class Matrix {
         return 0;
     }
 
-    static double[][] createSubMatrix(final double[][] matrix, int rows, int columns) {
+    private static double[][] createSubMatrix(final double[][] matrix, int rows, int columns) {
         double[][] subMatrix = new double[matrix.length - 1][matrix.length - 1];
         int r = -1;
         for (int i = 0; i < matrix.length; i++) {
@@ -65,7 +65,7 @@ public class Matrix {
         return subMatrix;
     }
 
-    static double[][] calculateAdditionalMatrix(final double[][] matrix) {
+    private static double[][] calculateAdditionalMatrix(final double[][] matrix) {
         double[][] additionalMatrix = new double[matrix.length][matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
