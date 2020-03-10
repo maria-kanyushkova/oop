@@ -15,8 +15,8 @@ public class RadixDTO {
         int toRadix = Integer.parseInt(args[1]);
         String value = args[2];
 
-        Helper.checkNumberSystemsValid(fromRadix, toRadix);
-        Helper.checkValueValid(value, fromRadix);
+        Utils.checkNumberSystemsValid(fromRadix, toRadix);
+        Utils.checkValueValid(value, fromRadix);
 
         setFromRadix(fromRadix);
         setToRadix(toRadix);
