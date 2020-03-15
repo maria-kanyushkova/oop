@@ -21,4 +21,8 @@ public class BaseInputOutput {
         }
         System.out.println();
     }
+
+    public static void print(String line) {
+        System.out.println(line);
+    }
 }
