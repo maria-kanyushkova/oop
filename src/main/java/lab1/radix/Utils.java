@@ -36,8 +36,8 @@ public class Utils {
         }
     }
 
-    public static String validateValueOnNumberSystem(final String value, final int fromRadix) throws ArithmeticException {
-        if (!isValueValid(value, fromRadix)) {
+    public static String validateValueOnNumberSystem(final String value, final int radix) throws ArithmeticException {
+        if (!isValueValid(value, radix)) {
             throw new ArithmeticException("Incorrect value!");
         }
         return value;
