@@ -13,8 +13,8 @@ public class RadixDTO {
         int toRadix = Integer.parseInt(args[1]);
         String value = args[2];
 
-        Utils.checkNumberSystemsValid(fromRadix, toRadix);
-        Utils.checkValueValid(value, fromRadix);
+        Utils.validateCorrectnessOfNumberSystems(fromRadix, toRadix);
+        value = Utils.validateValueOnNumberSystem(value, fromRadix);
 
         setFromRadix(fromRadix);
         setToRadix(toRadix);

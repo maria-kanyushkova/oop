@@ -11,7 +11,7 @@ public class Utils {
     public static boolean isValueValid(final String value, final int radix) {
         for (int i = 0; i < value.length(); ++i) {
             int symbol = Utils.charToInt(value.charAt(i), radix);
-            if (symbol > radix - 1) {
+            if (symbol >= radix - 1) {
                 return false;
             }
         }
@@ -30,19 +30,17 @@ public class Utils {
         return 0 <= digit && digit <= 9;
     }
 
-    public static void checkNumberSystemsValid(final int from, final int to) throws ArithmeticException {
-        if (from == to) {
-            throw new ArithmeticException("Coincidence number systems!");
-        }
-        if (!(isRadixValid(from) && isRadixValid(to))) {
+    public static void validateCorrectnessOfNumberSystems(final int fromRadix, final int toRadix) throws ArithmeticException {
+        if (!(isRadixValid(fromRadix) && isRadixValid(toRadix))) {
             throw new ArithmeticException("Incorrect number systems!");
         }
     }
 
-    public static void checkValueValid(final String value, final int from) throws ArithmeticException {
-        if (!isValueValid(value, from)) {
+    public static String validateValueOnNumberSystem(final String value, final int fromRadix) throws ArithmeticException {
+        if (!isValueValid(value, fromRadix)) {
             throw new ArithmeticException("Incorrect value!");
         }
+        return value;
     }
 
     public static int charToInt(final char symbol, final int radix) {
