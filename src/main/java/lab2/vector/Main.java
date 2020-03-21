@@ -29,7 +29,7 @@ public class Main {
             final String[] arguments = InputOutput.read(scanner).split(InputOutput.DELIMITER);
             final List<Float> input = InputOutput.parse(arguments);
             InputOutput.print(input);
-            InputOutput.print(ProcessVector.variant6(input));
+            InputOutput.print(ProcessVector.multiplyOnMaxAndMinElement(input));
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
         }

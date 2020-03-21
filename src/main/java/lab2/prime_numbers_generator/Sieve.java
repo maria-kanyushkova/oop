@@ -5,18 +5,19 @@ import java.util.List;
 
 public class Sieve {
     public static List<Boolean> sieving(int upperBound) {
+        if (upperBound <= 0) {
+            return null;
+        }
         List<Boolean> sieve = new ArrayList<>();
         for (int i = 0; i <= upperBound; i++) {
             sieve.add(true);
         }
         for (int i = 2; i <= upperBound; i++) {
             if (sieve.get(i)) {
-                for (int j = 2; j <= upperBound; j++) {
-                    int index = i * j;
-                    if (index > upperBound) {
-                        continue;
-                    }
-                    sieve.set(index, false);
+                int j = 2;
+                while (i * j <= upperBound) {
+                    sieve.set(i * j, false);
+                    j++;
                 }
             }
         }

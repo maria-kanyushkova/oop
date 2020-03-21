@@ -1,16 +1,13 @@
 package lab2.prime_numbers_generator;
 
 public class PrimeNumberDTO {
-    private static int upperBound;
+    private int upperBound;
 
-    public PrimeNumberDTO(String[] args) throws IllegalArgumentException {
-        if (args.length < 1) {
-            throw new IllegalArgumentException("Few arguments.\nExpected format: <upperBound>");
-        }
-        setUpperBound(Integer.parseInt(args[0]));
+    public PrimeNumberDTO(int upperBound) throws IllegalArgumentException {
+        setUpperBound(upperBound);
     }
 
-    private static void setUpperBound(int maxLimit) {
+    private void setUpperBound(int maxLimit) {
         upperBound = maxLimit;
     }
 
