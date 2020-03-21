@@ -11,12 +11,10 @@ public class Sieve {
         }
         for (int i = 2; i <= upperBound; i++) {
             if (sieve.get(i)) {
-                for (int j = 2; j <= upperBound; j++) {
-                    int index = i * j;
-                    if (index > upperBound) {
-                        continue;
-                    }
-                    sieve.set(index, false);
+                int j = 2;
+                while (i * j <= upperBound) {
+                    sieve.set(i * j, false);
+                    j++;
                 }
             }
         }
