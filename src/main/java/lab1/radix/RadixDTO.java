@@ -5,21 +5,10 @@ public class RadixDTO {
     private static int toRadix;
     private static String value;
 
-    public RadixDTO(String[] args) throws IllegalArgumentException {
-        if (args.length < 3) {
-            throw new IllegalArgumentException("Few arguments.\nExpected format: <from> <to> <value>");
-        }
-        int fromRadix = Integer.parseInt(args[0]);
-        int toRadix = Integer.parseInt(args[1]);
-        String value = args[2];
-
-        Utils.validateCorrectnessOfNumberSystems(fromRadix, toRadix);
-        value = Utils.validateValueOnNumberSystem(value, fromRadix);
-
+    public RadixDTO(int fromRadix, int toRadix, String value) {
         setFromRadix(fromRadix);
         setToRadix(toRadix);
         setValue(value);
-
     }
 
     private static void setFromRadix(int from) {
