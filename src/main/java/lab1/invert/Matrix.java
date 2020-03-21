@@ -1,12 +1,12 @@
 package lab1.invert;
 
 public class Matrix {
-    public static double[][] inverse(double[][] matrix) throws ArithmeticException {
+    public static double[][] tryInvert(double[][] matrix) {
         double determinant = getDeterminant(matrix);
         if (determinant == 0) {
-            throw new ArithmeticException("No inverse matrix");
+            return null;
         }
-        return multiply(transpose(calculateAdditionalMatrix(matrix)), 1 / determinant);
+        return multiply(transpose(calculateAdjugateMatrix(matrix)), 1 / determinant);
     }
 
     private static double[][] transpose(final double[][] matrix) {
@@ -46,17 +46,17 @@ public class Matrix {
         return 0;
     }
 
-    private static double[][] createSubMatrix(final double[][] matrix, int ignoringRows, int ignoringColumns) {
+    private static double[][] createSubMatrix(final double[][] matrix, int ignoringRowsIndex, int ignoringColumnsIndex) {
         double[][] subMatrix = new double[matrix.length - 1][matrix.length - 1];
         int currentRow = -1;
         for (int i = 0; i < matrix.length; i++) {
-            if (i == ignoringRows) {
+            if (i == ignoringRowsIndex) {
                 continue;
             }
             currentRow++;
             int currentColumn = -1;
             for (int j = 0; j < matrix.length; j++) {
-                if (j == ignoringColumns) {
+                if (j == ignoringColumnsIndex) {
                     continue;
                 }
                 subMatrix[currentRow][++currentColumn] = matrix[i][j];
@@ -65,7 +65,7 @@ public class Matrix {
         return subMatrix;
     }
 
-    private static double[][] calculateAdditionalMatrix(final double[][] matrix) {
+    private static double[][] calculateAdjugateMatrix(final double[][] matrix) {
         double[][] additionalMatrix = new double[matrix.length][matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {

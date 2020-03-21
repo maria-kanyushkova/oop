@@ -10,7 +10,7 @@ public class Main {
             MatrixDTO matrixDTO = parseArgs(args);
             File inputFile = FileManager.getFileByPath(matrixDTO.getInputPath());
             double[][] array = Utils.parse(inputFile);
-            Utils.print(Matrix.inverse(array));
+            Utils.print(Matrix.tryInvert(array));
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
         }
