@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Utils {
-    static final String DELIMITER_LINES = "\n";
+    private static final String DELIMITER_LINES = "\n";
+    private static final int MAX_SIZE = 99;
 
     public static List<List<Character>> parse(File inputFile) throws IOException {
         List<List<Character>> aria = new ArrayList<>();
@@ -18,8 +19,14 @@ public class Utils {
         ) {
             String stringLine;
             while ((stringLine = bufferedReader.readLine()) != null) {
+                if (aria.size() > MAX_SIZE) {
+                    continue;
+                }
                 List<Character> buffer = new ArrayList<>();
                 for (int j = 0; j < stringLine.length(); j++) {
+                    if (j > MAX_SIZE) {
+                        continue;
+                    }
                     buffer.add(verifySymbol(stringLine.charAt(j)));
                 }
                 aria.add(buffer);
@@ -29,10 +36,9 @@ public class Utils {
     }
 
     public static String print(final List<List<Character>> aria) {
-        int rows = aria.size();
         StringBuilder out = new StringBuilder();
-        for (int i = 1; i < rows; i++) {
-            for (char symbol : aria.get(i)) {
+        for (List<Character> characters : aria) {
+            for (char symbol : characters) {
                 out.append(String.valueOf(symbol));
             }
             out.append(DELIMITER_LINES);

@@ -11,8 +11,8 @@ public class Filler {
         boolean wasFilled = true;
         while (wasFilled) {
             wasFilled = false;
-            for (int i = 0; i < aria.size(); i++) {
-                for (int j = 0; j < aria.get(i).size(); j++) {
+            for (int i = 0; i < aria.size(); ++i) {
+                for (int j = 0; j < aria.get(i).size(); ++j) {
                     if (aria.get(i).get(j) == START_CHARACTER || aria.get(i).get(j) == FILL_CHARACTER) {
                         if (wave(aria, i, j)) {
                             wasFilled = true;
@@ -26,21 +26,31 @@ public class Filler {
 
     private static boolean wave(List<List<Character>> dataAria, int i, int j) {
         boolean wasFilling = false;
-        if (dataAria.get(i + 1).get(j) == EMPTY_CHARACTER) {
-            dataAria.get(i + 1).set(j, FILL_CHARACTER);
-            wasFilling = true;
+        int maxSizeY = dataAria.size();
+        int maxSizeX = dataAria.get(i).size();
+        if (i + 1 < maxSizeY && j < dataAria.get(i + 1).size()) {
+            if (dataAria.get(i + 1).get(j) == EMPTY_CHARACTER) {
+                dataAria.get(i + 1).set(j, FILL_CHARACTER);
+                wasFilling = true;
+            }
         }
-        if (dataAria.get(i - 1).get(j) == EMPTY_CHARACTER) {
-            dataAria.get(i - 1).set(j, FILL_CHARACTER);
-            wasFilling = true;
+        if (i - 1 > 0 && j < dataAria.get(i - 1).size()) {
+            if (dataAria.get(i - 1).get(j) == EMPTY_CHARACTER) {
+                dataAria.get(i - 1).set(j, FILL_CHARACTER);
+                wasFilling = true;
+            }
         }
-        if (dataAria.get(i).get(j + 1) == EMPTY_CHARACTER) {
-            dataAria.get(i).set(j + 1, FILL_CHARACTER);
-            wasFilling = true;
+        if (j + 1 < maxSizeX) {
+            if (dataAria.get(i).get(j + 1) == EMPTY_CHARACTER) {
+                dataAria.get(i).set(j + 1, FILL_CHARACTER);
+                wasFilling = true;
+            }
         }
-        if (dataAria.get(i).get(j - 1) == EMPTY_CHARACTER) {
-            dataAria.get(i).set(j - 1, FILL_CHARACTER);
-            wasFilling = true;
+        if (j - 1 > 0) {
+            if (dataAria.get(i).get(j - 1) == EMPTY_CHARACTER) {
+                dataAria.get(i).set(j - 1, FILL_CHARACTER);
+                wasFilling = true;
+            }
         }
         return wasFilling;
     }
