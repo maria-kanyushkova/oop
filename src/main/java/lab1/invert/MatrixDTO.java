@@ -1,29 +1,17 @@
 package lab1.invert;
 
-import common.FileManager;
-
-import java.io.File;
-import java.io.IOException;
-
 public class MatrixDTO {
-    private static String fileContent;
+    private static String inputPath;
 
-    public MatrixDTO(String[] args) throws IOException {
-        if (args.length < 1) {
-            throw new IllegalArgumentException("Few arguments.\nExpected format: <inputFile>");
-        }
-
-        File inputFile = FileManager.create(args[0]);
-        String fileContent = FileManager.read(inputFile);
-
-        setFileContent(fileContent);
+    public MatrixDTO(String inputPath) {
+        setInputPath(inputPath);
     }
 
-    private static void setFileContent(String content) {
-        fileContent = content;
+    private static void setInputPath(String content) {
+        inputPath = content;
     }
 
-    public String getFileContent() {
-        return fileContent;
+    public String getInputPath() {
+        return inputPath;
     }
 }

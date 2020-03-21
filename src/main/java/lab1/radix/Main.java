@@ -22,7 +22,6 @@ public class Main {
         }
     }
 
-
     private static RadixDTO parseArgs(String[] args) throws IllegalArgumentException {
         if (args.length < 3) {
             throw new IllegalArgumentException("Few arguments.\nExpected format: <from> <to> <value>");

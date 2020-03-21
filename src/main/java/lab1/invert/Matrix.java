@@ -46,20 +46,20 @@ public class Matrix {
         return 0;
     }
 
-    private static double[][] createSubMatrix(final double[][] matrix, int rows, int columns) {
+    private static double[][] createSubMatrix(final double[][] matrix, int ignoringRows, int ignoringColumns) {
         double[][] subMatrix = new double[matrix.length - 1][matrix.length - 1];
-        int r = -1;
+        int currentRow = -1;
         for (int i = 0; i < matrix.length; i++) {
-            if (i == rows) {
+            if (i == ignoringRows) {
                 continue;
             }
-            r++;
-            int c = -1;
+            currentRow++;
+            int currentColumn = -1;
             for (int j = 0; j < matrix.length; j++) {
-                if (j == columns) {
+                if (j == ignoringColumns) {
                     continue;
                 }
-                subMatrix[r][++c] = matrix[i][j];
+                subMatrix[currentRow][++currentColumn] = matrix[i][j];
             }
         }
         return subMatrix;
@@ -70,7 +70,8 @@ public class Matrix {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 int sign = (i + j) % 2 == 0 ? 1 : -1;
-                additionalMatrix[i][j] = sign * getDeterminant(createSubMatrix(matrix, i, j));
+                double determinant = getDeterminant(createSubMatrix(matrix, i, j));
+                additionalMatrix[i][j] = sign < 0 && determinant == 0 ? determinant : sign * determinant;
             }
         }
         return additionalMatrix;
