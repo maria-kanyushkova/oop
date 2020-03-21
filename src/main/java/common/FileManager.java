@@ -17,37 +17,33 @@ public class FileManager {
         return file;
     }
 
-    public static String read(File file) throws IOException {
-        final StringBuilder fileContentBuilder = new StringBuilder();
+    public static File getFileByPath(String path) throws IOException {
+        File file = new File(path);
         if (!file.exists()) {
             throw new IOException("File: " + file.getName() + " is not exist");
         }
-        String stringLine;
-        FileReader fileReader = new FileReader(file);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        while ((stringLine = bufferedReader.readLine()) != null) {
-            fileContentBuilder.append(stringLine).append("\n");
+        return file;
+    }
+
+    public static String read(File file) throws IOException {
+        final StringBuilder fileContentBuilder = new StringBuilder();
+        try (
+                FileReader fileReader = new FileReader(file);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+        ) {
+            String stringLine;
+            while ((stringLine = bufferedReader.readLine()) != null) {
+                fileContentBuilder.append(stringLine).append("\n");
+            }
         }
-        bufferedReader.close();
-        fileReader.close();
         return fileContentBuilder.toString();
     }
 
     public static void write(File file, String content) throws IOException {
-        if (!file.exists()) {
-            throw new IOException("File: " + file.getName() + " is not exist");
-        }
-        FileWriter writer = new FileWriter(file);
-        writer.write(content);
-        writer.close();
-    }
-
-    public static void validate(File file) throws IOException {
-        if (!file.exists()) {
-            final boolean isCreated = file.createNewFile();
-            if (!isCreated) {
-                throw new IOException("Cannot create input file!");
-            }
+        try (
+                FileWriter writer = new FileWriter(file);
+        ) {
+            writer.write(content);
         }
     }
 }

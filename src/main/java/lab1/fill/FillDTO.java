@@ -1,50 +1,29 @@
 package lab1.fill;
 
-import common.FileManager;
-
-import java.io.File;
-import java.io.IOException;
-
 public class FillDTO {
-    private static File inputFile;
-    private static File outputFile;
-    private static String fileContent;
+    private String inputPath;
+    private String outputPath;
 
-    public FillDTO(String[] args) throws IOException {
-        if (args.length < 2) {
-            throw new IllegalArgumentException("Few arguments.\nExpected format: <inputFile> <outputFile>");
-        }
-
-        File inputFile = FileManager.create(args[0]);
-        File outputFile = FileManager.create(args[1]);
-        String fileContent = FileManager.read(inputFile);
-
-        setInputFile(inputFile);
-        setOutputFile(outputFile);
-        setFileContent(fileContent);
+    public FillDTO(String inputPath, String outputPath) {
+        setInputPath(inputPath);
+        setOutputPath(outputPath);
     }
 
-    private static void setInputFile(File input) {
-        inputFile = input;
+    private void setInputPath(String value) {
+        inputPath = value;
     }
 
-    private static void setOutputFile(File output) {
-        outputFile = output;
+    private void setOutputPath(String value) {
+        outputPath = value;
     }
 
-    private static void setFileContent(String content) {
-        fileContent = content;
+
+    public String getInputPath() {
+        return inputPath;
     }
 
-    public File getInputFile() {
-        return inputFile;
+    public String getOutputPath() {
+        return outputPath;
     }
 
-    public File getOutputFile() {
-        return outputFile;
-    }
-
-    public String getFileContent() {
-        return fileContent;
-    }
 }

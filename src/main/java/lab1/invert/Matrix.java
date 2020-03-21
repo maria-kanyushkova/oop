@@ -1,12 +1,12 @@
 package lab1.invert;
 
 public class Matrix {
-    public static double[][] inverse(double[][] matrix) throws ArithmeticException {
+    public static double[][] tryInvert(double[][] matrix) {
         double determinant = getDeterminant(matrix);
         if (determinant == 0) {
-            throw new ArithmeticException("No inverse matrix");
+            return null;
         }
-        return multiply(transpose(calculateAdditionalMatrix(matrix)), 1 / determinant);
+        return multiply(transpose(calculateAdjugateMatrix(matrix)), 1 / determinant);
     }
 
     private static double[][] transpose(final double[][] matrix) {
@@ -46,31 +46,32 @@ public class Matrix {
         return 0;
     }
 
-    private static double[][] createSubMatrix(final double[][] matrix, int rows, int columns) {
+    private static double[][] createSubMatrix(final double[][] matrix, int ignoringRowIndex, int ignoringColumnIndex) {
         double[][] subMatrix = new double[matrix.length - 1][matrix.length - 1];
-        int r = -1;
+        int currentRow = -1;
         for (int i = 0; i < matrix.length; i++) {
-            if (i == rows) {
+            if (i == ignoringRowIndex) {
                 continue;
             }
-            r++;
-            int c = -1;
+            currentRow++;
+            int currentColumn = -1;
             for (int j = 0; j < matrix.length; j++) {
-                if (j == columns) {
+                if (j == ignoringColumnIndex) {
                     continue;
                 }
-                subMatrix[r][++c] = matrix[i][j];
+                subMatrix[currentRow][++currentColumn] = matrix[i][j];
             }
         }
         return subMatrix;
     }
 
-    private static double[][] calculateAdditionalMatrix(final double[][] matrix) {
+    private static double[][] calculateAdjugateMatrix(final double[][] matrix) {
         double[][] additionalMatrix = new double[matrix.length][matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 int sign = (i + j) % 2 == 0 ? 1 : -1;
-                additionalMatrix[i][j] = sign * getDeterminant(createSubMatrix(matrix, i, j));
+                double determinant = getDeterminant(createSubMatrix(matrix, i, j));
+                additionalMatrix[i][j] = sign < 0 && determinant == 0 ? determinant : sign * determinant;
             }
         }
         return additionalMatrix;

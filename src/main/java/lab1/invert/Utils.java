@@ -1,19 +1,28 @@
 package lab1.invert;
 
-import java.io.IOException;
+import java.io.*;
 
 public class Utils {
     static final int MATRIX_SIZE = 3;
-    static final String DELIMITER_LINES = "\n";
-    static final String DELIMITER_LINE = "\t";
+    static final String DELIMITER_LINE_REGEX = "[\\s\t]+";
 
-    public static double[][] parse(String fileContent) throws IOException {
+    public static double[][] parse(File inputFile) throws IOException {
         double[][] matrix = new double[MATRIX_SIZE][MATRIX_SIZE];
-        String[] arrayLines = verifyArray(fileContent.split(DELIMITER_LINES));
-        for (int i = 0; i < MATRIX_SIZE; i++) {
-            String[] line = verifyArray(arrayLines[i].split(DELIMITER_LINE));
-            for (int j = 0; j < MATRIX_SIZE; j++) {
-                matrix[i][j] = verifySymbolOfString(line[j]);
+        try (
+                FileReader fileReader = new FileReader(inputFile);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+        ) {
+            String stringLine;
+            int i = 0;
+            while ((stringLine = bufferedReader.readLine()) != null) {
+                if (i + 1 > MATRIX_SIZE) {
+                    throw new IOException("Incorrect matrix size!");
+                }
+                String[] line = verifyArray(stringLine.split(DELIMITER_LINE_REGEX));
+                for (int j = 0; j < MATRIX_SIZE; j++) {
+                    matrix[i][j] = verifySymbolOfString(line[j]);
+                }
+                i++;
             }
         }
         return matrix;

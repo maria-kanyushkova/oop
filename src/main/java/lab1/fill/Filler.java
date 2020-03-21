@@ -1,17 +1,19 @@
 package lab1.fill;
 
+import java.util.List;
+
 public class Filler {
     private static final char FILL_CHARACTER = '.';
     private static final char EMPTY_CHARACTER = ' ';
     private static final char START_CHARACTER = 'O';
 
-    public static char[][] fill(char[][] aria) {
+    public static List<List<Character>> fill(List<List<Character>> aria) {
         boolean wasFilled = true;
         while (wasFilled) {
             wasFilled = false;
-            for (int i = 1; i < aria.length - 1; i++) {
-                for (int j = 1; j < aria[i].length - 1; j++) {
-                    if (aria[i][j] == START_CHARACTER || aria[i][j] == FILL_CHARACTER) {
+            for (int i = 0; i < aria.size(); ++i) {
+                for (int j = 0; j < aria.get(i).size(); ++j) {
+                    if (aria.get(i).get(j) == START_CHARACTER || aria.get(i).get(j) == FILL_CHARACTER) {
                         if (wave(aria, i, j)) {
                             wasFilled = true;
                         }
@@ -22,23 +24,33 @@ public class Filler {
         return aria;
     }
 
-    private static boolean wave(char[][] dataAria, int i, int j) {
+    private static boolean wave(List<List<Character>> dataAria, int i, int j) {
         boolean wasFilling = false;
-        if (dataAria[i + 1][j] == EMPTY_CHARACTER) {
-            dataAria[i + 1][j] = FILL_CHARACTER;
-            wasFilling = true;
+        int maxSizeY = dataAria.size();
+        int maxSizeX = dataAria.get(i).size();
+        if (i + 1 < maxSizeY && j < dataAria.get(i + 1).size()) {
+            if (dataAria.get(i + 1).get(j) == EMPTY_CHARACTER) {
+                dataAria.get(i + 1).set(j, FILL_CHARACTER);
+                wasFilling = true;
+            }
         }
-        if (dataAria[i - 1][j] == EMPTY_CHARACTER) {
-            dataAria[i - 1][j] = FILL_CHARACTER;
-            wasFilling = true;
+        if (i - 1 > 0 && j < dataAria.get(i - 1).size()) {
+            if (dataAria.get(i - 1).get(j) == EMPTY_CHARACTER) {
+                dataAria.get(i - 1).set(j, FILL_CHARACTER);
+                wasFilling = true;
+            }
         }
-        if (dataAria[i][j + 1] == EMPTY_CHARACTER) {
-            dataAria[i][j + 1] = FILL_CHARACTER;
-            wasFilling = true;
+        if (j + 1 < maxSizeX) {
+            if (dataAria.get(i).get(j + 1) == EMPTY_CHARACTER) {
+                dataAria.get(i).set(j + 1, FILL_CHARACTER);
+                wasFilling = true;
+            }
         }
-        if (dataAria[i][j - 1] == EMPTY_CHARACTER) {
-            dataAria[i][j - 1] = FILL_CHARACTER;
-            wasFilling = true;
+        if (j - 1 > 0) {
+            if (dataAria.get(i).get(j - 1) == EMPTY_CHARACTER) {
+                dataAria.get(i).set(j - 1, FILL_CHARACTER);
+                wasFilling = true;
+            }
         }
         return wasFilling;
     }

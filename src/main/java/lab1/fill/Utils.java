@@ -1,36 +1,45 @@
 package lab1.fill;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utils {
-    static final String DELIMITER_LINES = "\n";
+    private static final String DELIMITER_LINES = "\n";
+    private static final int MAX_SIZE = 99;
 
-    public static char[][] parse(String fileContent) throws IOException {
-        String[] lines = fileContent.split(DELIMITER_LINES);
-        int rows = lines.length;
-        int cols = getMaxCols(lines);
-        char value = ' ';
-        char[][] aria = fillingBorders(new char[rows + 2][cols + 2]);
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (j >= lines[i].length()) {
-                    aria[i + 1][j + 1] = ' ';
-                } else {
-                    value = lines[i].charAt(j);
-                    aria[i + 1][j + 1] = verifySymbol(value);
+    public static List<List<Character>> parse(File inputFile) throws IOException {
+        List<List<Character>> aria = new ArrayList<>();
+        try (
+                FileReader fileReader = new FileReader(inputFile);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+        ) {
+            String stringLine;
+            while ((stringLine = bufferedReader.readLine()) != null) {
+                if (aria.size() > MAX_SIZE) {
+                    continue;
                 }
+                List<Character> buffer = new ArrayList<>();
+                for (int j = 0; j < stringLine.length(); j++) {
+                    if (j > MAX_SIZE) {
+                        continue;
+                    }
+                    buffer.add(verifySymbol(stringLine.charAt(j)));
+                }
+                aria.add(buffer);
             }
         }
         return aria;
     }
 
-    public static String print(final char[][] aria) {
-        int rows = aria.length - 1;
-        int cols = aria[1].length - 1;
+    public static String print(final List<List<Character>> aria) {
         StringBuilder out = new StringBuilder();
-        for (int i = 1; i < rows; i++) {
-            for (int j = 1; j < cols; j++) {
-                out.append(String.valueOf(aria[i][j]));
+        for (List<Character> characters : aria) {
+            for (char symbol : characters) {
+                out.append(String.valueOf(symbol));
             }
             out.append(DELIMITER_LINES);
         }
@@ -42,27 +51,5 @@ public class Utils {
             throw new IOException("Incorrect symbol!");
         }
         return symbol;
-    }
-
-    private static int getMaxCols(String[] lines) {
-        int maxLength = 0;
-        for (String line : lines) {
-            maxLength = Math.max(maxLength, line.length());
-        }
-        return maxLength;
-    }
-
-    private static char[][] fillingBorders(char[][] aria) {
-        int rows = aria.length - 2;
-        int cols = aria[0].length - 2;
-        for (int i = 0; i < rows + 2; i++) {
-            aria[i][0] = '#';
-            aria[i][cols + 1] = '#';
-        }
-        for (int j = 0; j < cols + 2; j++) {
-            aria[0][j] = '#';
-            aria[rows + 1][j] = '#';
-        }
-        return aria;
     }
 }
