@@ -5,6 +5,9 @@ import java.util.List;
 
 public class Sieve {
     public static List<Boolean> sieving(int upperBound) {
+        if (upperBound <= 0) {
+            return null;
+        }
         List<Boolean> sieve = new ArrayList<>();
         for (int i = 0; i <= upperBound; i++) {
             sieve.add(true);
