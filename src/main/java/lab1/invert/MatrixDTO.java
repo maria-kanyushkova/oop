@@ -1,13 +1,13 @@
 package lab1.invert;
 
 public class MatrixDTO {
-    private static String inputPath;
+    private String inputPath;
 
     public MatrixDTO(String inputPath) {
         setInputPath(inputPath);
     }
 
-    private static void setInputPath(String content) {
+    private void setInputPath(String content) {
         inputPath = content;
     }
 

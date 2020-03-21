@@ -1,9 +1,9 @@
 package lab1.radix;
 
 public class RadixDTO {
-    private static int fromRadix;
-    private static int toRadix;
-    private static String value;
+    private int fromRadix;
+    private int toRadix;
+    private String value;
 
     public RadixDTO(int fromRadix, int toRadix, String value) {
         setFromRadix(fromRadix);
@@ -11,15 +11,15 @@ public class RadixDTO {
         setValue(value);
     }
 
-    private static void setFromRadix(int from) {
+    private void setFromRadix(int from) {
         fromRadix = from;
     }
 
-    private static void setToRadix(int to) {
+    private void setToRadix(int to) {
         toRadix = to;
     }
 
-    private static void setValue(String valueOfNumber) {
+    private void setValue(String valueOfNumber) {
         value = valueOfNumber;
     }
 

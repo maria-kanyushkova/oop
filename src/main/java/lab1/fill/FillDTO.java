@@ -1,19 +1,19 @@
 package lab1.fill;
 
 public class FillDTO {
-    private static String inputPath;
-    private static String outputPath;
+    private String inputPath;
+    private String outputPath;
 
     public FillDTO(String inputPath, String outputPath) {
         setInputPath(inputPath);
         setOutputPath(outputPath);
     }
 
-    private static void setInputPath(String value) {
+    private void setInputPath(String value) {
         inputPath = value;
     }
 
-    private static void setOutputPath(String value) {
+    private void setOutputPath(String value) {
         outputPath = value;
     }
 

@@ -1,10 +1,10 @@
 package lab1.replace;
 
 public class ReplaceDTO {
-    private static String inputPath;
-    private static String outputPath;
-    private static String searchString;
-    private static String replaceString;
+    private String inputPath;
+    private String outputPath;
+    private String searchString;
+    private String replaceString;
 
     public ReplaceDTO(String inputPath, String outputPath, String search, String replace) {
         setInputPath(inputPath);
@@ -13,19 +13,19 @@ public class ReplaceDTO {
         setReplaceString(replace);
     }
 
-    private static void setInputPath(String value) {
+    private void setInputPath(String value) {
         inputPath = value;
     }
 
-    private static void setOutputPath(String value) {
+    private void setOutputPath(String value) {
         outputPath = value;
     }
 
-    private static void setSearchString(String value) {
+    private void setSearchString(String value) {
         searchString = value;
     }
 
-    private static void setReplaceString(String value) {
+    private void setReplaceString(String value) {
         replaceString = value;
     }
 
