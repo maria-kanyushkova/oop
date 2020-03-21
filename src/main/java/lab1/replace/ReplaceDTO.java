@@ -1,60 +1,40 @@
 package lab1.replace;
 
-import common.FileManager;
-
-import java.io.File;
-import java.io.IOException;
-
 public class ReplaceDTO {
-    private static File inputFile;
-    private static File outputFile;
+    private static String inputPath;
+    private static String outputPath;
     private static String searchString;
     private static String replaceString;
 
-    public ReplaceDTO(String[] args) throws IOException {
-        if (args.length < 4) {
-            throw new IllegalArgumentException("Few arguments.\nExpected format: <inputFile> <outputFile> <searchString> <replaceString>");
-        }
-
-        File inputFile = new File(args[0]);
-        FileManager.validate(inputFile);
-        File outputFile = new File(args[1]);
-        FileManager.validate(outputFile);
-        if (!inputFile.exists()) {
-            throw new IOException("File: " + inputFile.getName() + " is not exist");
-        }
-        if (!outputFile.exists()) {
-            throw new IOException("File: " + outputFile.getName() + " is not exist");
-        }
-
-        setInputFile(inputFile);
-        setOutputFile(outputFile);
-        setSearchString(args[3]);
-        setReplaceString(args[2]);
+    public ReplaceDTO(String inputPath, String outputPath, String search, String replace) {
+        setInputPath(inputPath);
+        setOutputPath(outputPath);
+        setSearchString(search);
+        setReplaceString(replace);
     }
 
-    private static void setInputFile(File input) {
-        inputFile = input;
+    private static void setInputPath(String value) {
+        inputPath = value;
     }
 
-    private static void setOutputFile(File output) {
-        outputFile = output;
+    private static void setOutputPath(String value) {
+        outputPath = value;
     }
 
-    private static void setSearchString(String valueOfNumber) {
-        searchString = valueOfNumber;
+    private static void setSearchString(String value) {
+        searchString = value;
     }
 
-    private static void setReplaceString(String valueOfNumber) {
-        replaceString = valueOfNumber;
+    private static void setReplaceString(String value) {
+        replaceString = value;
     }
 
-    public File getInputFile() {
-        return inputFile;
+    public String getInputPath() {
+        return inputPath;
     }
 
-    public File getOutputFile() {
-        return outputFile;
+    public String getOutputPath() {
+        return outputPath;
     }
 
     public String getSearchString() {
