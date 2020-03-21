@@ -46,17 +46,17 @@ public class Matrix {
         return 0;
     }
 
-    private static double[][] createSubMatrix(final double[][] matrix, int ignoringRowsIndex, int ignoringColumnsIndex) {
+    private static double[][] createSubMatrix(final double[][] matrix, int ignoringRowIndex, int ignoringColumnIndex) {
         double[][] subMatrix = new double[matrix.length - 1][matrix.length - 1];
         int currentRow = -1;
         for (int i = 0; i < matrix.length; i++) {
-            if (i == ignoringRowsIndex) {
+            if (i == ignoringRowIndex) {
                 continue;
             }
             currentRow++;
             int currentColumn = -1;
             for (int j = 0; j < matrix.length; j++) {
-                if (j == ignoringColumnsIndex) {
+                if (j == ignoringColumnIndex) {
                     continue;
                 }
                 subMatrix[currentRow][++currentColumn] = matrix[i][j];

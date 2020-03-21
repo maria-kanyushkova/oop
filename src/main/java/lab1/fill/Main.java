@@ -11,9 +11,8 @@ public class Main {
             FillDTO fillDTO = parseArgs(args);
             File inputFile = FileManager.getFileByPath(fillDTO.getInputPath());
             File outputFile = FileManager.create(fillDTO.getOutputPath());
-            List<List<Character>> aria = Utils.parse(inputFile);
-            aria = Filler.fill(aria);
-            FileManager.write(outputFile, Utils.print(aria));
+            final List<List<Character>> aria = Utils.parse(inputFile);
+            FileManager.write(outputFile, Utils.print(Filler.fill(aria)));
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
         }
