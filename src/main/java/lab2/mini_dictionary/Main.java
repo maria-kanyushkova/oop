@@ -18,7 +18,11 @@ public class Main {
     public static void main(String[] args) {
         try {
             MiniDictionaryDTO miniDictionaryDTO = parseArgs(args);
-            EventLoop.run(miniDictionaryDTO.getInputPath());
+            DictionaryStore store = new DictionaryStore(miniDictionaryDTO.getInputPath());
+            Dictionary dictionary = store.load();
+            Controller controller = new Controller(dictionary, store);
+            EventLoop eventLoop = new EventLoop(controller);
+            eventLoop.run();
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
         }
