@@ -1,36 +1,35 @@
 package lab2.mini_dictionary;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.BiConsumer;
 
 public class Dictionary {
-    private static Map<String, List<String>> dictionary;
+    private Map<String, List<String>> dictionary = new HashMap<>();
 
-    Dictionary() {
-        // loadFileContent()
-        // цикл консольных запросов
-        // if word -> search (t -> addWordTranslate) (f->addWord and translate)
-        // if ... -> ожидание У или у
+    public void add(String word, String translation) {
+        if (dictionary.containsKey(word)) {
+            final List<String> translations = dictionary.get(word);
+            translations.add(translation);
+        } else {
+            final List<String> translations = new ArrayList<>();
+            translations.add(translation);
+            dictionary.put(word, translations);
+        }
     }
 
-    private static void loadFileContent() {
-
+    public List<String> get(String word) {
+        return dictionary.get(word);
     }
 
-    private static void saveFileContent() {
-
+    public boolean contains (String word) {
+        return dictionary.containsKey(word);
     }
 
-    private static void searchWord() {
-      // searchWord.toLowerCase()
+    public Map<String, List<String>> getDictionary() {
+        return dictionary;
     }
 
-    private static void addWord() {
-        // add translate word
-        // else add dictionary word (english)
-    }
-
-    private static void onExit() {
-
+    void traverse(BiConsumer<String, List<String>> consumer) {
+        dictionary.forEach(consumer);
     }
 }
