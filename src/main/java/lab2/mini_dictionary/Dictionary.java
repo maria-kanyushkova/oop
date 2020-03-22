@@ -1,6 +1,7 @@
 package lab2.mini_dictionary;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 
 public class Dictionary {
     private Map<String, List<String>> dictionary = new HashMap<>();
@@ -26,5 +27,9 @@ public class Dictionary {
 
     public Map<String, List<String>> getDictionary() {
         return dictionary;
+    }
+
+    void traverse(BiConsumer<String, List<String>> consumer) {
+        dictionary.forEach(consumer);
     }
 }

@@ -27,13 +27,13 @@ public class Controller {
             System.out.println(String.join(", ", dictionary.get(word)));
             return;
         }
-        System.out.println("Неизвестное слово \"" + word + "\". Введите перевод или пустую строку для отказа.");
+        System.out.println("Неизвестное слово \"" + word + "\". Введите перевод или пустую строку для отказа. ");
         final String translation = readFromConsole();
         if (translation.isEmpty()) {
             System.out.println("Слово \"" + word + "\" проигнорировано.");
         } else {
             dictionary.add(translation, word);
-            System.out.println("Слово \"" + word + "\" добавлено в словарь как " + translation);
+            System.out.println("Слово \"" + translation + "\" добавлено в словарь как \"" + word + "\".");
         }
     }
 
