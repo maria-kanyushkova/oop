@@ -46,4 +46,9 @@ public class FileManager {
             writer.write(content);
         }
     }
+
+    public static boolean isFileExist(String path) {
+        File file = new File(path);
+        return file.exists();
+    }
 }

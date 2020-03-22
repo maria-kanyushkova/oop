@@ -1,0 +1,11 @@
+news:новости
+new:новый
+ball:мяч
+mouse:мышь
+task:задача
+low:низкий
+cat:кот
+cat:кошка
+The Red Square:Красная площадь
+value:значение
+key:ключ
