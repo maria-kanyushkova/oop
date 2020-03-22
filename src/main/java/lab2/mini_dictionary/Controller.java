@@ -51,7 +51,10 @@ public class Controller {
     }
 
     public static String readFromConsole() {
-        final Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
+        try (
+                Scanner scanner = new Scanner(System.in)
+        ) {
+            return scanner.nextLine();
+        }
     }
 }

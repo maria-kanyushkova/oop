@@ -24,8 +24,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        try {
-            Scanner scanner = new Scanner(System.in);
+        try (
+                Scanner scanner = new Scanner(System.in)
+        ) {
             final String[] arguments = InputOutput.read(scanner).split(InputOutput.DELIMITER);
             final List<Float> input = InputOutput.parse(arguments);
             InputOutput.print(input);
