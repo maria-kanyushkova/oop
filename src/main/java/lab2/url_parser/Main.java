@@ -10,8 +10,7 @@ public class Main {
                 Scanner scanner = new Scanner(System.in)
         ) {
             final String input = BaseInputOutput.read(scanner);
-            final Parser parser = new Parser(input);
-            System.out.println(parser.parse().print());
+            System.out.println(Parser.parse(input));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
