@@ -32,4 +32,12 @@ public class VectorTest {
         final List<Float> output = ProcessVector.multiplyOnMaxAndMinElement(input);
         assertEquals(expected, output);
     }
+
+    @Test
+    public void shouldMultiplyEmptyArray() {
+        final List<Float> input = Arrays.asList();
+        final List<Float> expected = Arrays.asList();
+        final List<Float> output = ProcessVector.multiplyOnMaxAndMinElement(input);
+        assertEquals(expected, output);
+    }
 }
