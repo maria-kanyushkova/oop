@@ -1,7 +1,5 @@
 package lab2.url_parser;
 
-import java.util.Objects;
-
 enum Protocol {
     HTTP("http", 80),
     HTTPS("https", 443),
@@ -14,11 +12,11 @@ enum Protocol {
         this.port = port;
     }
 
-    int getPort() {
-        return port;
+    String getProtocol() {
+        return text;
     }
 
-    boolean is(String expectedProtocol) {
-        return Objects.equals(text, expectedProtocol);
+    int getPort() {
+        return port;
     }
 }
