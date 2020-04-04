@@ -8,36 +8,53 @@ public class EventLoop {
     }
 
     public void run() {
+        getMenuInfo();
         while (true) {
-            final String command = Controller.readFromConsole();
-            switch (command) {
-                case "info":
-                    System.out.println(controller.getInfo());
-                    break;
-                case "setGear": {
-                    System.out.print("Введите значение ");
-                    String bufferCommand = Controller.readFromConsole();
-                    System.out.println(controller.setGear(Integer.parseInt(bufferCommand)));
-                    break;
-                }
-                case "setSpeed": {
-                    System.out.print("Введите значение ");
-                    String bufferCommand = Controller.readFromConsole();
-                    System.out.println(controller.setSpeed(Integer.parseInt(bufferCommand)));
-                    break;
-                }
-                case "engineOn":
-                    System.out.println(controller.engineOn());
-                    break;
-                case "engineOff":
-                    System.out.println(controller.engineOff());
-                    break;
-                case "exit":
-                    return;
-                default:
-                    System.out.println("Встречена незвестная команда: " + command);
-                    break;
+            if (!this.runCommand()) {
+                return;
             }
         }
+    }
+
+    private boolean runCommand() {
+        final String command = Controller.readFromConsole();
+        switch (command) {
+            case "help":
+                getMenuInfo();
+                break;
+            case "info":
+                controller.getInfo();
+                break;
+            case "setGear":
+                controller.setGear();
+                break;
+            case "setSpeed":
+                controller.setSpeed();
+                break;
+            case "engineOn":
+                controller.engineOn();
+                break;
+            case "engineOff":
+                controller.engineOff();
+                break;
+            case "exit":
+                return false;
+            default:
+                System.out.println("Встречена незвестная команда: " + command);
+                break;
+        }
+        return true;
+    }
+
+    private static void getMenuInfo() {
+        System.out.println(
+            "0. help - выводится информация о командах\n" +
+            "1. info - выводится информация об автомобиле\n" +
+            "2. setGear - установка передачи автомобиля\n" +
+            "3. setSpeed - установка скорости автомобиля\n" +
+            "4. engineOn - включить двгатель\n" +
+            "5. engineOff - выключить двигатель\n" +
+            "6. exit - выход с приложения"
+        );
     }
 }
