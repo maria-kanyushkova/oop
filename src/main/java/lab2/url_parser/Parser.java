@@ -9,8 +9,8 @@ public class Parser {
     private static final int MAX_PORT = 65535;
 
     public static String parse(final String text) throws IOException, URISyntaxException {
-        final URL url = new URL(text.trim());
-        final URI uri = new URI(text.trim());
+        URL url = new URL(text.trim());
+        URI uri = new URI(text.trim());
         String host = url.getHost();
         int port = getPortByProtocol(url.getProtocol(), url.getPort());
         String doc = url.getFile().replaceFirst("/", "");
@@ -19,7 +19,7 @@ public class Parser {
         return text + '\n' +
                 "HOST: " + host + '\n' +
                 "PORT: " + port +
-                printIfNotNull("\nDOC: ", doc, printIfNotNull("#", hash, ""));
+                concatString("\nDOC: ", doc, concatString("#", hash, ""));
     }
 
     private static int getPortByProtocol(String protocol, int portFromUrl) throws IOException {
@@ -29,18 +29,19 @@ public class Parser {
             }
             return portFromUrl;
         }
-        if (Protocol.HTTP.is(protocol)) {
+        if (protocol.equals(Protocol.HTTP.getProtocol())) {
             return Protocol.HTTP.getPort();
-        } else if (Protocol.HTTPS.is(protocol)) {
-            return Protocol.HTTPS.getPort();
-        } else if (Protocol.FTP.is(protocol)) {
-            return Protocol.FTP.getPort();
-        } else {
-            throw new IOException("Unknown protocol \"" + protocol + "\"");
         }
+        if (protocol.equals(Protocol.HTTPS.getProtocol())) {
+            return Protocol.HTTPS.getPort();
+        }
+        if (protocol.equals(Protocol.FTP.getProtocol())) {
+            return Protocol.FTP.getPort();
+        }
+        throw new IOException("Unknown protocol \"" + protocol + "\"");
     }
 
-    private static String printIfNotNull(String prefix, String string, String postfix) {
+    private static String concatString(String prefix, String string, String postfix) {
         if (string != null && !string.isEmpty()) {
             return prefix + string + postfix;
         } else {
