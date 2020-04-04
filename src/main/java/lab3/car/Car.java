@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Car {
     private boolean isEnabled = false;
-    private Directions direction = Directions.STAND;
+    private Direction direction = Direction.STAND;
     private int currentSpeed = 0;
     private Gear currentGear = Gear.NEUTRAL;
     private Map<Gear, ValueRange> gearInfo = new HashMap<>();
@@ -30,7 +30,7 @@ public class Car {
     }
 
     public boolean turnOffEngine() {
-        boolean isStandingStill = direction == Directions.STAND && currentGear == Gear.NEUTRAL && currentSpeed == 0;
+        boolean isStandingStill = direction == Direction.STAND && currentGear == Gear.NEUTRAL && currentSpeed == 0;
         if (!isEnabled || !isStandingStill) {
             return false;
         }
@@ -39,30 +39,52 @@ public class Car {
     }
 
     public boolean setGear(Gear gear) {
-        if (!gearInfo.containsKey(gear) || gearInfo.get(gear).isValidValue(currentSpeed)) {
+        boolean isContainsGear = gearInfo.containsKey(gear);
+        boolean inRangeOfCurrentSpeed = gearInfo.get(gear).isValidValue(currentSpeed);
+        if (!isEnabled || !isContainsGear || !inRangeOfCurrentSpeed) {
             return false;
         }
         currentGear = gear;
+        changeDirection();
         return true;
     }
 
     public boolean setSpeed(int speed) {
-        if (gearInfo.get(currentGear).isValidValue(speed) || (currentSpeed >= speed && currentGear == Gear.NEUTRAL)) {
-            currentSpeed = speed;
-            return true;
+        boolean inRangeSpeedOfCurrentGear = gearInfo.get(currentGear).isValidValue(speed);
+        boolean isIncreaseSpeedInNeutral = currentSpeed < speed && currentGear == Gear.NEUTRAL;
+        if (!isEnabled || !inRangeSpeedOfCurrentGear || isIncreaseSpeedInNeutral) {
+            return false;
         }
-        return false;
+        currentSpeed = speed;
+        changeDirection();
+        return true;
     }
 
-    private void changeDirection(int nextGear) {
+    public boolean getEnable() {
+        return isEnabled;
+    }
+
+    public int getSpeed() {
+        return currentSpeed;
+    }
+
+    public Gear getGear() {
+        return currentGear;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    private void changeDirection() {
         if (currentSpeed == 0) {
-            direction = Directions.STAND;
+            direction = Direction.STAND;
         }
-        if ((currentGear.toNumber() > 0 || nextGear == 0) && currentSpeed > 0) {
-            direction = Directions.FORWARD;
+        if (currentGear.toNumber() > 0 && currentSpeed > 0) {
+            direction = Direction.FORWARD;
         }
-        if ((currentGear.toNumber() < 0 || nextGear == 0) && currentSpeed > 0) {
-            direction = Directions.BACK;
+        if (currentGear.toNumber() < 0 && currentSpeed > 0) {
+            direction = Direction.BACK;
         }
     }
 }

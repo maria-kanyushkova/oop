@@ -1,6 +1,6 @@
 package lab3.car;
 
-enum Directions {
+enum Direction {
     FORWARD,
     BACK,
     STAND
