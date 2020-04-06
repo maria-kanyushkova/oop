@@ -12,8 +12,8 @@ public class Car {
     private Map<Gear, ValueRange> gearInfo = new HashMap<>();
 
     Car() {
-        gearInfo.put(Gear.REVERSE, ValueRange.of(0, 20));
-        gearInfo.put(Gear.NEUTRAL, ValueRange.of(0, 150));
+        gearInfo.put(Gear.REVERSE, ValueRange.of(-20, 0));
+        gearInfo.put(Gear.NEUTRAL, ValueRange.of(-20, 150));
         gearInfo.put(Gear.FIRST, ValueRange.of(0, 30));
         gearInfo.put(Gear.SECOND, ValueRange.of(20, 50));
         gearInfo.put(Gear.THIRD, ValueRange.of(30, 60));
@@ -22,11 +22,11 @@ public class Car {
     }
 
     public boolean turnOnEngine() {
-        if (!isEnabled) {
-            isEnabled = true;
-            return true;
+        if (isEnabled) {
+            return false;
         }
-        return false;
+        isEnabled = true;
+        return true;
     }
 
     public boolean turnOffEngine() {
@@ -35,13 +35,13 @@ public class Car {
             return false;
         }
         isEnabled = false;
-        return false;
+        return true;
     }
 
     public boolean setGear(Gear gear) {
-        boolean isContainsGear = gearInfo.containsKey(gear);
-        boolean inRangeOfCurrentSpeed = gearInfo.get(gear).isValidValue(currentSpeed);
-        if (!isEnabled || !isContainsGear || !inRangeOfCurrentSpeed) {
+        int bufferSpeed = direction == Direction.BACK || currentGear.toNumber() < 0 ? -currentSpeed : currentSpeed;
+        boolean inRangeOfCurrentSpeed = gearInfo.get(gear).isValidValue(bufferSpeed);
+        if (!isEnabled || !inRangeOfCurrentSpeed) {
             return false;
         }
         currentGear = gear;
@@ -50,9 +50,10 @@ public class Car {
     }
 
     public boolean setSpeed(int speed) {
-        boolean inRangeSpeedOfCurrentGear = gearInfo.get(currentGear).isValidValue(speed);
-        boolean isIncreaseSpeedInNeutral = currentSpeed < speed && currentGear == Gear.NEUTRAL;
-        if (!isEnabled || !inRangeSpeedOfCurrentGear || isIncreaseSpeedInNeutral) {
+        int bufferSpeed = direction == Direction.BACK || currentGear.toNumber() < 0 ? -speed : speed;
+        boolean inRangeSpeedOfCurrentGear = gearInfo.get(currentGear).isValidValue(bufferSpeed);
+        boolean isIncreaseSpeedInNeutral = currentSpeed < bufferSpeed && currentGear == Gear.NEUTRAL;
+        if (!isEnabled || !inRangeSpeedOfCurrentGear || isIncreaseSpeedInNeutral || speed < 0) {
             return false;
         }
         currentSpeed = speed;

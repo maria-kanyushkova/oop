@@ -50,7 +50,7 @@ public class Controller {
             System.out.println("Машина не поддерживает такую передачу");
             return;
         }
-        Gear bufferGear = Gear.values()[gear];
+        Gear bufferGear = Gear.values()[gear + 1];
         String message = car.setGear(bufferGear) ? "Передача переключилась на " + bufferGear.toNumber() : "Проблемка"; // TODO: описать проблему более явно
         System.out.println(message);
     }
