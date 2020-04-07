@@ -30,7 +30,7 @@ public class Car {
     }
 
     public boolean turnOffEngine() {
-        boolean isStandingStill = direction == Direction.STAND && currentGear == Gear.NEUTRAL && currentSpeed == 0;
+        boolean isStandingStill = currentGear == Gear.NEUTRAL && currentSpeed == 0;
         if (!isEnabled || !isStandingStill) {
             return false;
         }
@@ -41,7 +41,8 @@ public class Car {
     public boolean setGear(Gear gear) {
         int bufferSpeed = direction == Direction.BACK || currentGear.toNumber() < 0 ? -currentSpeed : currentSpeed;
         boolean inRangeOfCurrentSpeed = gearInfo.get(gear).isValidValue(bufferSpeed);
-        if (!isEnabled || !inRangeOfCurrentSpeed) {
+        boolean isOffCarAndNeutralGear = !isEnabled && gear == Gear.NEUTRAL;
+        if (!isOffCarAndNeutralGear && !(isEnabled && inRangeOfCurrentSpeed)) {
             return false;
         }
         currentGear = gear;

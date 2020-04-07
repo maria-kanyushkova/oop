@@ -201,4 +201,100 @@ public class CarTest {
         assertTrue(car.setSpeed(20));
         assertFalse(car.turnOffEngine());
     }
+
+    // 16 - проверка граничащих скоростей для -1 передачи
+    @Test
+    public void test16() {
+        Car car = new Car();
+        assertTrue(car.turnOnEngine());
+        assertTrue(car.setGear(Gear.REVERSE));
+        assertTrue(car.setSpeed(20));
+        assertFalse(car.setSpeed(21));
+        assertFalse(car.setSpeed(-1));
+    }
+
+    // 17 - проверка граничащих скоростей для 0 передачи
+    @Test
+    public void test17() {
+        Car car = new Car();
+        assertTrue(car.turnOnEngine());
+        assertTrue(car.setGear(Gear.NEUTRAL));
+        assertTrue(car.setSpeed(0));
+        assertFalse(car.setSpeed(10));
+    }
+
+    // 18 - проверка граничащих скоростей для 1 передачи
+    @Test
+    public void test18() {
+        Car car = new Car();
+        assertTrue(car.turnOnEngine());
+        assertTrue(car.setGear(Gear.FIRST));
+        assertTrue(car.setSpeed(15));
+        assertFalse(car.setSpeed(-1));
+        assertFalse(car.setSpeed(31));
+    }
+
+    // 19 - проверка граничащих скоростей для 2 передачи
+    @Test
+    public void test19() {
+        Car car = new Car();
+        assertTrue(car.turnOnEngine());
+        assertTrue(car.setGear(Gear.FIRST));
+        assertTrue(car.setSpeed(20));
+        assertTrue(car.setGear(Gear.SECOND));
+        assertTrue(car.setSpeed(30));
+        assertFalse(car.setSpeed(19));
+        assertFalse(car.setSpeed(51));
+    }
+
+    // 20 - проверка граничащих скоростей для 3 передачи
+    @Test
+    public void test20() {
+        Car car = new Car();
+        assertTrue(car.turnOnEngine());
+        assertTrue(car.setGear(Gear.FIRST));
+        assertTrue(car.setSpeed(30));
+        assertTrue(car.setGear(Gear.THIRD));
+        assertTrue(car.setSpeed(40));
+        assertFalse(car.setSpeed(29));
+        assertFalse(car.setSpeed(61));
+    }
+
+    // 21 - проверка граничащих скоростей для 4 передачи
+    @Test
+    public void test21() {
+        Car car = new Car();
+        assertTrue(car.turnOnEngine());
+        assertTrue(car.setGear(Gear.FIRST));
+        assertTrue(car.setSpeed(30));
+        assertTrue(car.setGear(Gear.THIRD));
+        assertTrue(car.setSpeed(40));
+        assertTrue(car.setGear(Gear.FOURTH));
+        assertTrue(car.setSpeed(50));
+        assertFalse(car.setSpeed(39));
+        assertFalse(car.setSpeed(91));
+    }
+
+    // 22 - проверка граничащих скоростей для 5 передачи
+    @Test
+    public void test22() {
+        Car car = new Car();
+        assertTrue(car.turnOnEngine());
+        assertTrue(car.setGear(Gear.FIRST));
+        assertTrue(car.setSpeed(30));
+        assertTrue(car.setGear(Gear.THIRD));
+        assertTrue(car.setSpeed(50));
+        assertTrue(car.setGear(Gear.FIFTH));
+        assertTrue(car.setSpeed(100));
+        assertFalse(car.setSpeed(49));
+        assertFalse(car.setSpeed(151));
+    }
+
+    // 23 - машина выключена, можно поменять передачу только на нейтральную
+    @Test
+    public void test23() {
+        Car car = new Car();
+        assertFalse(car.getEnable());
+        assertTrue(car.setGear(Gear.NEUTRAL));
+    }
 }
