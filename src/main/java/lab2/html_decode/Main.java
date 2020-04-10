@@ -9,17 +9,11 @@
 
 package lab2.html_decode;
 
-import common.BaseInputOutput;
-
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
-        try (
-                final Scanner in = new Scanner(System.in)
-        ) {
-            final String input = BaseInputOutput.read(in);
-            BaseInputOutput.print(HtmlDecoder.decode(input));
+        try {
+            HtmlDecoder htmlDecoder = new HtmlDecoder();
+            htmlDecoder.decode();
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
         }
