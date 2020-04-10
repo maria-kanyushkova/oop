@@ -1,12 +1,26 @@
 package lab2.html_decode;
 
+import common.BaseInputOutput;
+
+import java.util.Scanner;
+
 public class HtmlDecoder {
-    public static String decode(String value) {
-        final HtmlDictionary dictionary = new HtmlDictionary();
-        return value.replaceAll(HtmlEntities.QUOT.toString(), dictionary.getDecodedQuot())
-                .replaceAll(HtmlEntities.APOS.toString(), dictionary.getDecodedApos())
-                .replaceAll(HtmlEntities.LT.toString(), dictionary.getDecodedLt())
-                .replaceAll(HtmlEntities.GT.toString(), dictionary.getDecodedGt())
-                .replaceAll(HtmlEntities.AMP.toString(), dictionary.getDecodedAmp());
+    public static void decode() {
+        try (
+                final Scanner input = new Scanner(System.in)
+        ) {
+            String line;
+            while ((line = input.nextLine()) != null) {
+                BaseInputOutput.print(decodeString(line));
+            }
+        }
+    }
+
+    public static String decodeString(String value) {
+        return value.replace("&quot;", "\"")
+                .replace("&apos;", "\'")
+                .replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&amp;", "&");
     }
 }
