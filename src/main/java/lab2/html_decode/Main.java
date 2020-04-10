@@ -12,7 +12,8 @@ package lab2.html_decode;
 public class Main {
     public static void main(String[] args) {
         try {
-            HtmlDecoder.decode();
+            HtmlDecoder htmlDecoder = new HtmlDecoder();
+            htmlDecoder.decode();
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
         }
