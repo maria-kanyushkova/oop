@@ -10,7 +10,7 @@ public class CarTest {
 
     // 01 - машина выключена проверка начальных состояний (скорость, направление, передача, выключенность)
     @Test
-    public void test01() {
+    public void shouldCorrectlyCarState() {
         Car car = new Car();
         assertFalse(car.getEnable());
         assertEquals(car.getDirection(), Direction.STAND);
@@ -20,7 +20,7 @@ public class CarTest {
 
     // 02 - машина выключена, нельзя изменить скорость и пердачу
     @Test
-    public void test02() {
+    public void shouldNotShiftValueForSpeedOrGearForOffVehicle() {
         Car car = new Car();
         assertFalse(car.getEnable());
         assertFalse(car.setGear(Gear.FIRST));
@@ -29,7 +29,7 @@ public class CarTest {
 
     // 03 - машину выключена, нельзя выключить повторно
     @Test
-    public void test03() {
+    public void shouldNotTurnOnInVehicleOff() {
         Car car = new Car();
         assertFalse(car.getEnable());
         assertFalse(car.turnOffEngine());
@@ -37,7 +37,7 @@ public class CarTest {
 
     // 04 - машина включена, нельзя включить повторно
     @Test
-    public void test04() {
+    public void shouldNotTurnOnIfEnabled() {
         Car car = new Car();
         car.turnOnEngine();
         assertTrue(car.getEnable());
@@ -46,7 +46,7 @@ public class CarTest {
 
     // 05 - можно включить выключенную машину
     @Test
-    public void test05() {
+    public void shouldTurnOn() {
         Car car = new Car();
         assertFalse(car.getEnable());
         assertTrue(car.turnOnEngine());
@@ -54,17 +54,25 @@ public class CarTest {
 
     // 06 - можно выключить включённую машину
     @Test
-    public void test06() {
+    public void shouldTurnOff() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertTrue(car.turnOffEngine());
+    }
+
+    // 23 - машина выключена, можно поменять передачу только на нейтральную
+    @Test
+    public void shouldShiftToNeutralGearInVehicleOff() {
+        Car car = new Car();
+        assertFalse(car.getEnable());
+        assertTrue(car.setGear(Gear.NEUTRAL));
     }
 
     // машина включена
 
     // 07 - стоим: смогли переключить на первую передачу и поехать (скорость, передача и направление движения)
     @Test
-    public void test07() {
+    public void shouldShiftToFirstGear() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertEquals(car.getDirection(), Direction.STAND);
@@ -78,7 +86,7 @@ public class CarTest {
 
     // 08 - стоим: смогли переключиться на задний ход (скорость, передача и направление движения)
     @Test
-    public void test08() {
+    public void shouldShiftToReverseGear() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertEquals(car.getDirection(), Direction.STAND);
@@ -92,7 +100,7 @@ public class CarTest {
 
     //  09 - стоим: не можем переключиться на 5ую предачу
     @Test
-    public void test09() {
+    public void shouldNotShiftToFiveGearInStandDirection() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertEquals(car.getDirection(), Direction.STAND);
@@ -101,7 +109,7 @@ public class CarTest {
 
     //  10 - едем: переключение с 1ой на 5ую передачу не получается
     @Test
-    public void test10() {
+    public void shouldNotShiftGearToFifthFromFirstGear() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertEquals(car.getDirection(), Direction.STAND);
@@ -117,7 +125,7 @@ public class CarTest {
 
     //  11 - едем: переключение с 1ой на -1ую передачу нельзя
     @Test
-    public void test11() {
+    public void shouldNotShiftFromFirstToReverseGearInMove() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertEquals(car.getDirection(), Direction.STAND);
@@ -131,7 +139,7 @@ public class CarTest {
 
     //  12 - переключение скоростей с 0 на -1 на 0 и на 5 (граничная скорость или не в диапазоне)
     @Test
-    public void test12() {
+    public void checkShiftGear() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertEquals(car.getDirection(), Direction.STAND);
@@ -142,7 +150,7 @@ public class CarTest {
         assertFalse(car.setSpeed(-10));
         assertTrue(car.setSpeed(20));
         assertTrue(car.setGear(Gear.NEUTRAL));
-        assertFalse(car.setSpeed(30));  // нельзя увеличивать скорость на нейтралке
+        assertFalse(car.setSpeed(30));
         assertFalse(car.setGear(Gear.FIRST));
         assertTrue(car.setSpeed(0));
         assertTrue(car.setGear(Gear.FIRST));
@@ -157,7 +165,7 @@ public class CarTest {
 
     //  13 - когда движемся и передача нейтральная, то движение остается пока не станет "стоим" (вперёд\назад)
     @Test
-    public void test13() {
+    public void shouldDirectionUnchangedUntilSpeedNotEqualToZero() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertEquals(car.getDirection(), Direction.STAND);
@@ -182,19 +190,9 @@ public class CarTest {
         assertEquals(car.getDirection(), Direction.STAND);
     }
 
-    // 14 - когда передача -1, не можем переключить на 1
-    @Test
-    public void test14() {
-        Car car = new Car();
-        assertTrue(car.turnOnEngine());
-        assertTrue(car.setGear(Gear.REVERSE));
-        assertTrue(car.setSpeed(10));
-        assertFalse(car.setGear(Gear.FIRST));
-    }
-
     // 15 - нельзя в движении выключить машину
     @Test
-    public void test15() {
+    public void shouldNotTurnOffWhileVehicleIsMoving() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertTrue(car.setGear(Gear.FIRST));
@@ -204,7 +202,7 @@ public class CarTest {
 
     // 16 - проверка граничащих скоростей для -1 передачи
     @Test
-    public void test16() {
+    public void checkBoundarySpeedForReverseGear() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertTrue(car.setGear(Gear.REVERSE));
@@ -215,7 +213,7 @@ public class CarTest {
 
     // 17 - проверка граничащих скоростей для 0 передачи
     @Test
-    public void test17() {
+    public void checkBoundarySpeedForNeutralGear() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertTrue(car.setGear(Gear.NEUTRAL));
@@ -225,7 +223,7 @@ public class CarTest {
 
     // 18 - проверка граничащих скоростей для 1 передачи
     @Test
-    public void test18() {
+    public void checkBoundarySpeedForFirstGear() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertTrue(car.setGear(Gear.FIRST));
@@ -236,7 +234,7 @@ public class CarTest {
 
     // 19 - проверка граничащих скоростей для 2 передачи
     @Test
-    public void test19() {
+    public void checkBoundarySpeedForSecondGear() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertTrue(car.setGear(Gear.FIRST));
@@ -249,7 +247,7 @@ public class CarTest {
 
     // 20 - проверка граничащих скоростей для 3 передачи
     @Test
-    public void test20() {
+    public void checkBoundarySpeedForThirdGear() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertTrue(car.setGear(Gear.FIRST));
@@ -262,7 +260,7 @@ public class CarTest {
 
     // 21 - проверка граничащих скоростей для 4 передачи
     @Test
-    public void test21() {
+    public void checkBoundarySpeedForFourthGear() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertTrue(car.setGear(Gear.FIRST));
@@ -277,7 +275,7 @@ public class CarTest {
 
     // 22 - проверка граничащих скоростей для 5 передачи
     @Test
-    public void test22() {
+    public void checkBoundarySpeedForFifthGear() {
         Car car = new Car();
         assertTrue(car.turnOnEngine());
         assertTrue(car.setGear(Gear.FIRST));
@@ -288,13 +286,5 @@ public class CarTest {
         assertTrue(car.setSpeed(100));
         assertFalse(car.setSpeed(49));
         assertFalse(car.setSpeed(151));
-    }
-
-    // 23 - машина выключена, можно поменять передачу только на нейтральную
-    @Test
-    public void test23() {
-        Car car = new Car();
-        assertFalse(car.getEnable());
-        assertTrue(car.setGear(Gear.NEUTRAL));
     }
 }
