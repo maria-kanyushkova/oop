@@ -1,7 +1,6 @@
 package lab3.car;
 
 import java.time.temporal.ValueRange;
-import java.util.Scanner;
 
 public class Controller {
     private final ValueRange GEAR_RANGE = ValueRange.of(-1, 5);
@@ -12,85 +11,79 @@ public class Controller {
         this.car = car;
     }
 
-    public void getInfo() {
+    public String getInfo() {
         String message = "";
-        message += "Двигатель: " + (car.getEnable() ? "включен" : "выключен") + "\n";
+        message += "Двигатель: " + (car.isEngineTurnedOn() ? "включен" : "выключен") + "\n";
         message += "Направление движения: ";
         switch (car.getDirection()) {
             case STAND:
                 message += "стоит";
                 break;
             case FORWARD:
-                message += "движение вперед";
+                message += "вперед";
                 break;
             case BACK:
-                message += "движение назад";
+                message += "назад";
                 break;
         }
         message += "\n";
         message += "Текущая скорость машины: " + car.getSpeed() + "\n";
         message += "Текущая передача машины: " + car.getGear().toNumber();
-        System.out.println(message);
+        return message;
     }
 
-    public void engineOn() {
-        String message = car.turnOnEngine() ? "Двигатель включился" : "Двигатель не может быть включён повторно";
-        System.out.println(message);
+    public String engineOn() throws Exception {
+        String message = "";
+        if (car.turnOnEngine()) {
+            message = "Двигатель включился";
+        } else {
+            throw new Exception("Двигатель не может быть включён повторно");
+        }
+        return message;
     }
 
-    public void engineOff() {
+    public String engineOff() throws Exception {
         String message = "";
         if (car.turnOffEngine()) {
             message = "Двигатель выключился";
-        } else if (!car.getEnable()) {
-            message = "Двигатель не может быть выключен, так как он выключен";
+        } else if (!car.isEngineTurnedOn()) {
+            throw new Exception("Двигатель не может быть выключен, так как он выключен");
         } else {
-            message = "Двигатель не может быть выключен, так как машина находится в движении";
+            throw new Exception("Двигатель не может быть выключен, так как машина находится в движении");
         }
-        System.out.println(message);
+        return message;
     }
 
-    public void setGear() {
-        System.out.print("Введите значение ");
-        int gear = Integer.parseInt(readFromConsole());
+    public String setGear(int gear) throws Exception {
         if (!GEAR_RANGE.isValidValue(gear)) {
-            System.out.println("Машина не поддерживает такую передачу. Допустимые передачи от -1 до 5");
-            return;
+            throw new Exception("Машина не поддерживает такую передачу. Допустимые передачи от -1 до 5");
         }
         Gear bufferGear = Gear.values()[gear + 1];
         String message = "";
         if (car.setGear(bufferGear)) {
             message = "Передача переключилась на " + bufferGear.toNumber();
-        } else if (!car.getEnable()) {
-            message = "У машины с выключенным двигателем можно поставить только нейтральную передачу";
+        } else if (!car.isEngineTurnedOn()) {
+            throw new Exception("У машины с выключенным двигателем можно поставить только нейтральную передачу");
         } else {
-            message = "Текущая скорость машины не находится в диапазоне выбранной передачи";
+            throw new Exception("Текущая скорость машины не находится в диапазоне выбранной передачи");
         }
-        System.out.println(message);
+        return message;
     }
 
-    public void setSpeed() {
-        System.out.print("Введите значение ");
-        int speed = Integer.parseInt(readFromConsole());
+    public String setSpeed(int speed) throws Exception {
         if (!SPEED_RANGE.isValidValue(speed)) {
-            System.out.println("Машина не поддерживает такую скорость. Диапазон допустимых скоростей от 0 до 150");
-            return;
+            throw new Exception("Машина не поддерживает такую скорость. Диапазон допустимых скоростей от 0 до 150");
         }
         String message = "";
         if (car.setSpeed(speed)) {
             message = "Скорость переключилась на " + speed;
-        } else if (!car.getEnable()) {
-            message = "У выключенной машины нельзя изменить скорость";
+        } else if (!car.isEngineTurnedOn()) {
+            throw new Exception("У выключенной машины нельзя изменить скорость");
         } else if (car.getGear() == Gear.NEUTRAL && speed > car.getSpeed()) {
-            message = "На нейтральной передаче нельзя увеличивать скорость";
+            throw new Exception("На нейтральной передаче нельзя увеличивать скорость");
         } else {
-            message = "Выбранная скорость не находится в диапазоне скоростей выбранной передачи";
+            throw new Exception("Выбранная скорость не находится в диапазоне скоростей выбранной передачи");
         }
-        System.out.println(message);
-    }
-
-    public static String readFromConsole() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
+        return message;
     }
 }
