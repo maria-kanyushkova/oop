@@ -31,18 +31,32 @@ public class EventLoop {
 
     private static boolean isNumeric(String strNum) {
         try {
-            double doubleValue = Double.parseDouble(strNum);
+            Double.parseDouble(strNum);
         } catch (NumberFormatException | NullPointerException nfe) {
             return false;
         }
         return true;
     }
 
+    private static int parseValue(String args) {
+        if (!isNumeric(args)) {
+            throw new ArithmeticException("Значение не является числом");
+        }
+        return Integer.parseInt(args);
+    }
+
     public void run() {
         System.out.println(getMenuInfo());
         while (true) {
             try {
-                String result = this.runCommand();
+                final String consoleLine = readFromConsole();
+                final String[] commands = parseCommandLine(consoleLine);
+                if (commands.length > 2) {
+                    throw new IOException("Превышено количество аргументов");
+                }
+                String command = commands[0];
+                String value = commands.length == 2 ? commands[1] : null;
+                String result = this.runCommand(command, value);
                 if (result.isEmpty()) {
                     return;
                 }
@@ -53,46 +67,24 @@ public class EventLoop {
         }
     }
 
-    private String runCommand() throws Exception {
-        final String commandLine = readFromConsole();
-        final String[] commandArray = parseCommandLine(commandLine);
-        final String command = commandArray[0];
-        int value = 0;
-        // todo: дублирование с default в switch
-        if (commandArray.length > 2) {
-            throw new IOException("Встречена незвестная команда: " + commandLine);
-        }
-        if (commandArray.length == 2) {
-            if (!isNumeric(commandArray[1])) {
-                throw new ArithmeticException("Значение не является числом");
-            }
-            value = Integer.parseInt(commandArray[1]);
-        }
-        String message = "";
+    private String runCommand(String command, String value) throws Exception {
         switch (command) {
             case "help":
-                message = getMenuInfo();
-                break;
+                return getMenuInfo();
             case "info":
-                message = controller.getInfo();
-                break;
+                return controller.getInfo();
             case "setGear":
-                message = controller.setGear(value);
-                break;
+                return controller.setGear(parseValue(value));
             case "setSpeed":
-                message = controller.setSpeed(value);
-                break;
+                return controller.setSpeed(parseValue(value));
             case "engineOn":
-                message = controller.engineOn();
-                break;
+                return controller.engineOn();
             case "engineOff":
-                message = controller.engineOff();
-                break;
+                return controller.engineOff();
             case "exit":
                 return "";
             default:
-                throw new IOException("Встречена незвестная команда: " + commandLine);
+                throw new IOException("Встречена незвестная команда");
         }
-        return message;
     }
 }

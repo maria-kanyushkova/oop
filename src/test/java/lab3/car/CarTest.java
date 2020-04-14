@@ -12,15 +12,18 @@ import static org.junit.Assert.assertTrue;
 public class CarTest {
     public Car car;
 
-    // todo: эти ли функции необходимы для применения и последующей проверки?
-    private void trySetGear(Car car, Gear gear) {
-        assertTrue(car.setGear(gear));
-        assertEquals(car.getGear(), gear);
+    private void assertChangeGear(Car car, Gear gear, boolean expectedResult) {
+        assertEquals(car.setGear(gear), expectedResult);
+        if (expectedResult) {
+            assertEquals(car.getGear(), gear);
+        }
     }
 
-    private void trySetSpeed(Car car, int speed) {
-        assertTrue(car.setSpeed(speed));
-        assertEquals(car.getSpeed(), speed);
+    private void assertChangeSpeed(Car car, int speed, boolean expectedResult) {
+        assertEquals(car.setSpeed(speed), expectedResult);
+        if (expectedResult) {
+            assertEquals(car.getSpeed(), speed);
+        }
     }
 
     @BeforeEach
@@ -49,15 +52,15 @@ public class CarTest {
         @Test
         @DisplayName("should switch on neutral gear")
         public void shouldSwitchOnNeutralGear() {
-            assertTrue(car.setGear(Gear.NEUTRAL));
+            assertChangeGear(car, Gear.NEUTRAL, true);
         }
 
         @Test
         @DisplayName("shouldn't change speed and gear")
         public void shouldNotChangeSpeedAndGear() {
-            assertFalse(car.setGear(Gear.REVERSE));
-            assertFalse(car.setGear(Gear.FIRST));
-            assertFalse(car.setSpeed(12));
+            assertChangeGear(car, Gear.REVERSE, false);
+            assertChangeGear(car, Gear.FIRST, false);
+            assertChangeSpeed(car, 12, false);
         }
     }
 
@@ -94,32 +97,23 @@ public class CarTest {
             @Test
             @DisplayName("should switch on first gear")
             public void shouldSwitchOnFirstGear() {
-                assertEquals(car.getDirection(), Direction.STAND);
-                assertTrue(car.setGear(Gear.FIRST));
-                assertTrue(car.setSpeed(30));
-
-                assertEquals(car.getGear(), Gear.FIRST);
-                assertEquals(car.getSpeed(), 30);
+                assertChangeGear(car, Gear.FIRST, true);
+                assertChangeSpeed(car, 30, true);
                 assertEquals(car.getDirection(), Direction.FORWARD);
             }
 
             @Test
             @DisplayName("should switch on reverse gear")
             public void shouldSwitchOnReverseGear() {
-                assertEquals(car.getDirection(), Direction.STAND);
-                assertTrue(car.setGear(Gear.REVERSE));
-                assertTrue(car.setSpeed(12));
-
-                assertEquals(car.getGear(), Gear.REVERSE);
-                assertEquals(car.getSpeed(), 12);
+                assertChangeGear(car, Gear.REVERSE, true);
+                assertChangeSpeed(car, 12, true);
                 assertEquals(car.getDirection(), Direction.BACK);
             }
 
             @Test
             @DisplayName("shouldn't switch with neutral gear on last gear")
             public void shouldNotSwitchOnLastGear() {
-                assertEquals(car.getDirection(), Direction.STAND);
-                assertFalse(car.setGear(Gear.FIFTH));
+                assertChangeGear(car, Gear.FIFTH, false);
             }
         }
 
@@ -135,18 +129,13 @@ public class CarTest {
             @Test
             @DisplayName("shouldn't switch with first gear on last gear")
             public void shouldNotSwitchOnLastGear() {
-                assertEquals(car.getDirection(), Direction.FORWARD);
-                assertEquals(car.getGear(), Gear.FIRST);
-                assertEquals(car.getSpeed(), 30);
-
-                assertFalse(car.setGear(Gear.FIFTH));
+                assertChangeGear(car, Gear.FIFTH, false);
             }
 
             @Test
             @DisplayName("shouldn't switch with first gear on reverse gear")
             public void shouldNotSwitchOnReverseGear() {
-                assertEquals(car.getDirection(), Direction.FORWARD);
-                assertFalse(car.setGear(Gear.REVERSE));
+                assertChangeGear(car, Gear.REVERSE, false);
             }
 
             @Test
@@ -159,66 +148,60 @@ public class CarTest {
         @Test
         @DisplayName("should moving to back before car stops")
         public void shouldMovingToBackBeforeCarStops() {
-            assertTrue(car.setGear(Gear.REVERSE));
-
-            assertTrue(car.setSpeed(20));
+            assertChangeGear(car, Gear.REVERSE, true);
+            assertChangeSpeed(car, 20, true);
             assertEquals(car.getDirection(), Direction.BACK);
-
-            assertTrue(car.setGear(Gear.NEUTRAL));
+            assertChangeGear(car, Gear.NEUTRAL, true);
             assertEquals(car.getDirection(), Direction.BACK);
-
-            assertTrue(car.setSpeed(0));
+            assertChangeSpeed(car, 0, true);
             assertEquals(car.getDirection(), Direction.STAND);
         }
 
         @Test
         @DisplayName("should moving to forward before car stops")
         public void shouldMovingToForwardBeforeCarStops() {
-            assertTrue(car.setGear(Gear.FIRST));
-
-            assertTrue(car.setSpeed(20));
+            assertChangeGear(car, Gear.FIRST, true);
+            assertChangeSpeed(car, 20, true);
             assertEquals(car.getDirection(), Direction.FORWARD);
-
-            assertTrue(car.setGear(Gear.NEUTRAL));
+            assertChangeGear(car, Gear.NEUTRAL, true);
             assertEquals(car.getDirection(), Direction.FORWARD);
-
-            assertTrue(car.setSpeed(0));
+            assertChangeSpeed(car, 0, true);
             assertEquals(car.getDirection(), Direction.STAND);
         }
 
         @Test
         @DisplayName("should switch gear to reverse with moving car")
         public void shouldSwitchGearToReverseWithMovingCar() {
-            assertTrue(car.setGear(Gear.REVERSE));
-            assertTrue(car.setSpeed(19));
-            assertTrue(car.setGear(Gear.NEUTRAL));
-            assertFalse(car.setGear(Gear.REVERSE));
+            assertChangeGear(car, Gear.REVERSE, true);
+            assertChangeSpeed(car, 19, true);
+            assertChangeGear(car, Gear.NEUTRAL, true);
+            assertChangeGear(car, Gear.REVERSE, false);
         }
 
         @Test
         @DisplayName("should correct boundary speed for reverse gear")
         public void checkBoundarySpeedForReverseGear() {
-            assertTrue(car.setGear(Gear.REVERSE));
-            assertTrue(car.setSpeed(20));
-            assertFalse(car.setSpeed(21));
-            assertFalse(car.setSpeed(-1));
+            assertChangeGear(car, Gear.REVERSE, true);
+            assertChangeSpeed(car, 20, true);
+            assertChangeSpeed(car, 21, false);
+            assertChangeSpeed(car, -1, false);
         }
 
         @Test
         @DisplayName("should correct boundary speed for neutral gear")
         public void checkBoundarySpeedForNeutralGear() {
-            assertTrue(car.setGear(Gear.NEUTRAL));
-            assertTrue(car.setSpeed(0));
-            assertFalse(car.setSpeed(10));
+            assertChangeGear(car, Gear.NEUTRAL, true);
+            assertChangeSpeed(car, 0, true);
+            assertChangeSpeed(car, 10, false);
         }
 
         @Test
         @DisplayName("should correct boundary speed for first gear")
-        public void checkBoundarySpeedForFirstGear() { ;
-            assertTrue(car.setGear(Gear.FIRST));
-            assertTrue(car.setSpeed(15));
-            assertFalse(car.setSpeed(-1));
-            assertFalse(car.setSpeed(31));
+        public void checkBoundarySpeedForFirstGear() {
+            assertChangeGear(car, Gear.FIRST, true);
+            assertChangeSpeed(car, 15, true);
+            assertChangeSpeed(car, -1, false);
+            assertChangeSpeed(car, 31, false);
         }
 
         @Test
@@ -227,10 +210,10 @@ public class CarTest {
             car.setGear(Gear.FIRST);
             car.setSpeed(20);
 
-            assertTrue(car.setGear(Gear.SECOND));
-            assertTrue(car.setSpeed(30));
-            assertFalse(car.setSpeed(19));
-            assertFalse(car.setSpeed(51));
+            assertChangeGear(car, Gear.SECOND, true);
+            assertChangeSpeed(car, 30, true);
+            assertChangeSpeed(car, 19, false);
+            assertChangeSpeed(car, 51, false);
         }
 
         @Test
@@ -239,10 +222,10 @@ public class CarTest {
             car.setGear(Gear.FIRST);
             car.setSpeed(30);
 
-            assertTrue(car.setGear(Gear.THIRD));
-            assertTrue(car.setSpeed(40));
-            assertFalse(car.setSpeed(29));
-            assertFalse(car.setSpeed(61));
+            assertChangeGear(car, Gear.THIRD, true);
+            assertChangeSpeed(car, 40, true);
+            assertChangeSpeed(car, 29, false);
+            assertChangeSpeed(car, 61, false);
         }
 
         @Test
@@ -253,10 +236,10 @@ public class CarTest {
             car.setGear(Gear.THIRD);
             car.setSpeed(40);
 
-            assertTrue(car.setGear(Gear.FOURTH));
-            assertTrue(car.setSpeed(50));
-            assertFalse(car.setSpeed(39));
-            assertFalse(car.setSpeed(91));
+            assertChangeGear(car, Gear.FOURTH, true);
+            assertChangeSpeed(car, 50, true);
+            assertChangeSpeed(car, 39, false);
+            assertChangeSpeed(car, 91, false);
         }
 
         @Test
@@ -267,10 +250,10 @@ public class CarTest {
             car.setGear(Gear.THIRD);
             car.setSpeed(50);
 
-            assertTrue(car.setGear(Gear.FIFTH));
-            assertTrue(car.setSpeed(100));
-            assertFalse(car.setSpeed(49));
-            assertFalse(car.setSpeed(151));
+            assertChangeGear(car, Gear.FIFTH, true);
+            assertChangeSpeed(car, 100, true);
+            assertChangeSpeed(car, 49, false);
+            assertChangeSpeed(car, 151, false);
         }
     }
 }

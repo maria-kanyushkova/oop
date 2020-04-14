@@ -6,7 +6,6 @@ import java.util.Map;
 
 public class Car {
     private boolean isEnabled = false;
-    private Direction direction = Direction.STAND;
     private int currentSpeed = 0;
     private Gear currentGear = Gear.NEUTRAL;
     private Map<Gear, ValueRange> gearInfo = new HashMap<>();
@@ -39,33 +38,23 @@ public class Car {
     }
 
     public boolean setGear(Gear gear) {
-        // todo: перименовать tempSpeed
-        int tempSpeed = currentSpeed * getSighOfSpeed();
-        boolean inRangeOfCurrentSpeed = gearInfo.get(gear).isValidValue(tempSpeed);
-        // todo: перименовать isCarOff
-        boolean isCarOff = !isEnabled && gear == Gear.NEUTRAL;
-        if (!isCarOff && !(isEnabled && inRangeOfCurrentSpeed)) {
+        int newSpeed = currentSpeed * getSighOfSpeed();
+        boolean inRangeOfCurrentSpeed = gearInfo.get(gear).isValidValue(newSpeed);
+        if ((isEnabled && !inRangeOfCurrentSpeed) || (!isEnabled && gear != Gear.NEUTRAL)) {
             return false;
         }
         currentGear = gear;
-        changeDirection();
         return true;
     }
 
     public boolean setSpeed(int speed) {
-        // todo: перименовать tempSpeed
-        int tempSpeed = speed * getSighOfSpeed();
-        boolean inRangeSpeedOfCurrentGear = gearInfo.get(currentGear).isValidValue(tempSpeed);
-        // todo: упростить или переназвать
-        boolean canIncreaseSpeedInBackDirection = currentSpeed > tempSpeed && direction == Direction.BACK;
-        boolean canIncreaseSpeedInForwardDirection = currentSpeed < tempSpeed && direction == Direction.FORWARD;
-        boolean canIncreaseSpeedInStandDirection = currentSpeed < tempSpeed && direction == Direction.STAND;
-        boolean canIncreaseSpeedInNeutralGear = currentGear == Gear.NEUTRAL && (canIncreaseSpeedInBackDirection || canIncreaseSpeedInForwardDirection || canIncreaseSpeedInStandDirection);
-        if (!isEnabled || !inRangeSpeedOfCurrentGear || canIncreaseSpeedInNeutralGear || speed < 0) {
+        int newSpeed = speed * getSighOfSpeed();
+        boolean inRangeSpeedOfCurrentGear = gearInfo.get(currentGear).isValidValue(newSpeed);
+        boolean canIncreaseSpeedOnNeutralGear = currentGear == Gear.NEUTRAL && getSpeed() < speed;
+        if (!isEnabled || !inRangeSpeedOfCurrentGear || canIncreaseSpeedOnNeutralGear || speed < 0) {
             return false;
         }
-        currentSpeed = tempSpeed;
-        changeDirection();
+        currentSpeed = newSpeed;
         return true;
     }
 
@@ -82,22 +71,13 @@ public class Car {
     }
 
     public Direction getDirection() {
-        return direction;
-    }
-
-    private void changeDirection() {
         if (currentSpeed == 0) {
-            direction = Direction.STAND;
+            return Direction.STAND;
         }
-        if (currentSpeed > 0) {
-            direction = Direction.FORWARD;
-        }
-        if (currentSpeed < 0) {
-            direction = Direction.BACK;
-        }
+        return  (currentSpeed > 0) ? Direction.FORWARD : Direction.BACK;
     }
 
     private Integer getSighOfSpeed() {
-        return direction == Direction.BACK || currentGear.toNumber() < 0 ? -1 : 1;
+        return getDirection() == Direction.BACK || currentGear.toNumber() < 0 ? -1 : 1;
     }
 }
