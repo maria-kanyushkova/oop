@@ -12,6 +12,17 @@ import static org.junit.Assert.assertTrue;
 public class CarTest {
     public Car car;
 
+    // todo: эти ли функции необходимы для применения и последующей проверки?
+    private void trySetGear(Car car, Gear gear) {
+        assertTrue(car.setGear(gear));
+        assertEquals(car.getGear(), gear);
+    }
+
+    private void trySetSpeed(Car car, int speed) {
+        assertTrue(car.setSpeed(speed));
+        assertEquals(car.getSpeed(), speed);
+    }
+
     @BeforeEach
     public void init() {
         car = new Car();
@@ -20,7 +31,7 @@ public class CarTest {
     @Test
     @DisplayName("car initial state is correct")
     public void shouldCorrectlyInitialState() {
-        assertFalse(car.getEnable());
+        assertFalse(car.isEngineTurnedOn());
         assertEquals(car.getDirection(), Direction.STAND);
         assertEquals(car.getSpeed(), 0);
         assertEquals(car.getGear(), Gear.NEUTRAL);
@@ -54,7 +65,7 @@ public class CarTest {
     @DisplayName("should turn on car")
     public void shouldTurnOn() {
         assertTrue(car.turnOnEngine());
-        assertTrue(car.getEnable());
+        assertTrue(car.isEngineTurnedOn());
     }
 
     @Nested
@@ -173,6 +184,15 @@ public class CarTest {
 
             assertTrue(car.setSpeed(0));
             assertEquals(car.getDirection(), Direction.STAND);
+        }
+
+        @Test
+        @DisplayName("should switch gear to reverse with moving car")
+        public void shouldSwitchGearToReverseWithMovingCar() {
+            assertTrue(car.setGear(Gear.REVERSE));
+            assertTrue(car.setSpeed(19));
+            assertTrue(car.setGear(Gear.NEUTRAL));
+            assertFalse(car.setGear(Gear.REVERSE));
         }
 
         @Test

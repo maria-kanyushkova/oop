@@ -5,22 +5,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
 
 public class ControllerTest {
-    final InputStream original = System.in;
     private ByteArrayOutputStream mock = new ByteArrayOutputStream();
     private Controller controller;
 
     private static void equals(String expected, String output) {
         assertEquals(
             expected.replace("\n", "").replace("\r", ""),
-            output.replace("Введите значение ", "").replace("\n", "").replace("\r", "")
+            output.replace("\n", "").replace("\r", "")
         );
     }
 
@@ -95,14 +92,11 @@ public class ControllerTest {
         @DisplayName("should get message on turn off moving car")
         public void shouldNotTurnOffWhileCarIsMoving() {
             controller.engineOn();
-            ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
-            System.setIn(in);
-            controller.setGear();
+            controller.setGear("1");
             clearConsole();
             controller.engineOff();
             String expected = "Двигатель не может быть выключен, так как машина находится в движении";
             ControllerTest.equals(expected, mock.toString());
-            System.setIn(original);
         }
     }
 
@@ -114,23 +108,17 @@ public class ControllerTest {
         public void shouldSwitchOnFirstGear() {
             controller.engineOn();
             clearConsole();
-            ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
-            System.setIn(in);
-            controller.setGear();
+            controller.setGear("1");
             String expected = "Передача переключилась на 1";
             ControllerTest.equals(expected, mock.toString());
-            System.setIn(original);
         }
 
         @Test
         @DisplayName("should get message on set not neutral gear when car is off")
         public void shouldNotSwitchToNotNeutralGearInCarOff() {
-            ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
-            System.setIn(in);
-            controller.setGear();
+            controller.setGear("1");
             String expected = "У машины с выключенным двигателем можно поставить только нейтральную передачу";
             ControllerTest.equals(expected, mock.toString());
-            System.setIn(original);
         }
 
         @Test
@@ -138,12 +126,9 @@ public class ControllerTest {
         public void shouldNotSwitchToSecondGearInZeroSpeed() {
             controller.engineOn();
             clearConsole();
-            ByteArrayInputStream in = new ByteArrayInputStream("2".getBytes());
-            System.setIn(in);
-            controller.setGear();
+            controller.setGear("2");
             String expected = "Текущая скорость машины не находится в диапазоне выбранной передачи";
             ControllerTest.equals(expected, mock.toString());
-            System.setIn(original);
         }
         
         @Test
@@ -151,12 +136,9 @@ public class ControllerTest {
         public void shouldNotSwitchToNotExistingGear() {
             controller.engineOn();
             clearConsole();
-            ByteArrayInputStream in = new ByteArrayInputStream("6".getBytes());
-            System.setIn(in);
-            controller.setGear();
+            controller.setGear("6");
             String expected = "Машина не поддерживает такую передачу. Допустимые передачи от -1 до 5";
             ControllerTest.equals(expected, mock.toString());
-            System.setIn(original);
         }
     }
 
@@ -167,27 +149,19 @@ public class ControllerTest {
         @DisplayName("should get message on change speed for first gear")
         public void shouldSwitchSpeedInFirstGear() {
             controller.engineOn();
-            ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
-            System.setIn(in);
-            controller.setGear();
+            controller.setGear("1");
             clearConsole();
-            in = new ByteArrayInputStream("15".getBytes());
-            System.setIn(in);
-            controller.setSpeed();
+            controller.setSpeed("15");
             String expected = "Скорость переключилась на 15";
             ControllerTest.equals(expected, mock.toString());
-            System.setIn(original);
         }
 
         @Test
         @DisplayName("should get message on try change speed if car is off")
         public void shouldNotSwitchSpeedInCarOff() {
-            ByteArrayInputStream in = new ByteArrayInputStream("15".getBytes());
-            System.setIn(in);
-            controller.setSpeed();
+            controller.setSpeed("15");
             String expected = "У выключенной машины нельзя изменить скорость";
             ControllerTest.equals(expected, mock.toString());
-            System.setIn(original);
         }
 
         @Test
@@ -195,44 +169,31 @@ public class ControllerTest {
         public void shouldNotIncreaseSpeedInNeutralGear() {
             controller.engineOn();
             clearConsole();
-            ByteArrayInputStream in = new ByteArrayInputStream("15".getBytes());
-            System.setIn(in);
-            controller.setSpeed();
+            controller.setSpeed("15");
             String expected = "На нейтральной передаче нельзя увеличивать скорость";
             ControllerTest.equals(expected, mock.toString());
-            System.setIn(original);
         }
 
         @Test
         @DisplayName("should get message on try change speed if speed is not range speed for current gear")
         public void shouldNotSpeedInNotRangeSpeedThisGear() {
             controller.engineOn();
-            ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
-            System.setIn(in);
-            controller.setGear();
+            controller.setGear("1");
             clearConsole();
-            in = new ByteArrayInputStream("31".getBytes());
-            System.setIn(in);
-            controller.setSpeed();
+            controller.setSpeed("31");
             String expected = "Выбранная скорость не находится в диапазоне скоростей выбранной передачи";
             ControllerTest.equals(expected, mock.toString());
-            System.setIn(original);
         }
 
         @Test
         @DisplayName("should get message on try set unsupported speed")
         public void shouldNotSetUnsupportedSpeed() {
             controller.engineOn();
-            ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
-            System.setIn(in);
-            controller.setGear();
+            controller.setGear("1");
             clearConsole();
-            in = new ByteArrayInputStream("151".getBytes());
-            System.setIn(in);
-            controller.setSpeed();
+            controller.setSpeed("151");
             String expected = "Машина не поддерживает такую скорость. Диапазон допустимых скоростей от 0 до 150";
             ControllerTest.equals(expected, mock.toString());
-            System.setIn(original);
         }
     }
 }

@@ -39,8 +39,10 @@ public class Car {
     }
 
     public boolean setGear(Gear gear) {
-        int tempSpeed = direction == Direction.BACK || currentGear.toNumber() < 0 ? -currentSpeed : currentSpeed;
+        // todo: перименовать tempSpeed
+        int tempSpeed = currentSpeed * getSighOfSpeed();
         boolean inRangeOfCurrentSpeed = gearInfo.get(gear).isValidValue(tempSpeed);
+        // todo: перименовать isCarOff
         boolean isCarOff = !isEnabled && gear == Gear.NEUTRAL;
         if (!isCarOff && !(isEnabled && inRangeOfCurrentSpeed)) {
             return false;
@@ -51,23 +53,28 @@ public class Car {
     }
 
     public boolean setSpeed(int speed) {
-        int tempSpeed = direction == Direction.BACK || currentGear.toNumber() < 0 ? -speed : speed;
+        // todo: перименовать tempSpeed
+        int tempSpeed = speed * getSighOfSpeed();
         boolean inRangeSpeedOfCurrentGear = gearInfo.get(currentGear).isValidValue(tempSpeed);
-        boolean canIncreaseSpeed = currentSpeed < tempSpeed && currentGear == Gear.NEUTRAL;
-        if (!isEnabled || !inRangeSpeedOfCurrentGear || canIncreaseSpeed || speed < 0) {
+        // todo: упростить или переназвать
+        boolean canIncreaseSpeedInBackDirection = currentSpeed > tempSpeed && direction == Direction.BACK;
+        boolean canIncreaseSpeedInForwardDirection = currentSpeed < tempSpeed && direction == Direction.FORWARD;
+        boolean canIncreaseSpeedInStandDirection = currentSpeed < tempSpeed && direction == Direction.STAND;
+        boolean canIncreaseSpeedInNeutralGear = currentGear == Gear.NEUTRAL && (canIncreaseSpeedInBackDirection || canIncreaseSpeedInForwardDirection || canIncreaseSpeedInStandDirection);
+        if (!isEnabled || !inRangeSpeedOfCurrentGear || canIncreaseSpeedInNeutralGear || speed < 0) {
             return false;
         }
-        currentSpeed = speed;
+        currentSpeed = tempSpeed;
         changeDirection();
         return true;
     }
 
-    public boolean getEnable() {
+    public boolean isEngineTurnedOn() {
         return isEnabled;
     }
 
     public int getSpeed() {
-        return currentSpeed;
+        return Math.abs(currentSpeed);
     }
 
     public Gear getGear() {
@@ -82,11 +89,15 @@ public class Car {
         if (currentSpeed == 0) {
             direction = Direction.STAND;
         }
-        if (currentGear.toNumber() > 0 && currentSpeed > 0) {
+        if (currentSpeed > 0) {
             direction = Direction.FORWARD;
         }
-        if (currentGear.toNumber() < 0 && currentSpeed > 0) {
+        if (currentSpeed < 0) {
             direction = Direction.BACK;
         }
+    }
+
+    private Integer getSighOfSpeed() {
+        return direction == Direction.BACK || currentGear.toNumber() < 0 ? -1 : 1;
     }
 }

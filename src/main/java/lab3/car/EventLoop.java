@@ -1,5 +1,7 @@
 package lab3.car;
 
+import java.util.Scanner;
+
 public class EventLoop {
     private Controller controller;
 
@@ -17,7 +19,15 @@ public class EventLoop {
     }
 
     private boolean runCommand() {
-        final String command = Controller.readFromConsole();
+        final String commandLine = readFromConsole();
+        final String[] commandArray = parseCommandLine(commandLine);
+        // todo: дублирование с default в switch
+        if (commandArray.length > 2 ) {
+            System.out.println("Встречена незвестная команда: " + commandLine);
+            return true;
+        }
+        final String command = commandArray[0];
+        final String value = commandArray.length == 2 ? commandArray[1] : "";
         switch (command) {
             case "help":
                 getMenuInfo();
@@ -26,10 +36,10 @@ public class EventLoop {
                 controller.getInfo();
                 break;
             case "setGear":
-                controller.setGear();
+                controller.setGear(value);
                 break;
             case "setSpeed":
-                controller.setSpeed();
+                controller.setSpeed(value);
                 break;
             case "engineOn":
                 controller.engineOn();
@@ -40,7 +50,7 @@ public class EventLoop {
             case "exit":
                 return false;
             default:
-                System.out.println("Встречена незвестная команда: " + command);
+                System.out.println("Встречена незвестная команда: " + commandLine);
                 break;
         }
         return true;
@@ -50,11 +60,20 @@ public class EventLoop {
         System.out.println(
             "0. help - выводится информация о командах\n" +
             "1. info - выводится информация об автомобиле\n" +
-            "2. setGear - установка передачи автомобиля\n" +
-            "3. setSpeed - установка скорости автомобиля\n" +
+            "2. setGear <значение> - установка передачи автомобиля\n" +
+            "3. setSpeed <значение> - установка скорости автомобиля\n" +
             "4. engineOn - включить двгатель\n" +
             "5. engineOff - выключить двигатель\n" +
             "6. exit - выход с приложения"
         );
+    }
+
+    private static String[] parseCommandLine(String line) {
+        return line.split(" ");
+    }
+
+    public static String readFromConsole() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
     }
 }
