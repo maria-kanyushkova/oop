@@ -1,12 +1,15 @@
 package lab3.calculator;
 
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Controller {
-    private final Store store;
+    private Map<String, Double> variable = new HashMap<>();
+    private Map<String, Function> function = new HashMap<>();
+    private Map<String, Double> cashFunctionList = new HashMap<>();
 
-    Controller(Store store){
-        this.store = store;
+    Controller() {
+
     }
 
     public void defineVariable(String[] values) {
@@ -21,20 +24,20 @@ public class Controller {
 
     }
 
-    public void printIdentifier(String[] values) {
-
+    public String printIdentifier(String[] values) {
+        return "";
     }
 
-    public void printVariables() {
-
+    public String printVariables() {
+        return "";
     }
 
-    public void printFunctions() {
-
+    public String printFunctions() {
+        return "";
     }
 
-    public static String readFromConsole() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
+    public double calculate(String name) {
+        Double result = null;
+        return result;
     }
 }

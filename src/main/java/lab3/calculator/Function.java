@@ -1,46 +1,59 @@
 package lab3.calculator;
 
+import java.util.Map;
+
 public class Function {
-    // TODO: more info for variable name
-    private String left;
-    private String right;
-    private Operation operation = Operation.NULL;
-    private double cash;
+    private String name;
+    private String leftOperand;
+    private String rightOperand;
+    private Operation operation;
+    private boolean isComplex = false;
     private double result;
-    // private double changed ;
 
-    Function() {
-
+    Function(String name, String leftOperand) {
+        this.name = name;
+        this.leftOperand = leftOperand;
+        this.isComplex = false;
     }
 
-    private void setLeft(String value) {
-        left = value;
+    Function(String name, String leftOperand, Operation operation, String rightOperand) {
+        this.name = name;
+        this.leftOperand = leftOperand;
+        this.operation = operation;
+        this.rightOperand = rightOperand;
+        this.isComplex = true;
     }
 
-    private void setRight(String value) {
-        right = value;
-    }
-
-    private void setOperation(Operation value) {
-        operation = value;
-    }
-
-    private void setCash(Double value) {
-        cash = value;
-    }
-    public void setResult(Double value) {
-        result = value;
-    }
-
-    public double getCash() {
-        return cash;
-    }
-
-    public double getResult() {
+    public double getResult(Controller controller, Map<String, Double> cashFunctionList) {
+        if (cashFunctionList.containsKey(name) && !cashFunctionList.get(name).isNaN()) {
+            return cashFunctionList.get(name);
+        }
+        if (rightOperand.length() == 0) {
+            return controller.calculate(leftOperand);
+        }
+        double result = 0;
+        double leftValue = controller.calculate(leftOperand);
+        double rightValue = controller.calculate(rightOperand);
+        switch (operation) {
+            case ADD:
+                result = leftValue + rightValue;
+                break;
+            case SUB:
+                result = leftValue - rightValue;
+                break;
+            case MUL:
+                result = leftValue * rightValue;
+                break;
+            case DIV:
+                result = leftValue / rightValue;
+                break;
+        }
+        cashFunctionList.put(name, result);
+        this.result = result;
         return result;
     }
 
-    private void calculate () {
-
+    public double getLastResult() {
+        return this.result;
     }
 }

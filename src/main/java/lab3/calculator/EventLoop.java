@@ -1,59 +1,18 @@
 package lab3.calculator;
 
+import java.io.*;
+import java.util.Scanner;
+
 public class EventLoop {
+    private final Parser parser = new Parser();
     private final Controller controller;
 
     EventLoop(Controller controller) {
         this.controller = controller;
     }
 
-    public void run() {
-        getMenuInfo();
-        while (true) {
-            if (!this.runCommand()) {
-                return;
-            }
-        }
-    }
-
-    private boolean runCommand() {
-        final String line = Controller.readFromConsole();
-        final String command = Parser.getCommandName(line);
-        final String[] values = Parser.parseValues(line);
-        switch (command) {
-            case "help":
-                getMenuInfo();
-                break;
-            case "var":
-                controller.defineVariable(values);
-                break;
-            case "let":
-                controller.defineVariableValue(values);
-                break;
-            case "fr":
-                controller.defineFunction(values);
-                break;
-            case "print":
-                controller.printIdentifier(values);
-                break;
-            case "printvars":
-                controller.printVariables();
-                break;
-            case "printfns":
-                controller.printFunctions();
-                break;
-            case "exit":
-                return false;
-            default:
-                System.out.println("Встречена незвестная команда: " + command);
-                break;
-        }
-        return true;
-    }
-
-    private static void getMenuInfo() {
-        System.out.println(
-                "0. help - выводится информация о командах\n" +
+    private static String getMenuInfo() {
+        return "0. help - выводится информация о командах\n" +
                 "1. var <индентификатор> - объявление преременной\n" +
                 "2. let <индентификатор> = <индентификатор> или <число> - объявление переменной со значением или изменение значения переменной\n" +
                 "3. fr <индентификатор> = <индентификатор> - объявление фунции\n" +
@@ -61,7 +20,84 @@ public class EventLoop {
                 "5. print <индентификатор> - печать значения функции или переменной\n" +
                 "6. printvars - печать всех переменных в порядке возрастания имён\n" +
                 "7. printfns - печать всех функций в порядке возрастание имён\n" +
-                "8. exit - выход с приложения"
-        );
+                "8. exit - выход с приложения";
+    }
+
+    private static String readFromConsole() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
+
+    public void run() {
+        System.out.println(getMenuInfo());
+        while (true) {
+            try {
+                final String consoleLine = readFromConsole();
+                String result = process(consoleLine);
+
+                if (result.equals("exit")) {
+                    return;
+                }
+                if (result.length() != 0) {
+                    System.out.println(result);
+                }
+            } catch (Exception error) {
+                System.out.println(error.getLocalizedMessage());
+            }
+        }
+    }
+
+    public void run(File inputFile) {
+        try (
+                FileReader fileReader = new FileReader(inputFile);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+        ) {
+            String commandLine;
+            while ((commandLine = bufferedReader.readLine()) != null) {
+                String result = process(commandLine);
+                if (result.length() != 0) {
+                    System.out.println(result);
+                }
+            }
+        } catch (Exception error) {
+            System.out.println(error.getLocalizedMessage());
+        }
+    }
+
+    private String process(String commandsLine) throws IOException {
+        final String[] commands = parser.parseCommandLine(commandsLine);
+        if (commands.length == 0) {
+            throw new IOException("Недостаточно аргументов");
+        }
+        String command = commands[0];
+        String[] value = parser.getArgs(commands);
+        return runCommand(command, value);
+    }
+
+    private String runCommand(String command, String[] args) throws IOException {
+        switch (command) {
+            case "help":
+                return getMenuInfo();
+            case "var":
+                controller.defineVariable(args);
+                break;
+            case "let":
+                controller.defineVariableValue(args);
+                break;
+            case "fr":
+                controller.defineFunction(args);
+                break;
+            case "print":
+                return controller.printIdentifier(args);
+            case "printvars":
+                return controller.printVariables();
+            case "printfns":
+                return controller.printFunctions();
+            case "exit":
+                return "exit";
+            default:
+                throw new IOException("Встречена незвестная команда");
+        }
+        return "";
     }
 }
