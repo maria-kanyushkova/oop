@@ -32,13 +32,13 @@ public class Store {
     }
 
     // TODO: WTF ???
-    public void setFunctionResult(String name, Double value) {
-        function.get(name).setResult(value);
-    }
+//    public void setFunctionResult(String name, Double value) {
+//        function.get(name).setResult(value);
+//    }
 
-    public Double getFunctionResult(String name) {
-        return function.get(name).getResult();
-    }
+//    public Double getFunctionResult(String name) {
+//        return function.get(name).getResult();
+//    }
 
     public Map<String, Function> getFunctions() {
         return function;

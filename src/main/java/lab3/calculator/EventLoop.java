@@ -79,10 +79,8 @@ public class EventLoop {
             case "help":
                 return getMenuInfo();
             case "var":
-                controller.defineVariable(args);
-                break;
             case "let":
-                controller.defineVariableValue(args);
+                controller.defineVariable(args);
                 break;
             case "fr":
                 controller.defineFunction(args);
