@@ -4,5 +4,6 @@ enum  Operation {
     ADD,
     DIV,
     MUL,
-    SUB;
+    SUB,
+    EQUALS
 }

@@ -75,22 +75,49 @@ public class EventLoop {
     }
 
     private String runCommand(String command, String[] args) throws IOException {
+        String name = "";
+        String value = "";
+        if (args.length != 0) {
+            name = args[0];
+        }
+        if (args.length > 2) {
+            value = args[1];
+        }
         switch (command) {
             case "help":
                 return getMenuInfo();
             case "var":
+                if (args.length != 1) {
+                    throw new IOException("Недостаточно аргументов: var <имя>");
+                }
+                controller.defineVariable(name);
+                break;
             case "let":
-                controller.defineVariable(args);
+                if (args.length != 2) {
+                    throw new IOException("Недостаточно аргументов: let <имя> = <значение>");
+                }
+                controller.defineVariable(name, value);
                 break;
             case "fr":
-                controller.defineFunction(args);
+                if (args.length == 2) {
+                    controller.defineFunction(name, value);
+                } else if (args.length == 4) {
+                    String operation = args[2];
+                    String rightOperator = args[3];
+                    controller.defineFunction(name, value, operation, rightOperator);
+                }else {
+                    throw new IOException("Недостаточно аргументов");
+                }
                 break;
             case "print":
-                return controller.printIdentifier(args);
+                if (args.length != 1) {
+                    throw new IOException("Недостаточно аргументов");
+                }
+                return controller.getValue(name);
             case "printvars":
-                return controller.printVariables();
+                return controller.getVariablesValue();
             case "printfns":
-                return controller.printFunctions();
+                return controller.getFunctionsValue();
             case "exit":
                 return "exit";
             default:

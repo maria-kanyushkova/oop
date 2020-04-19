@@ -10,26 +10,28 @@ public class Parser {
         operationMap.put("-", Operation.SUB);
         operationMap.put("*", Operation.MUL);
         operationMap.put("/", Operation.DIV);
+        operationMap.put("=", Operation.EQUALS);
     }
 
     public String[] parseCommandLine(String commandLine) {
         List<String> result = new ArrayList<>();
-        String value = "";
+        StringBuilder value = new StringBuilder();
         for (int i = 0; i < commandLine.length(); i++) {
             String symbol = Character.toString(commandLine.charAt(i));
             if (operationMap.containsKey(symbol) || isSpace(symbol)) {
-                if (!value.isEmpty()) {
-                    result.add(value);
+                if (value.length() > 0) {
+                    result.add(value.toString());
                 }
-                if (!isSpace(symbol)) {
+                if (!isSpace(symbol) && !isEqualsSymbol(symbol)) {
                     result.add(symbol);
                 }
+                value = new StringBuilder();
             } else if (!isSpace(symbol)) {
-                value += symbol;
+                value.append(symbol);
             }
         }
-        if (!value.isEmpty()) {
-            result.add(value);
+        if (value.length() > 0) {
+            result.add(value.toString());
         }
         String[] itemsArray = new String[result.size()];
         return result.toArray(itemsArray);
@@ -44,5 +46,9 @@ public class Parser {
 
     private boolean isSpace(String symbol) {
         return symbol.equals(" ");
+    }
+
+    private boolean isEqualsSymbol(String symbol) {
+        return symbol.equals("=");
     }
 }

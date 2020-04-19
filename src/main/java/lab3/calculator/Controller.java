@@ -6,47 +6,47 @@ import java.util.Map;
 public class Controller {
     private Map<String, Double> variable = new HashMap<>();
     private Map<String, Function> function = new HashMap<>();
-    private Map<String, Double> cashFunctionList = new HashMap<>();
 
     Controller() {
 
     }
 
-    public void defineVariable(String[] values) {
+    public void defineVariable(String nameVar) {
 
     }
 
-    public void defineFunction(String[] values) {
+    public void defineVariable(String nameVar, String value) {
 
     }
 
-    // todo: наверное переназвать, так как функция не печатает а возвращает строку
-    public String printIdentifier(String[] values) {
+    public void defineFunction(String nameFn, String operand) {
+
+    }
+
+    public void defineFunction(String nameFn, String leftOperand, String operation, String rightOperand) {
+
+    }
+
+    public String getValue(String key) {
+        if (variable.containsKey(key)) {
+            return String.format("%.2f", variable.get(key));
+        }
+        if (function.containsKey(key)) {
+            return String.format("%.2f", function.get(key).getLastResult());
+        }
+        return String.valueOf(Double.NaN);
+    }
+
+    public String getVariablesValue() {
         return "";
     }
 
-    // todo: наверное переназвать, так как функция не печатает а возвращает строку
-    public String printVariables() {
-        return "";
-    }
-
-    // todo: наверное переназвать, так как функция не печатает а возвращает строку
-    public String printFunctions() {
+    public String getFunctionsValue() {
         return "";
     }
 
     public double calculate(String name) {
         Double result = null;
         return result;
-    }
-
-    public String getValue(String key) {
-        if (variable.containsKey(key)) {
-            return String.valueOf(variable.get(key));
-        }
-        if (function.containsKey(key)) {
-            return String.valueOf(function.get(key).getLastResult());
-        }
-        return String.valueOf(Double.NaN);
     }
 }

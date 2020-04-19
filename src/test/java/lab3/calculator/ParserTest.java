@@ -25,14 +25,6 @@ public class ParserTest {
 
     @Test
     public void should3() {
-        String input = "let x=42";
-        String[] output = parser.parseCommandLine(input);
-        String[] expected = new String[]{"let", "x", "42"};
-        assertEquals(output, expected);
-    }
-
-    @Test
-    public void should4() {
         String input = "let x=a";
         String[] output = parser.parseCommandLine(input);
         String[] expected = new String[]{"let", "x", "a"};
@@ -40,15 +32,7 @@ public class ParserTest {
     }
 
     @Test
-    public void should5() {
-        String input = "fn fn1=x";
-        String[] output = parser.parseCommandLine(input);
-        String[] expected = new String[]{"fn", "fn1", "x"};
-        assertEquals(output, expected);
-    }
-
-    @Test
-    public void should6() {
+    public void should4() {
         String input = "fn fn1=x+x";
         String[] output = parser.parseCommandLine(input);
         String[] expected = new String[]{"fn", "fn1", "x", "+", "x"};
@@ -56,7 +40,7 @@ public class ParserTest {
     }
 
     @Test
-    public void should7() {
+    public void should5() {
         String input = "print a";
         String[] output = parser.parseCommandLine(input);
         String[] expected = new String[]{"print", "a"};
@@ -64,18 +48,10 @@ public class ParserTest {
     }
 
     @Test
-    public void should8() {
+    public void should6() {
         String input = "printvars";
         String[] output = parser.parseCommandLine(input);
         String[] expected = new String[]{"printvars"};
-        assertEquals(output, expected);
-    }
-
-    @Test
-    public void should9() {
-        String input = "printfns";
-        String[] output = parser.parseCommandLine(input);
-        String[] expected = new String[]{"printfns"};
         assertEquals(output, expected);
     }
 }
