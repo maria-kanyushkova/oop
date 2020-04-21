@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class CalculatorTest {
+public class ControllerTest {
     private Controller controller;
     private Exception exception;
 
@@ -33,7 +33,7 @@ public class CalculatorTest {
         public void shouldCorrectlyOutputCarInfo() {
             String output = controller.getInfo();
             String expected = "Двигатель: выключен\nНаправление движения: стоит\nТекущая скорость машины: 0\nТекущая передача машины: 0";
-            CalculatorTest.equals(expected, output);
+            ControllerTest.equals(expected, output);
         }
     }
 
@@ -45,7 +45,7 @@ public class CalculatorTest {
         public void shouldTurnOn() throws Exception {
             String output = controller.engineOn();
             String expected = "Двигатель включился";
-            CalculatorTest.equals(expected, output);
+            ControllerTest.equals(expected, output);
         }
 
         @Test
@@ -54,7 +54,7 @@ public class CalculatorTest {
             controller.engineOn();
             String expected = "Двигатель не может быть включён повторно";
             exception = assertThrows(Exception.class, () -> controller.engineOn());
-            CalculatorTest.equals(expected, exception.getMessage());
+            ControllerTest.equals(expected, exception.getMessage());
         }
     }
 
@@ -67,7 +67,7 @@ public class CalculatorTest {
             controller.engineOn();
             String expected = "Двигатель выключился";
             String output = controller.engineOff();
-            CalculatorTest.equals(expected, output);
+            ControllerTest.equals(expected, output);
         }
 
         @Test
@@ -75,7 +75,7 @@ public class CalculatorTest {
         public void shouldNotTurnOnInCarOff() {
             String expected = "Двигатель не может быть выключен, так как он выключен";
             exception = assertThrows(Exception.class, () -> controller.engineOff());
-            CalculatorTest.equals(expected, exception.getMessage());
+            ControllerTest.equals(expected, exception.getMessage());
         }
 
         @Test
@@ -85,7 +85,7 @@ public class CalculatorTest {
             controller.setGear(1);
             String expected = "Двигатель не может быть выключен, так как машина находится в движении";
             exception = assertThrows(Exception.class, () -> controller.engineOff());
-            CalculatorTest.equals(expected, exception.getMessage());
+            ControllerTest.equals(expected, exception.getMessage());
         }
     }
 
@@ -98,7 +98,7 @@ public class CalculatorTest {
             controller.engineOn();
             String output = controller.setGear(1);
             String expected = "Передача переключилась на 1";
-            CalculatorTest.equals(expected, output);
+            ControllerTest.equals(expected, output);
         }
 
         @Test
@@ -106,7 +106,7 @@ public class CalculatorTest {
         public void shouldNotSwitchToNotNeutralGearInCarOff() {
             String expected = "У машины с выключенным двигателем можно поставить только нейтральную передачу";
             exception = assertThrows(Exception.class, () -> controller.setGear(1));
-            CalculatorTest.equals(expected, exception.getMessage());
+            ControllerTest.equals(expected, exception.getMessage());
         }
 
         @Test
@@ -115,7 +115,7 @@ public class CalculatorTest {
             controller.engineOn();
             String expected = "Текущая скорость машины не находится в диапазоне выбранной передачи";
             exception = assertThrows(Exception.class, () -> controller.setGear(2));
-            CalculatorTest.equals(expected, exception.getMessage());
+            ControllerTest.equals(expected, exception.getMessage());
 
         }
 
@@ -125,7 +125,7 @@ public class CalculatorTest {
             controller.engineOn();
             String expected = "Машина не поддерживает такую передачу. Допустимые передачи от -1 до 5";
             exception = assertThrows(Exception.class, () -> controller.setGear(6));
-            CalculatorTest.equals(expected, exception.getMessage());
+            ControllerTest.equals(expected, exception.getMessage());
         }
     }
 
@@ -139,7 +139,7 @@ public class CalculatorTest {
             controller.setGear(1);
             String output = controller.setSpeed(15);
             String expected = "Скорость переключилась на 15";
-            CalculatorTest.equals(expected, output);
+            ControllerTest.equals(expected, output);
         }
 
         @Test
@@ -147,7 +147,7 @@ public class CalculatorTest {
         public void shouldNotSwitchSpeedInCarOff() {
             String expected = "У выключенной машины нельзя изменить скорость";
             exception = assertThrows(Exception.class, () -> controller.setSpeed(15));
-            CalculatorTest.equals(expected, exception.getMessage());
+            ControllerTest.equals(expected, exception.getMessage());
         }
 
         @Test
@@ -156,7 +156,7 @@ public class CalculatorTest {
             controller.engineOn();
             String expected = "На нейтральной передаче нельзя увеличивать скорость";
             exception = assertThrows(Exception.class, () -> controller.setSpeed(15));
-            CalculatorTest.equals(expected, exception.getMessage());
+            ControllerTest.equals(expected, exception.getMessage());
         }
 
         @Test
@@ -166,7 +166,7 @@ public class CalculatorTest {
             controller.setGear(1);
             String expected = "Выбранная скорость не находится в диапазоне скоростей выбранной передачи";
             exception = assertThrows(Exception.class, () -> controller.setSpeed(31));
-            CalculatorTest.equals(expected, exception.getMessage());
+            ControllerTest.equals(expected, exception.getMessage());
         }
 
         @Test
@@ -176,7 +176,7 @@ public class CalculatorTest {
             controller.setGear(1);
             String expected = "Машина не поддерживает такую скорость. Диапазон допустимых скоростей от 0 до 150";
             exception = assertThrows(Exception.class, () -> controller.setSpeed(151));
-            CalculatorTest.equals(expected, exception.getMessage());
+            ControllerTest.equals(expected, exception.getMessage());
         }
     }
 }

@@ -19,9 +19,7 @@ public class Calculator {
     }
 
     public void defineVariable(String nameVar) throws Exception {
-        if (isExistName(nameVar)) {
-            throw new Exception("Индентификатор " + nameVar + " уже определён");
-        }
+        verifyName(isExistName(nameVar), "Идентификатор " + nameVar + " уже определён");
         variable.put(nameVar, Double.NaN);
         updateFunctions(nameVar);
     }
@@ -30,53 +28,26 @@ public class Calculator {
         double result;
         if (isNumeric(value)) {
             result = Double.parseDouble(value);
-        } else if (isExistName(value)) {
-            result = getValue(value);
         } else {
-            throw new Exception("Индентификатор " + value + " не определён");
+            verifyName(!isExistName(value), "Идентификатор " + value + " не определён");
+            result = getValue(value);
         }
         variable.put(nameVar, result);
         updateFunctions(nameVar);
     }
 
     public void defineFunction(String nameFn, String operand) throws Exception {
-        if (isExistName(nameFn)) {
-            throw new Exception("Индентификатор " + nameFn + " уже определён");
-        }
-        if (!isExistName(operand)) {
-            throw new Exception("Индентификатор " + operand + " не определён");
-        }
+        verifyName(isExistName(nameFn), "Идентификатор " + nameFn + " уже определён");
+        verifyName(!isExistName(operand), "Идентификатор " + operand + " не определён");
         function.put(nameFn, new Function(operand));
         calculateFunction(function.get(nameFn));
     }
 
     public void defineFunction(String nameFn, String leftOperand, String operation, String rightOperand) throws Exception {
-        if (isExistName(nameFn)) {
-            throw new Exception("Индентификатор " + nameFn + " уже определён");
-        }
-        if (!isExistName(leftOperand)) {
-            throw new Exception("Индентификатор " + leftOperand + " не определён");
-        }
-        if (!isExistName(rightOperand)) {
-            throw new Exception("Индентификатор " + rightOperand + " не определён");
-        }
-        Operation op;
-        switch (operation) {
-            case "+":
-                op = Operation.ADD;
-                break;
-            case "-":
-                op = Operation.SUB;
-                break;
-            case "*":
-                op = Operation.MUL;
-                break;
-            case "/":
-                op = Operation.DIV;
-                break;
-            default:
-                op = null;
-        }
+        verifyName(isExistName(nameFn), "Идентификатор " + nameFn + " уже определён");
+        verifyName(!isExistName(leftOperand), "Идентификатор " + leftOperand + " не определён");
+        verifyName(!isExistName(rightOperand), "Идентификатор " + rightOperand + " не определён");
+        Operation op = getOperationType(operation);
         if (op == null) {
             throw new Exception("Операция не определена");
         }
@@ -85,9 +56,7 @@ public class Calculator {
     }
 
     public Double getValue(String key) throws Exception {
-        if (!isExistName(key)) {
-            throw new Exception("Индентификатор " + key + " не определён");
-        }
+        verifyName(!isExistName(key), "Идентификатор " + key + " не определён");
         if (variable.containsKey(key)) {
             return variable.get(key);
         }
@@ -100,7 +69,11 @@ public class Calculator {
     public String getVariablesValue() {
         StringBuilder result = new StringBuilder();
         for (Map.Entry<String, Double> var : variable.entrySet()) {
-            result.append(var.getKey()).append(":").append(String.format("%.2f", var.getValue())).append("\n");
+            result
+                .append(var.getKey())
+                .append(":")
+                .append(String.format("%.2f", var.getValue()))
+                .append("\n");
         }
         return result.toString();
     }
@@ -108,7 +81,11 @@ public class Calculator {
     public String getFunctionsValue() {
         StringBuilder result = new StringBuilder();
         for (Map.Entry<String, Function> fn : function.entrySet()) {
-            result.append(fn.getKey()).append(":").append(String.format("%.2f", fn.getValue().getResult())).append("\n");
+            result
+                .append(fn.getKey())
+                .append(":")
+                .append(String.format("%.2f", fn.getValue().getResult()))
+                .append("\n");
         }
         return result.toString();
     }
@@ -146,11 +123,7 @@ public class Calculator {
                 value = left * right;
                 break;
             case DIV:
-                if (right == 0) {
-                    value = Double.POSITIVE_INFINITY;
-                } else {
-                    value = left / right;
-                }
+                value = right == 0 ? Double.POSITIVE_INFINITY : left / right;
                 break;
         }
         fn.setResult(value);
@@ -158,5 +131,26 @@ public class Calculator {
 
     private boolean isExistName(String name) {
         return variable.containsKey(name) || function.containsKey(name);
+    }
+
+    private void verifyName(boolean expected, String exceptionMessage) throws Exception {
+        if (expected) {
+            throw new Exception(exceptionMessage);
+        }
+    }
+
+    private Operation getOperationType(String operation) {
+        switch (operation) {
+            case "+":
+                return Operation.ADD;
+            case "-":
+                return Operation.SUB;
+            case "*":
+                return Operation.MUL;
+            case "/":
+                return Operation.DIV;
+            default:
+                return null;
+        }
     }
 }

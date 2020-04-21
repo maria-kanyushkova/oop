@@ -1,7 +1,7 @@
 package lab3.calculator;
 
 public class Function {
-    private String leftOperand;
+    private String leftOperand = "";
     private String rightOperand = "";
     private Operation operation = null;
     private double result = Double.NaN;

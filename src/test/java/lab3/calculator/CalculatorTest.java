@@ -32,22 +32,17 @@ public class CalculatorTest {
         @Test
         @DisplayName("объявление переменной")
         public void should1() throws Exception {
-            String input = "a";
-            calculator.defineVariable(input);
-            String expected = "NaN";
-            assertEqualsValue(calculator, input, expected);
+            calculator.defineVariable("a");
+            assertEqualsValue(calculator, "a", "NaN");
         }
 
         @Test
         @DisplayName("объявление переменной с занятым именем")
         public void should2() throws Exception {
-            String input = "a";
-            calculator.defineVariable(input);
-            String expected = "NaN";
-            assertEqualsValue(calculator, input, expected);
-            expected = "Индентификатор a уже определён";
-            exception = assertThrows(Exception.class, () -> calculator.defineVariable(input));
-            assertEquals(expected, exception.getMessage());
+            calculator.defineVariable("a");
+            String expected = "Идентификатор b уже определён";
+            exception = assertThrows(Exception.class, () -> calculator.defineVariable("a"));
+            assertEquals(exception.getMessage(), expected);
         }
     }
 
@@ -57,225 +52,146 @@ public class CalculatorTest {
         @Test
         @DisplayName("объявление переменной со значением")
         public void should3() throws Exception {
-            String input = "a";
-            String value = "1";
-            calculator.defineVariable(input, value);
-            String expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
+            calculator.defineVariable("a", "1");
+            assertEqualsValue(calculator, "a", "1,00");
+        }
+
+        @BeforeEach
+        public void setVariables() throws Exception {
+            calculator.defineVariable("a", "1");
         }
 
         @Test
-        @DisplayName("объявление переменной со занятым названием с другим значением (обновление значения)")
+        @DisplayName("объявление переменной с занятым названием и другим значением (обновление значения)")
         public void should4() throws Exception {
-            String input = "a";
-            String value = "1";
-            calculator.defineVariable(input, value);
-            String expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
-            input = "a";
-            value = "2";
-            calculator.defineVariable(input, value);
-            expected = "2,00";
-            assertEqualsValue(calculator, input, expected);
+            calculator.defineVariable("a", "2");
+            assertEqualsValue(calculator, "a", "2,00");
         }
 
         @Test
         @DisplayName("объявление переменной = значение другой переменной")
         public void should5() throws Exception {
-            String input = "a";
-            String value = "1";
-            calculator.defineVariable(input, value);
-            String expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
-            input = "b";
-            value = "a";
-            calculator.defineVariable(input, value);
-            expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
+            calculator.defineVariable("b", "a");
+            assertEqualsValue(calculator, "b", "1,00");
         }
 
         @Test
         @DisplayName("объявление переменной, попытаться присвоить значение несуществующей переменной")
         public void should6() {
-            String input = "a";
-            String value = "b";
-            String expected = "Индентификатор b не определён";
-            exception = assertThrows(Exception.class, () -> calculator.defineVariable(input, value));
-            assertEquals(expected, exception.getMessage());
+            String expected = "Идентификатор b не определён";
+            exception = assertThrows(Exception.class, () -> calculator.defineVariable("a", "b"));
+            assertEquals(exception.getMessage(), expected);
         }
     }
 
     @Nested
-    @DisplayName("command - fr")
+    @DisplayName("command - fn")
     class CommandFr {
-        @Test
-        @DisplayName("объявление функции = переменной без значения")
-        public void should7() throws Exception {
-            String input = "a";
-            calculator.defineVariable(input);
-            String expected = "NaN";
-            assertEqualsValue(calculator, input, expected);
-            input = "fn1";
-            String value = "a";
-            calculator.defineFunction(input, value);
-            expected = "NaN";
-            assertEqualsValue(calculator, input, expected);
+        @BeforeEach
+        public void setVariables() throws Exception {
+            calculator.defineVariable("a");
+            calculator.defineVariable("b", "1");
         }
 
         @Test
-        @DisplayName("объявление функции = переменной со значения")
+        @DisplayName("объявление функции = переменной без значения")
+        public void should7() throws Exception {
+            calculator.defineFunction("fn1", "a");
+            assertEqualsValue(calculator, "fn1", "NaN");
+        }
+
+        @Test
+        @DisplayName("объявление функции = переменной со значением")
         public void should08() throws Exception {
-            String input = "a";
-            String value = "1";
-            calculator.defineVariable(input, value);
-            String expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
-            input = "fn1";
-            value = "a";
-            calculator.defineFunction(input, value);
-            expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
+            calculator.defineFunction("fn1", "b");
+            assertEqualsValue(calculator, "fn1", "1,00");
         }
 
         @Test
         @DisplayName("объявление функции = имя функции")
         public void should09() throws Exception {
-            String input = "a";
-            String value = "1";
-            calculator.defineVariable(input, value);
-            String expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
-            input = "fn1";
-            value = "a";
-            calculator.defineFunction(input, value);
-            expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
-            input = "fn2";
-            value = "fn1";
-            calculator.defineFunction(input, value);
-            expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
+            calculator.defineFunction("fn1", "b");
+            calculator.defineFunction("fn2", "fn1");
+            assertEqualsValue(calculator, "fn2", "1,00");
         }
 
         @Test
         @DisplayName("объявление функции = имя не существующей функции")
         public void should10() {
-            String input = "fn2";
-            String value = "fn3";
-            String expected = "Индентификатор fn3 не определён";
-            exception = assertThrows(Exception.class, () -> calculator.defineFunction(input, value));
-            assertEquals(expected, exception.getMessage());
+            String expected = "Идентификатор fn3 не определён";
+            exception = assertThrows(Exception.class, () -> calculator.defineFunction("fn2", "fn3"));
+            assertEquals(exception.getMessage(), expected);
         }
 
         @Test
-        @DisplayName("объявление функции = 2 индентификатора и существующая операция")
+        @DisplayName("объявление функции = 2 Идентификатора и существующая операция")
         public void should11() throws Exception {
-            String input = "a";
-            String value = "1";
-            calculator.defineVariable(input, value);
-            String expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
-            String nameFn = "fn";
-            String leftOperand = "a";
-            String operation = "+";
-            String rightOperand = "a";
-            calculator.defineFunction(nameFn, leftOperand, operation, rightOperand);
-            expected = "2,00";
-            assertEqualsValue(calculator, nameFn, expected);
+            calculator.defineFunction("fn", "b", "+", "b");
+            assertEqualsValue(calculator, "fn", "2,00");
         }
 
         @Test
-        @DisplayName("объявление функции = 2 индентификатора и несуществующая операция")
-        public void should12() throws Exception {
-            String input = "a";
-            String value = "1";
-            calculator.defineVariable(input, value);
-            String expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
-            String nameFn = "fn";
-            String leftOperand = "a";
-            String operation = "^";
-            String rightOperand = "a";
-            expected = "Операция не определена";
-            exception = assertThrows(Exception.class, () -> calculator.defineFunction(nameFn, leftOperand, operation, rightOperand));
-            assertEquals(expected, exception.getMessage());
+        @DisplayName("объявление функции = 2 Идентификатора и несуществующая операция")
+        public void should12() {
+            String expected = "Операция не определена";
+            exception = assertThrows(Exception.class, () -> calculator.defineFunction("fn", "b", "^", "b"));
+            assertEquals(exception.getMessage(), expected);
         }
     }
 
     @Nested
     @DisplayName("command - print")
     class CommandPrint {
-        @Test
-        @DisplayName("печать значения существующей переменной")
-        public void should13() throws Exception {
-            String input = "a";
-            String value = "1";
-            calculator.defineVariable(input, value);
-            String expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
-            String output = formattingDigit(calculator.getValue(input));
-            expected = "1,00";
-            assertEquals(output, expected);
+        @BeforeEach
+        public void setVariablesAndFunctions() throws Exception {
+            calculator.defineVariable("a");
+            calculator.defineVariable("b", "1");
+            calculator.defineFunction("fn1", "a");
+            calculator.defineFunction("fn2", "b");
         }
 
         @Test
         @DisplayName("печать значения существующей переменной с неизвестным значением")
         public void should14() throws Exception {
-            String input = "a";
-            calculator.defineVariable(input);
-            String expected = "NaN";
-            assertEqualsValue(calculator, input, expected);
-            String output = formattingDigit(calculator.getValue(input));
-            assertEquals(output, expected);
+            String output = formattingDigit(calculator.getValue("a"));
+            assertEquals(output, "NaN");
+        }
+
+        @Test
+        @DisplayName("печать значения существующей переменной")
+        public void should13() throws Exception {
+            String output = formattingDigit(calculator.getValue("b"));
+            assertEquals(output, "1,00");
         }
 
         @Test
         @DisplayName("печать значения существующей функции")
         public void should15() throws Exception {
-            String input = "a";
-            String value = "1";
-            calculator.defineVariable(input, value);
-            String expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
-            input = "fn1";
-            value = "a";
-            calculator.defineFunction(input, value);
-            assertEqualsValue(calculator, input, expected);
-            String output = formattingDigit(calculator.getValue(input));
-            assertEquals(output, expected);
+            String output = formattingDigit(calculator.getValue("fn1"));
+            assertEquals(output, "NaN");
         }
 
         @Test
         @DisplayName("печать значения существующей функции с неизвестным значением")
         public void should16() throws Exception {
-            String input = "a";
-            calculator.defineVariable(input);
-            String expected = "NaN";
-            assertEqualsValue(calculator, input, expected);
-            input = "fn1";
-            String value = "a";
-            calculator.defineFunction(input, value);
-            assertEqualsValue(calculator, input, expected);
-            String output = formattingDigit(calculator.getValue(input));
-            assertEquals(output, expected);
+            String output = formattingDigit(calculator.getValue("fn2"));
+            assertEquals(output, "1,00");
         }
 
         @Test
         @DisplayName("печать значения не существующей переменной")
         public void should17() {
-            String params = "a";
-            String expected = "Индентификатор a не определён";
-            exception = assertThrows(Exception.class, () -> calculator.getValue(params));
-            assertEquals(expected, exception.getMessage());
+            String expected = "Идентификатор c не определён";
+            exception = assertThrows(Exception.class, () -> calculator.getValue("c"));
+            assertEquals(exception.getMessage(), expected);
         }
 
         @Test
         @DisplayName("печать значения не существующей функции")
         public void should18() {
-            String params = "fn";
-            String expected = "Индентификатор fn не определён";
-            exception = assertThrows(Exception.class, () -> calculator.getValue(params));
-            assertEquals(expected, exception.getMessage());
+            String expected = "Идентификатор fn3 не определён";
+            exception = assertThrows(Exception.class, () -> calculator.getValue("fn3"));
+            assertEquals(exception.getMessage(), expected);
         }
     }
 
@@ -285,22 +201,17 @@ public class CalculatorTest {
         @Test
         @DisplayName("печать переменных когда их нет")
         public void should19() {
-            String expected = "";
             String output = calculator.getVariablesValue();
-            assertEquals(expected, output);
+            assertEquals(output, "");
         }
 
         @Test
         @DisplayName("печать переменных когда они есть")
         public void should20() throws Exception {
-            String input = "a";
-            String value = "1";
-            calculator.defineVariable(input, value);
-            String expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
-            expected = "a:1,00\n";
-            String output = calculator.getVariablesValue();
-            assertEquals(expected, output);
+            calculator.defineVariable("a");
+            calculator.defineVariable("b", "1");
+            String expected = "a:NaN\n" + "b:1,00\n";
+            assertEquals(calculator.getVariablesValue(), expected);
         }
     }
 
@@ -310,26 +221,19 @@ public class CalculatorTest {
         @Test
         @DisplayName("печать функций которых нет")
         public void should21() {
-            String expected = "";
             String output = calculator.getFunctionsValue();
-            assertEquals(expected, output);
+            assertEquals(output, "");
         }
 
         @Test
         @DisplayName("печать функций которые есть")
         public void should22() throws Exception {
-            String input = "a";
-            String value = "1";
-            calculator.defineVariable(input, value);
-            String expected = "1,00";
-            assertEqualsValue(calculator, input, expected);
-            input = "fn";
-            value = "a";
-            calculator.defineFunction(input, value);
-            assertEqualsValue(calculator, input, expected);
-            expected = "fn:1,00\n";
-            String output = calculator.getFunctionsValue();
-            assertEquals(expected, output);
+            calculator.defineVariable("a");
+            calculator.defineVariable("b", "1");
+            calculator.defineFunction("fn1", "a");
+            calculator.defineFunction("fn2", "b");
+            String expected = "fn1:NaN\n" + "fn2:1,00\n";
+            assertEquals(calculator.getFunctionsValue(), expected);
         }
     }
 
