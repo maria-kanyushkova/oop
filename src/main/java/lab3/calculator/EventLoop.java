@@ -64,7 +64,7 @@ public class EventLoop {
         }
     }
 
-    private String process(String commandsLine) throws IOException {
+    private String process(String commandsLine) throws Exception {
         final String[] commands = parser.parseCommandLine(commandsLine);
         if (commands.length == 0) {
             throw new IOException("Недостаточно аргументов");
@@ -74,13 +74,13 @@ public class EventLoop {
         return runCommand(command, value);
     }
 
-    private String runCommand(String command, String[] args) throws IOException {
+    private String runCommand(String command, String[] args) throws Exception {
         String name = "";
         String value = "";
         if (args.length != 0) {
             name = args[0];
         }
-        if (args.length > 2) {
+        if (args.length >= 2) {
             value = args[1];
         }
         switch (command) {
@@ -98,7 +98,7 @@ public class EventLoop {
                 }
                 calculator.defineVariable(name, value);
                 break;
-            case "fr":
+            case "fn":
                 if (args.length == 2) {
                     calculator.defineFunction(name, value);
                 } else if (args.length == 4) {
@@ -113,7 +113,7 @@ public class EventLoop {
                 if (args.length != 1) {
                     throw new IOException("Недостаточно аргументов");
                 }
-                return calculator.getValue(name);
+                return String.format("%.2f", calculator.getValue(name));
             case "printvars":
                 return calculator.getVariablesValue();
             case "printfns":

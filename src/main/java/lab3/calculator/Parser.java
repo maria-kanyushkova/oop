@@ -38,7 +38,8 @@ public class Parser {
     }
 
     public String[] getArgs(String[] commands) {
-        List<String> result = Arrays.asList(commands);
+        List<String> result = new ArrayList<>();
+        Collections.addAll(result, commands);
         result.remove(0);
         String[] itemsArray = new String[result.size()];
         return result.toArray(itemsArray);

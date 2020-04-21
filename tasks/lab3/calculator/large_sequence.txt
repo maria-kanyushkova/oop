@@ -12189,3 +12189,5 @@ fn x12188=x12187+x
 fn x12189=x12188+x
 fn x12190=x12189+x
 print x12190
+let x=2
+print x12190
