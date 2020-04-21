@@ -3,11 +3,12 @@ package lab3.calculator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Controller {
+public class Calculator {
     private Map<String, Double> variable = new HashMap<>();
     private Map<String, Function> function = new HashMap<>();
+    private Map<String, Double> cashFunctionList = new HashMap<>();
 
-    Controller() {
+    Calculator() {
 
     }
 
@@ -17,6 +18,7 @@ public class Controller {
 
     public void defineVariable(String nameVar, String value) {
 
+        // call update calculated function values
     }
 
     public void defineFunction(String nameFn, String operand) {
@@ -45,8 +47,12 @@ public class Controller {
         return "";
     }
 
-    public double calculate(String name) {
+    public double updateFunctions(String name) {
         Double result = null;
         return result;
+    }
+
+    public void calculateFunctionValue(Function fn) {
+
     }
 }

@@ -24,16 +24,16 @@ public class Function {
         this.isComplex = true;
     }
 
-    public double getResult(Controller controller, Map<String, Double> cashFunctionList) {
+    public double getResult(Calculator calculator, Map<String, Double> cashFunctionList) {
         if (cashFunctionList.containsKey(name) && !cashFunctionList.get(name).isNaN()) {
             return cashFunctionList.get(name);
         }
         if (rightOperand.length() == 0) {
-            return controller.calculate(leftOperand);
+            return calculator.calculate(leftOperand);
         }
         double result = 0;
-        double leftValue = controller.calculate(leftOperand);
-        double rightValue = controller.calculate(rightOperand);
+        double leftValue = calculator.calculate(leftOperand);
+        double rightValue = calculator.calculate(rightOperand);
         switch (operation) {
             case ADD:
                 result = leftValue + rightValue;

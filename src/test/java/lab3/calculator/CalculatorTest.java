@@ -8,20 +8,20 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ControllerTest {
-    private Controller controller;
+public class CalculatorTest {
+    private Calculator calculator;
     private Exception exception;
 
     // todo: добавить тесты на то, что аргументов не достаточно пришло для осуществления операции?
 
-    private void assertEqualsValue(Controller controller, String name, String expected) {
-        String output = controller.getValue(name);
+    private void assertEqualsValue(Calculator calculator, String name, String expected) {
+        String output = calculator.getValue(name);
         assertEquals(output, expected);
     }
 
     @BeforeEach
     public void init() {
-        controller = new Controller();
+        calculator = new Calculator();
     }
 
     @Nested
@@ -31,20 +31,20 @@ public class ControllerTest {
         @DisplayName("объявление переменной")
         public void should1() {
             String input = "a";
-            controller.defineVariable(input);
+            calculator.defineVariable(input);
             String expected = "NaN";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
         }
 
         @Test
         @DisplayName("объявление переменной с занятым именем")
         public void should2() {
             String input = "a";
-            controller.defineVariable(input);
+            calculator.defineVariable(input);
             String expected = "NaN";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             expected = "Нельзя объявить переменную повторно";
-            exception = assertThrows(Exception.class, () -> controller.defineVariable(input));
+            exception = assertThrows(Exception.class, () -> calculator.defineVariable(input));
             assertEquals(expected, exception.getMessage());
         }
     }
@@ -57,9 +57,9 @@ public class ControllerTest {
         public void should3() {
             String input = "a";
             String value = "1";
-            controller.defineVariable(input, value);
+            calculator.defineVariable(input, value);
             String expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
         }
 
         @Test
@@ -67,14 +67,14 @@ public class ControllerTest {
         public void should4() {
             String input = "a";
             String value = "1";
-            controller.defineVariable(input, value);
+            calculator.defineVariable(input, value);
             String expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             input = "a";
             value = "2";
-            controller.defineVariable(input, value);
+            calculator.defineVariable(input, value);
             expected = "2.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
         }
 
         @Test
@@ -82,14 +82,14 @@ public class ControllerTest {
         public void should5() {
             String input = "a";
             String value = "1";
-            controller.defineVariable(input, value);            
+            calculator.defineVariable(input, value);
             String expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             input = "b";
             value = "a";
-            controller.defineVariable(input, value);
+            calculator.defineVariable(input, value);
             expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
         }
 
         @Test
@@ -98,7 +98,7 @@ public class ControllerTest {
             String input = "a";
             String value = "b";
             String expected = "Попытка присвоить значение не существующей переменной";
-            exception = assertThrows(Exception.class, () -> controller.defineVariable(input, value));
+            exception = assertThrows(Exception.class, () -> calculator.defineVariable(input, value));
             assertEquals(expected, exception.getMessage());
         }
     }
@@ -110,14 +110,14 @@ public class ControllerTest {
         @DisplayName("объявление функции = переменной без значения")
         public void should7() {
             String input = "a";
-            controller.defineVariable(input);
+            calculator.defineVariable(input);
             String expected = "NaN";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             input = "fn1";
             String value = "a";
-            controller.defineFunction(input, value);
+            calculator.defineFunction(input, value);
             expected = "NaN";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
         }
 
         @Test
@@ -125,14 +125,14 @@ public class ControllerTest {
         public void should08() {
             String input = "a";
             String value = "1";
-            controller.defineVariable(input, value);
+            calculator.defineVariable(input, value);
             String expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             input = "fn1";
             value = "a";
-            controller.defineFunction(input, value);
+            calculator.defineFunction(input, value);
             expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
         }
 
         @Test
@@ -140,19 +140,19 @@ public class ControllerTest {
         public void should09() {
             String input = "a";
             String value = "1";
-            controller.defineVariable(input, value);
+            calculator.defineVariable(input, value);
             String expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             input = "fn1";
             value = "a";
-            controller.defineFunction(input, value);
+            calculator.defineFunction(input, value);
             expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             input = "fn2";
             value = "fn1";
-            controller.defineFunction(input, value);
+            calculator.defineFunction(input, value);
             expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
         }
 
         @Test
@@ -161,7 +161,7 @@ public class ControllerTest {
             String input = "fn2";
             String value = "fn3";
             String expected = "Попытка присвоить значение не существующей функции";
-            exception = assertThrows(Exception.class, () -> controller.defineFunction(input, value));
+            exception = assertThrows(Exception.class, () -> calculator.defineFunction(input, value));
             assertEquals(expected, exception.getMessage());
         }
 
@@ -170,16 +170,16 @@ public class ControllerTest {
         public void should11() {
             String input = "a";
             String value = "1";
-            controller.defineVariable(input, value);
+            calculator.defineVariable(input, value);
             String expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             String nameFn = "fn";
             String leftOperand = "a";
             String operation = "+";
             String rightOperand = "a";
-            controller.defineFunction(nameFn, leftOperand, operation, rightOperand);
+            calculator.defineFunction(nameFn, leftOperand, operation, rightOperand);
             expected = "2.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
         }
 
         @Test
@@ -187,15 +187,15 @@ public class ControllerTest {
         public void should12() {
             String input = "a";
             String value = "1";
-            controller.defineVariable(input, value);
+            calculator.defineVariable(input, value);
             String expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             String nameFn = "fn";
             String leftOperand = "a";
             String operation = "^";
             String rightOperand = "a";
             expected = "Попытка произвести не существующую операцию";
-            exception = assertThrows(Exception.class, () -> controller.defineFunction(nameFn, leftOperand, operation, rightOperand));
+            exception = assertThrows(Exception.class, () -> calculator.defineFunction(nameFn, leftOperand, operation, rightOperand));
             assertEquals(expected, exception.getMessage());
         }
     }
@@ -208,10 +208,10 @@ public class ControllerTest {
         public void should13() {
             String input = "a";
             String value = "1";
-            controller.defineVariable(input, value);
+            calculator.defineVariable(input, value);
             String expected = "1.00";
-            assertEqualsValue(controller, input, expected);
-            String output = controller.getValue(input);
+            assertEqualsValue(calculator, input, expected);
+            String output = calculator.getValue(input);
             expected = "1.00";
             assertEquals(output, expected);
         }
@@ -220,10 +220,10 @@ public class ControllerTest {
         @DisplayName("печать значения существующей переменной с неизвестным значением")
         public void should14() {
             String input = "a";
-            controller.defineVariable(input);
+            calculator.defineVariable(input);
             String expected = "NaN";
-            assertEqualsValue(controller, input, expected);
-            String output = controller.getValue(input);
+            assertEqualsValue(calculator, input, expected);
+            String output = calculator.getValue(input);
             assertEquals(output, expected);
         }
 
@@ -232,14 +232,14 @@ public class ControllerTest {
         public void should15() {
             String input = "a";
             String value = "1";
-            controller.defineVariable(input, value);
+            calculator.defineVariable(input, value);
             String expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             input = "fn1";
             value = "a";
-            controller.defineFunction(input, value);
-            assertEqualsValue(controller, input, expected);
-            String output = controller.getValue(input);
+            calculator.defineFunction(input, value);
+            assertEqualsValue(calculator, input, expected);
+            String output = calculator.getValue(input);
             assertEquals(output, expected);
         }
 
@@ -247,14 +247,14 @@ public class ControllerTest {
         @DisplayName("печать значения существующей функции с неизвестным значением")
         public void should16() {
             String input = "a";
-            controller.defineVariable(input);
+            calculator.defineVariable(input);
             String expected = "NaN";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             input = "fn1";
             String value = "a";
-            controller.defineFunction(input, value);
-            assertEqualsValue(controller, input, expected);
-            String output = controller.getValue(input);
+            calculator.defineFunction(input, value);
+            assertEqualsValue(calculator, input, expected);
+            String output = calculator.getValue(input);
             assertEquals(output, expected);
         }
 
@@ -263,7 +263,7 @@ public class ControllerTest {
         public void should17() {
             String params = "a";
             String expected = "Попытка печати значения не существующей переменной";
-            exception = assertThrows(Exception.class, () -> controller.getValue(params));
+            exception = assertThrows(Exception.class, () -> calculator.getValue(params));
             assertEquals(expected, exception.getMessage());
         }
 
@@ -272,7 +272,7 @@ public class ControllerTest {
         public void should18() {
             String params = "fn";
             String expected = "Попытка печати значения не существующей функции";
-            exception = assertThrows(Exception.class, () -> controller.getValue(params));
+            exception = assertThrows(Exception.class, () -> calculator.getValue(params));
             assertEquals(expected, exception.getMessage());
         }
     }
@@ -284,7 +284,7 @@ public class ControllerTest {
         @DisplayName("печать переменных когда их нет")
         public void should19() {
             String expected = "";
-            String output = controller.getVariablesValue();
+            String output = calculator.getVariablesValue();
             assertEquals(expected, output);
         }
 
@@ -293,11 +293,11 @@ public class ControllerTest {
         public void should20() {
             String input = "a";
             String value = "1";
-            controller.defineVariable(input, value);
+            calculator.defineVariable(input, value);
             String expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             expected = "a:1.00\n";
-            String output = controller.getVariablesValue();
+            String output = calculator.getVariablesValue();
             assertEquals(expected, output);
         }
     }
@@ -309,7 +309,7 @@ public class ControllerTest {
         @DisplayName("печать функций которых нет")
         public void should21() {
             String expected = "";
-            String output = controller.getFunctionsValue();
+            String output = calculator.getFunctionsValue();
             assertEquals(expected, output);
         }
 
@@ -318,15 +318,15 @@ public class ControllerTest {
         public void should22() {
             String input = "a";
             String value = "1";
-            controller.defineVariable(input, value);
+            calculator.defineVariable(input, value);
             String expected = "1.00";
-            assertEqualsValue(controller, input, expected);
+            assertEqualsValue(calculator, input, expected);
             input = "fn";
             value = "a";
-            controller.defineFunction(input, value);
-            assertEqualsValue(controller, input, expected);
+            calculator.defineFunction(input, value);
+            assertEqualsValue(calculator, input, expected);
             expected = "fn:1.00\n";
-            String output = controller.getFunctionsValue();
+            String output = calculator.getFunctionsValue();
             assertEquals(expected, output);
         }
     }

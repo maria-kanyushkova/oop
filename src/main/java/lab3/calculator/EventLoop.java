@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 public class EventLoop {
     private final Parser parser = new Parser();
-    private final Controller controller;
+    private final Calculator calculator;
 
-    EventLoop(Controller controller) {
-        this.controller = controller;
+    EventLoop(Calculator calculator) {
+        this.calculator = calculator;
     }
 
     private static String getMenuInfo() {
@@ -90,21 +90,21 @@ public class EventLoop {
                 if (args.length != 1) {
                     throw new IOException("Недостаточно аргументов: var <имя>");
                 }
-                controller.defineVariable(name);
+                calculator.defineVariable(name);
                 break;
             case "let":
                 if (args.length != 2) {
                     throw new IOException("Недостаточно аргументов: let <имя> = <значение>");
                 }
-                controller.defineVariable(name, value);
+                calculator.defineVariable(name, value);
                 break;
             case "fr":
                 if (args.length == 2) {
-                    controller.defineFunction(name, value);
+                    calculator.defineFunction(name, value);
                 } else if (args.length == 4) {
                     String operation = args[2];
                     String rightOperator = args[3];
-                    controller.defineFunction(name, value, operation, rightOperator);
+                    calculator.defineFunction(name, value, operation, rightOperator);
                 }else {
                     throw new IOException("Недостаточно аргументов");
                 }
@@ -113,11 +113,11 @@ public class EventLoop {
                 if (args.length != 1) {
                     throw new IOException("Недостаточно аргументов");
                 }
-                return controller.getValue(name);
+                return calculator.getValue(name);
             case "printvars":
-                return controller.getVariablesValue();
+                return calculator.getVariablesValue();
             case "printfns":
-                return controller.getFunctionsValue();
+                return calculator.getFunctionsValue();
             case "exit":
                 return "exit";
             default:
