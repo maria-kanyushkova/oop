@@ -65,24 +65,24 @@ public class Controller {
     }
 
     public String getInfoAboutFigureWithMaxArea() {
+        double area = Double.MIN_VALUE;
         IShape figure = null;
         for (Map.Entry<FigureType, IShape> shape : figures.entrySet()) {
-            if (figure != null) {
-                if (figure.getArea() < shape.getValue().getArea()) {
-                    figure = shape.getValue();
-                }
+            if (area < shape.getValue().getArea()) {
+                area = shape.getValue().getArea();
+                figure = shape.getValue();
             }
         }
         return getInfo(figure);
     }
 
     public String getInfoAboutFigureWithMinPerimeter() {
+        double perimeter = Double.MIN_VALUE;
         IShape figure = null;
         for (Map.Entry<FigureType, IShape> shape : figures.entrySet()) {
-            if (figure != null) {
-                if (figure.getPerimeter() > shape.getValue().getPerimeter()) {
-                    figure = shape.getValue();
-                }
+            if (perimeter > shape.getValue().getPerimeter()) {
+                perimeter = shape.getValue().getPerimeter();
+                figure = shape.getValue();
             }
         }
         return getInfo(figure);
