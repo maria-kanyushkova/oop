@@ -1,4 +1,4 @@
-package lab4.figure;
+package lab4.figure.common;
 
 public interface IShape {
     double getArea();

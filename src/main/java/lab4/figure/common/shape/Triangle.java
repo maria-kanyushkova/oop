@@ -1,8 +1,8 @@
-package lab4.figure.shape;
+package lab4.figure.common.shape;
 
-import lab4.figure.Color;
-import lab4.figure.ISolidShape;
-import lab4.figure.Point;
+import lab4.figure.common.Color;
+import lab4.figure.common.ISolidShape;
+import lab4.figure.common.Point;
 
 public class Triangle implements ISolidShape {
     private Point vertex1;
