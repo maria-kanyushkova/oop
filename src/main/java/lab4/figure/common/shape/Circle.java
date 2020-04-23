@@ -11,7 +11,7 @@ public class Circle implements ISolidShape {
     private Color outlineColor;
     private Color fillColor;
 
-    Circle(Point center, double radius, Color outlineColor, Color fillColor) {
+    public Circle(Point center, double radius, Color outlineColor, Color fillColor) {
         this.center = center;
         this.radius = radius;
         this.outlineColor = outlineColor;

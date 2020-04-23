@@ -9,7 +9,7 @@ public class Line implements IShape {
     private Point endPoint;
     private Color outlineColor;
 
-    Line(Point startPoint, Point endPoint, Color outlineColor) {
+    public Line(Point startPoint, Point endPoint, Color outlineColor) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.outlineColor = outlineColor;

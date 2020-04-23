@@ -11,7 +11,7 @@ public class Triangle implements ISolidShape {
     private Color outlineColor;
     private Color fillColor;
 
-    Triangle(Point vertex1, Point vertex2, Point vertex3, Color outlineColor, Color fillColor) {
+    public Triangle(Point vertex1, Point vertex2, Point vertex3, Color outlineColor, Color fillColor) {
         this.vertex1 = vertex1;
         this.vertex2 = vertex2;
         this.vertex3 = vertex3;

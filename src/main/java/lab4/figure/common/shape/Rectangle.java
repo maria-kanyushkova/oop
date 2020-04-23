@@ -12,11 +12,11 @@ public class Rectangle implements ISolidShape {
     private Color outlineColor;
     private Color fillColor;
 
-    Rectangle(double left, double top, double width, double height, Color outlineColor, Color fillColor) {
+    public Rectangle(Point leftTop, double width, double height, Color outlineColor, Color fillColor) {
         this.height = height;
         this.width = width;
-        this.leftTop = new Point(left, top);
-        this.rightBottom = new Point(left + width, top + height);
+        this.leftTop = leftTop;
+        this.rightBottom = new Point(leftTop.x + width, leftTop.y + height);
         this.outlineColor = outlineColor;
         this.fillColor = fillColor;
     }
