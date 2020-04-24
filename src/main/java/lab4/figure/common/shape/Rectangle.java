@@ -59,10 +59,12 @@ public class Rectangle implements ISolidShape {
 
     @Override
     public String toString() {
-        return "Цвет заливки: " + fillColor.toStringHex() + "\n" +
+        return "Прямоугольник:" +
+                super.toString() +
+                "Цвет заливки: " + fillColor.toStringHex() + "\n" +
                 "Левая верхняя точка прямоугольника: x:" + leftTop.toString() + "\n" +
                 "Правая нижняя точка прямоугольника: x:" + rightBottom.toString() + "\n" +
-                "Ширина прямоугольника: " + String.format("%.2f", width) + "\n"+
+                "Ширина прямоугольника: " + String.format("%.2f", width) + "\n" +
                 "Высота прямоугольника: " + String.format("%.2f", height) + "\n";
     }
 }

@@ -57,7 +57,9 @@ public class Triangle implements ISolidShape {
 
     @Override
     public String toString() {
-        return "Цвет заливки: " + fillColor.toStringHex() + "\n" +
+        return "Треугольник:" +
+                super.toString() +
+                "Цвет заливки: " + fillColor.toStringHex() + "\n" +
                 "Первая точка треугольника: " + vertex1.toString() + "\n" +
                 "Вторая точка треугольника: " + vertex2.toString() + "\n" +
                 "Третья точка треугольника: " + vertex3.toString() + "\n";

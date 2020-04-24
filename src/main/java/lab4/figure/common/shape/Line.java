@@ -1,10 +1,10 @@
 package lab4.figure.common.shape;
 
 import lab4.figure.common.Color;
-import lab4.figure.common.IShape;
 import lab4.figure.common.Point;
+import lab4.figure.common.Shape;
 
-public class Line implements IShape {
+public class Line extends Shape {
     private Point startPoint;
     private Point endPoint;
     private Color outlineColor;
@@ -40,7 +40,9 @@ public class Line implements IShape {
 
     @Override
     public String toString() {
-        return "Точка начала отрезка: " + startPoint.toString() + "\n" +
+        return "Линия:" +
+                super.toString() +
+                "Точка начала отрезка: " + startPoint.toString() + "\n" +
                 "Точка конца отрезка: " + endPoint.toString() + "\n";
     }
 }

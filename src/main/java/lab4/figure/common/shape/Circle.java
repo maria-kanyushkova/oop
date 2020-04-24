@@ -48,7 +48,9 @@ public class Circle implements ISolidShape {
 
     @Override
     public String toString() {
-        return "Цвет заливки: " + fillColor.toStringHex() + "\n" +
+        return "Круг:" +
+                super.toString() +
+                "Цвет заливки: " + fillColor.toStringHex() + "\n" +
                 "Точка центра окружности: " + center.toString() + "\n" +
                 "Радиус окружности: " + String.format("%.2f", radius) + "\n";
     }

@@ -1,5 +1,10 @@
 package lab4.figure;
 
+import lab4.figure.common.Color;
+import lab4.figure.common.IShape;
+import lab4.figure.common.Point;
+import lab4.figure.common.ShapeFactory;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -45,40 +50,43 @@ public class EventLoop {
         while (true) {
             try {
                 final String consoleLine = readFromConsole();
-                final String[] commands = consoleLine.split(" ");
-                String result = runCommand(commands);
-                if (result.equals("exit")) {
-                    System.out.println(controller.getInfoAboutFigureWithMaxArea());
-                    System.out.println(controller.getInfoAboutFigureWithMinPerimeter());
-                    return;
-                }
-                if (result.length() != 0) {
-                    System.out.println(result);
+                if (runImpl(consoleLine)) {
+                    break;
                 }
             } catch (Exception error) {
                 System.out.println(error.getLocalizedMessage());
             }
         }
+        System.out.println(controller.getInfoAboutFigureWithMaxArea());
+        System.out.println(controller.getInfoAboutFigureWithMinPerimeter());
     }
 
     public void run(File inputFile) {
         try (
                 FileReader fileReader = new FileReader(inputFile);
-                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                BufferedReader bufferedReader = new BufferedReader(fileReader)
         ) {
             String commandLine;
             while ((commandLine = bufferedReader.readLine()) != null) {
-                final String[] commands = commandLine.split(" ");
-                String result = runCommand(commands);
-                if (result.length() != 0) {
-                    System.out.println(result);
-                }
+                runImpl(commandLine);
             }
-            System.out.println(controller.getInfoAboutFigureWithMaxArea());
-            System.out.println(controller.getInfoAboutFigureWithMinPerimeter());
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
         }
+        System.out.println(controller.getInfoAboutFigureWithMaxArea());
+        System.out.println(controller.getInfoAboutFigureWithMinPerimeter());
+    }
+
+    private boolean runImpl(String commandsLine) throws Exception {
+        final String[] commands = commandsLine.split(" ");
+        String result = runCommand(commands);
+        if (result.equals("exit")) {
+            return true;
+        }
+        if (result.length() != 0) {
+            System.out.println(result);
+        }
+        return false;
     }
 
     private String runCommand(String[] args) throws Exception {
@@ -91,28 +99,10 @@ public class EventLoop {
             case "help":
                 return getMenuInfo();
             case "line":
-                if (params.length != 5) {
-                    throw new IOException("Недостаточно аргументов");
-                }
-                controller.defineLine(params);
-                break;
             case "triangle":
-                if (params.length != 8) {
-                    throw new IOException("Недостаточно аргументов");
-                }
-                controller.defineTriangle(params);
-                break;
             case "rectangle":
-                if (params.length != 6) {
-                    throw new IOException("Недостаточно аргументов");
-                }
-                controller.defineRectangle(params);
-                break;
             case "circle":
-                if (params.length != 5) {
-                    throw new IOException("Недостаточно аргументов");
-                }
-                controller.defineCircle(params);
+                controller.appendShape(createShape(command, params));
                 break;
             case "draw":
                 break;
@@ -122,5 +112,51 @@ public class EventLoop {
                 throw new IOException("Встречена незвестная команда");
         }
         return "";
+    }
+
+    private IShape createShape(String type, String[] params) throws Exception {
+        Color outlineColor;
+        Color fillColor;
+        switch (type) {
+            case "line":
+                if (params.length != 5) {
+                    throw new IOException("Недостаточно аргументов");
+                }
+                Point start = Utils.convertToPoint(params[0], params[1]);
+                Point end = Utils.convertToPoint(params[2], params[3]);
+                outlineColor = Utils.convertToColor(params[4]);
+                return ShapeFactory.createLine(start, end, outlineColor);
+            case "triangle":
+                if (params.length != 8) {
+                    throw new IOException("Недостаточно аргументов");
+                }
+                Point vertex1 = Utils.convertToPoint(params[0], params[1]);
+                Point vertex2 = Utils.convertToPoint(params[2], params[3]);
+                Point vertex3 = Utils.convertToPoint(params[4], params[5]);
+                outlineColor = Utils.convertToColor(params[6]);
+                fillColor = Utils.convertToColor(params[7]);
+                return ShapeFactory.createTriangle(vertex1, vertex2, vertex3, outlineColor, fillColor);
+            case "rectangle":
+                if (params.length != 6) {
+                    throw new IOException("Недостаточно аргументов");
+                }
+                Point leftTop = Utils.convertToPoint(params[0], params[1]);
+                double width = Utils.convertToNumber(params[2]);
+                double height = Utils.convertToNumber(params[3]);
+                outlineColor = Utils.convertToColor(params[4]);
+                fillColor = Utils.convertToColor(params[5]);
+                return ShapeFactory.createRectangle(leftTop, width, height, outlineColor, fillColor);
+            case "circle":
+                if (params.length != 5) {
+                    throw new IOException("Недостаточно аргументов");
+                }
+                Point center = Utils.convertToPoint(params[0], params[1]);
+                double radius = Utils.convertToNumber(params[2]);
+                outlineColor = Utils.convertToColor(params[3]);
+                fillColor = Utils.convertToColor(params[4]);
+                return ShapeFactory.createCircle(center, radius, outlineColor, fillColor);
+            default:
+                throw new IOException("Unknown shape type");
+        }
     }
 }
