@@ -1,9 +1,11 @@
-package lab4.figure.common;
+package lab4.shapes.common;
 
-import lab4.figure.common.shape.Circle;
-import lab4.figure.common.shape.Line;
-import lab4.figure.common.shape.Rectangle;
-import lab4.figure.common.shape.Triangle;
+import lab4.shapes.common.shape.Circle;
+import lab4.shapes.common.shape.Line;
+import lab4.shapes.common.shape.Rectangle;
+import lab4.shapes.common.shape.Triangle;
+
+import java.awt.*;
 
 public class ShapeFactory {
     public static IShape createLine(Point start, Point end, Color outlineColor) {

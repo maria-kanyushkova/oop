@@ -1,8 +1,10 @@
-package lab4.figure.common.shape;
+package lab4.shapes.common.shape;
 
-import lab4.figure.common.Color;
-import lab4.figure.common.Point;
-import lab4.figure.common.Shape;
+import lab4.shapes.common.Point;
+import lab4.shapes.common.Shape;
+import lab4.shapes.canvas.ICanvas;
+
+import java.awt.*;
 
 public class Line extends Shape {
     private Point startPoint;
@@ -40,9 +42,14 @@ public class Line extends Shape {
 
     @Override
     public String toString() {
-        return "Линия:" +
+        return "Линия:\n" +
                 super.toString() +
                 "Точка начала отрезка: " + startPoint.toString() + "\n" +
                 "Точка конца отрезка: " + endPoint.toString() + "\n";
+    }
+
+    @Override
+    public void draw(ICanvas canvas) {
+        canvas.drawLine(startPoint, endPoint, outlineColor);
     }
 }

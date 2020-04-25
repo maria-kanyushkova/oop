@@ -1,10 +1,15 @@
-package lab4.figure.common.shape;
+package lab4.shapes.common.shape;
 
-import lab4.figure.common.Color;
-import lab4.figure.common.ISolidShape;
-import lab4.figure.common.Point;
+import lab4.shapes.Utils;
+import lab4.shapes.canvas.ICanvas;
+import lab4.shapes.common.ISolidShape;
+import lab4.shapes.common.Point;
+import lab4.shapes.common.Shape;
 
-public class Triangle implements ISolidShape {
+import java.awt.*;
+import java.util.Arrays;
+
+public class Triangle extends Shape implements ISolidShape {
     private Point vertex1;
     private Point vertex2;
     private Point vertex3;
@@ -57,9 +62,9 @@ public class Triangle implements ISolidShape {
 
     @Override
     public String toString() {
-        return "Треугольник:" +
+        return "Треугольник:\n" +
                 super.toString() +
-                "Цвет заливки: " + fillColor.toStringHex() + "\n" +
+                "Цвет заливки: " + Utils.colorToString(fillColor) + "\n" +
                 "Первая точка треугольника: " + vertex1.toString() + "\n" +
                 "Вторая точка треугольника: " + vertex2.toString() + "\n" +
                 "Третья точка треугольника: " + vertex3.toString() + "\n";
@@ -67,5 +72,13 @@ public class Triangle implements ISolidShape {
 
     private double getLineWidth(Point point1, Point point2) {
         return Math.sqrt(Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2));
+    }
+
+    @Override
+    public void draw(ICanvas canvas) {
+        canvas.drawLine(vertex1, vertex2, outlineColor);
+        canvas.drawLine(vertex2, vertex3, outlineColor);
+        canvas.drawLine(vertex3, vertex1, outlineColor);
+        canvas.fillPolygon(Arrays.asList(vertex1, vertex2, vertex3), fillColor);
     }
 }

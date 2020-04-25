@@ -1,4 +1,4 @@
-package lab4.figure;
+package lab4.shapes;
 
 public class FigureDTO {
     private String inputPath;

@@ -1,10 +1,15 @@
-package lab4.figure.common.shape;
+package lab4.shapes.common.shape;
 
-import lab4.figure.common.Color;
-import lab4.figure.common.ISolidShape;
-import lab4.figure.common.Point;
+import lab4.shapes.Utils;
+import lab4.shapes.canvas.ICanvas;
+import lab4.shapes.common.ISolidShape;
+import lab4.shapes.common.Point;
+import lab4.shapes.common.Shape;
 
-public class Rectangle implements ISolidShape {
+import java.awt.*;
+import java.util.Arrays;
+
+public class Rectangle extends Shape implements ISolidShape {
     private Point leftTop;
     private Point rightBottom;
     private double height;
@@ -59,12 +64,23 @@ public class Rectangle implements ISolidShape {
 
     @Override
     public String toString() {
-        return "Прямоугольник:" +
+        return "Прямоугольник:\n" +
                 super.toString() +
-                "Цвет заливки: " + fillColor.toStringHex() + "\n" +
+                "Цвет заливки: " + Utils.colorToString(fillColor) + "\n" +
                 "Левая верхняя точка прямоугольника: x:" + leftTop.toString() + "\n" +
                 "Правая нижняя точка прямоугольника: x:" + rightBottom.toString() + "\n" +
                 "Ширина прямоугольника: " + String.format("%.2f", width) + "\n" +
                 "Высота прямоугольника: " + String.format("%.2f", height) + "\n";
+    }
+
+    @Override
+    public void draw(ICanvas canvas) {
+        Point rightTop = new Point(rightBottom.x, leftTop.y);
+        Point leftBottom = new Point(leftTop.x, rightBottom.y);
+        canvas.drawLine(leftTop, rightTop, outlineColor);
+        canvas.drawLine(rightTop, rightBottom, outlineColor);
+        canvas.drawLine(rightBottom, leftBottom, outlineColor);
+        canvas.drawLine(leftBottom, leftTop, outlineColor);
+        canvas.fillPolygon(Arrays.asList(leftTop, rightTop, rightBottom, leftBottom), fillColor);
     }
 }

@@ -1,10 +1,14 @@
-package lab4.figure.common.shape;
+package lab4.shapes.common.shape;
 
-import lab4.figure.common.Color;
-import lab4.figure.common.ISolidShape;
-import lab4.figure.common.Point;
+import lab4.shapes.Utils;
+import lab4.shapes.canvas.ICanvas;
+import lab4.shapes.common.ISolidShape;
+import lab4.shapes.common.Point;
+import lab4.shapes.common.Shape;
 
-public class Circle implements ISolidShape {
+import java.awt.*;
+
+public class Circle extends Shape implements ISolidShape {
     private final double pi = 3.14;
     private Point center;
     private double radius;
@@ -48,10 +52,16 @@ public class Circle implements ISolidShape {
 
     @Override
     public String toString() {
-        return "Круг:" +
+        return "Круг:\n" +
                 super.toString() +
-                "Цвет заливки: " + fillColor.toStringHex() + "\n" +
+                "Цвет заливки: " + Utils.colorToString(fillColor) + "\n" +
                 "Точка центра окружности: " + center.toString() + "\n" +
                 "Радиус окружности: " + String.format("%.2f", radius) + "\n";
+    }
+
+    @Override
+    public void draw(ICanvas canvas) {
+        canvas.drawCircle(center, radius, outlineColor);
+        canvas.fillCircle(center, radius, fillColor);
     }
 }

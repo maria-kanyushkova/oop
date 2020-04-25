@@ -1,4 +1,8 @@
-package lab4.figure.common;
+package lab4.shapes.common;
+
+import lab4.shapes.Utils;
+
+import java.awt.*;
 
 public abstract class Shape implements IShape {
     public abstract double getArea();
@@ -10,6 +14,6 @@ public abstract class Shape implements IShape {
     public String toString() {
         return "Площадь фигуры: " + String.format("%.2f", getArea()) + "\n" +
                 "Периметр фигуры: " + String.format("%.2f", getPerimeter()) + "\n" +
-                "Цвет обводки: " + getOutlineColor().toStringHex() + "\n";
+                "Цвет обводки: " + Utils.colorToString(getOutlineColor()) + "\n";
     }
 }

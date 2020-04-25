@@ -1,4 +1,4 @@
-package lab4.figure.common;
+package lab4.shapes.common;
 
 public class Point {
     public double x;

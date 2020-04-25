@@ -1,18 +1,19 @@
-package lab4.figure;
+package lab4.shapes;
 
-import lab4.figure.common.IShape;
+import lab4.shapes.common.IShape;
+import lab4.shapes.canvas.ICanvas;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
-    private List<IShape> figures = new ArrayList<>();
+    private List<IShape> shapes = new ArrayList<>();
 
     public String getInfoAboutFigureWithMaxArea() {
-        double area = Double.MIN_VALUE;
+        double area = 0;
         IShape figure = null;
-        for (IShape shape : figures) {
-            if (area < shape.getArea()) {
+        for (IShape shape : shapes) {
+            if (area <= shape.getArea()) {
                 area = shape.getArea();
                 figure = shape;
             }
@@ -21,10 +22,10 @@ public class Controller {
     }
 
     public String getInfoAboutFigureWithMinPerimeter() {
-        double perimeter = Double.MIN_VALUE;
+        double perimeter = Double.MAX_VALUE;
         IShape figure = null;
-        for (IShape shape : figures) {
-            if (perimeter > shape.getPerimeter()) {
+        for (IShape shape : shapes) {
+            if (perimeter >= shape.getPerimeter()) {
                 perimeter = shape.getPerimeter();
                 figure = shape;
             }
@@ -33,6 +34,10 @@ public class Controller {
     }
 
     public void appendShape(IShape shape) {
-        figures.add(shape);
+        shapes.add(shape);
+    }
+
+    public void draw(ICanvas canvas) {
+        shapes.forEach(figure -> figure.draw(canvas));
     }
 }

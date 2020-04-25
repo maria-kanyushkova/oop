@@ -1,10 +1,10 @@
-package lab4.figure;
+package lab4.shapes;
 
-import lab4.figure.common.Color;
-import lab4.figure.common.IShape;
-import lab4.figure.common.Point;
-import lab4.figure.common.ShapeFactory;
+import lab4.shapes.common.IShape;
+import lab4.shapes.common.Point;
+import lab4.shapes.common.ShapeFactory;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -23,7 +23,7 @@ public class EventLoop {
 
     private static String getMenuInfo() {
         return "0. help - выводится информация о командах\n" +
-                "1. line <startX> <startY> <endX> <endy> <outlineColor: #000000>\n" +
+                "1. line <startX> <startY> <endX> <endY> <outlineColor: #000000>\n" +
                 "2. triangle <vertex1X> <vertex1Y> <vertex2X> <vertex2Y> <vertex3X> <vertex3Y> <outlineColor: #000000> <fillColor: #000000>\n" +
                 "3. rectangle <leftTopX> <leftTopY> <width> <height> <outlineColor: #000000> <fillColor: #000000>\n" +
                 "4. circle <centerX> <centerY> <radius> <outlineColor: #000000> <fillColor: #000000>\n" +
@@ -35,7 +35,6 @@ public class EventLoop {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
-
 
     private static String[] getParams(String[] commands) {
         List<String> result = new ArrayList<>();
@@ -57,8 +56,6 @@ public class EventLoop {
                 System.out.println(error.getLocalizedMessage());
             }
         }
-        System.out.println(controller.getInfoAboutFigureWithMaxArea());
-        System.out.println(controller.getInfoAboutFigureWithMinPerimeter());
     }
 
     public void run(File inputFile) {
@@ -73,8 +70,6 @@ public class EventLoop {
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
         }
-        System.out.println(controller.getInfoAboutFigureWithMaxArea());
-        System.out.println(controller.getInfoAboutFigureWithMinPerimeter());
     }
 
     private boolean runImpl(String commandsLine) throws Exception {
