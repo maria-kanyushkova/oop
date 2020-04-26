@@ -12,8 +12,8 @@ public abstract class Shape implements IShape {
     public abstract Color getOutlineColor();
 
     public String toString() {
-        return "Площадь фигуры: " + String.format("%.2f", getArea()) + "\n" +
-                "Периметр фигуры: " + String.format("%.2f", getPerimeter()) + "\n" +
+        return "Площадь фигуры: " + Utils.doubleToString(getArea()) + "\n" +
+                "Периметр фигуры: " + Utils.doubleToString(getPerimeter()) + "\n" +
                 "Цвет обводки: " + Utils.colorToString(getOutlineColor()) + "\n";
     }
 }

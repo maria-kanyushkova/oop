@@ -22,11 +22,11 @@ public class Circle extends Shape implements ISolidShape {
         this.fillColor = fillColor;
     }
 
-    Point getCenter() {
+    public Point getCenter() {
         return center;
     }
 
-    double getRadius() {
+    public double getRadius() {
         return radius;
     }
 
@@ -56,7 +56,7 @@ public class Circle extends Shape implements ISolidShape {
                 super.toString() +
                 "Цвет заливки: " + Utils.colorToString(fillColor) + "\n" +
                 "Точка центра окружности: " + center.toString() + "\n" +
-                "Радиус окружности: " + String.format("%.2f", radius) + "\n";
+                "Радиус окружности: " + Utils.doubleToString(radius) + "\n";
     }
 
     @Override

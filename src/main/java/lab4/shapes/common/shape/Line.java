@@ -17,11 +17,11 @@ public class Line extends Shape {
         this.outlineColor = outlineColor;
     }
 
-    Point getStartPoint() {
+    public Point getStartPoint() {
         return startPoint;
     }
 
-    Point getEndPoint() {
+    public Point getEndPoint() {
         return endPoint;
     }
 

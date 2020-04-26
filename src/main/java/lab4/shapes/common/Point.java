@@ -1,5 +1,7 @@
 package lab4.shapes.common;
 
+import lab4.shapes.Utils;
+
 public class Point {
     public double x;
     public double y;
@@ -10,6 +12,6 @@ public class Point {
     }
 
     public String toString() {
-        return "x:" + x + " y:" + y;
+        return "x:" + Utils.doubleToString(x) + " y:" + Utils.doubleToString(y);
     }
 }

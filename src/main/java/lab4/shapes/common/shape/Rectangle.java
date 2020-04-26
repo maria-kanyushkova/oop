@@ -26,19 +26,19 @@ public class Rectangle extends Shape implements ISolidShape {
         this.fillColor = fillColor;
     }
 
-    Point getLeftTop() {
+    public Point getLeftTop() {
         return leftTop;
     }
 
-    Point getRightBottom() {
+    public Point getRightBottom() {
         return rightBottom;
     }
 
-    double getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    double getWidth() {
+    public double getWidth() {
         return width;
     }
 

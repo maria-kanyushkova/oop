@@ -24,15 +24,15 @@ public class Triangle extends Shape implements ISolidShape {
         this.fillColor = fillColor;
     }
 
-    Point getVertex1() {
+    public Point getVertex1() {
         return vertex1;
     }
 
-    Point getVertex2() {
+    public Point getVertex2() {
         return vertex2;
     }
 
-    Point getVertex3() {
+    public Point getVertex3() {
         return vertex3;
     }
 

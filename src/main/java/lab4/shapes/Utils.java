@@ -46,4 +46,8 @@ public class Utils {
         }
         return "#" + hex;
     }
+
+    public static String doubleToString(double value) {
+        return String.format("%.2f", value);
+    }
 }

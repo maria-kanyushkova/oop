@@ -40,4 +40,8 @@ public class Controller {
     public void draw(ICanvas canvas) {
         shapes.forEach(figure -> figure.draw(canvas));
     }
+
+    public List<IShape> getShapes() {
+        return shapes;
+    }
 }

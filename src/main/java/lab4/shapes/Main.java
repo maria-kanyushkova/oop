@@ -10,7 +10,7 @@ import java.io.File;
 public class Main {
     private static final int FRAME_WIDTH = 1280;
     private static final int FRAME_HEIGHT = 720;
-    private static final String FRAME_TITLE = "Shapes 2D";
+    private static final String FRAME_TITLE = "Shapes";
 
     public static void main(String[] args) {
         try {
