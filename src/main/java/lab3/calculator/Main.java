@@ -7,14 +7,14 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) {
         try {
-            CalculatorDTO calculatorDTO = parseArgs(args);
+            ArgumentsDTO argumentsDTO = parseArgs(args);
             Calculator calculator = new Calculator();
             EventLoop eventLoop = new EventLoop(calculator);
 
-            if (calculatorDTO.getInputPath().isEmpty()) {
+            if (argumentsDTO.getInputPath().isEmpty()) {
                 eventLoop.run();
             } else {
-                File inputFile = FileManager.getFileByPath(calculatorDTO.getInputPath());
+                File inputFile = FileManager.getFileByPath(argumentsDTO.getInputPath());
                 eventLoop.run(inputFile);
             }
 
@@ -23,11 +23,11 @@ public class Main {
         }
     }
 
-    private static CalculatorDTO parseArgs(String[] args) throws IllegalArgumentException {
+    private static ArgumentsDTO parseArgs(String[] args) throws IllegalArgumentException {
         String inputPath = "";
         if (args.length != 0) {
             inputPath = args[0];
         }
-        return new CalculatorDTO(inputPath);
+        return new ArgumentsDTO(inputPath);
     }
 }
