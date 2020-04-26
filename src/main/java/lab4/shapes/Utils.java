@@ -1,11 +1,19 @@
 package lab4.shapes;
 
 import lab4.shapes.common.Point;
-import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 
 public class Utils {
+    private static boolean isStringNumber(String strNum) {
+        try {
+            Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
     private static boolean isHexNumber(String strNum) {
         try {
             Integer.parseInt(strNum, 16);
@@ -16,10 +24,9 @@ public class Utils {
     }
 
     public static Point convertToPoint(String pointX, String pointY) throws Exception {
-        if (!StringUtils.isNumeric(pointX) || !StringUtils.isNumeric(pointY)) {
-            throw new Exception("Значение не является числом");
-        }
-        return new Point(Double.parseDouble(pointX), Double.parseDouble(pointY));
+        double x = convertToNumber(pointX);
+        double y = convertToNumber(pointY);
+        return new Point(x, y);
     }
 
     public static Color convertToColor(String color) throws Exception {
@@ -33,7 +40,7 @@ public class Utils {
     }
 
     public static double convertToNumber(String number) throws Exception {
-        if (!StringUtils.isNumeric(number)) {
+        if (!isStringNumber(number)) {
             throw new Exception("Значение не является числом");
         }
         return Double.parseDouble(number);
