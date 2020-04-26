@@ -27,12 +27,11 @@ public class Main {
             System.out.println("Максимальная площадь у фигуры:\n" + controller.getInfoAboutFigureWithMaxArea());
             System.out.println("Минимальный периметр у фигуры:\n" + controller.getInfoAboutFigureWithMinPerimeter());
 
-            JFrame frame = initUi();
-            Canvas canvas = new Canvas();
-            controller.draw(canvas);
-            frame.add(canvas);
-            frame.pack();
+            JFrame frame = createUIFrame();
 
+            Canvas canvas = new Canvas();
+            frame.add(canvas);
+            controller.draw(canvas);
 
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
@@ -47,7 +46,7 @@ public class Main {
         return new FigureDTO(inputPath);
     }
 
-    private static JFrame initUi() {
+    private static JFrame createUIFrame() {
         JFrame frame = new JFrame();
         frame.setTitle(FRAME_TITLE);
         frame.pack();
