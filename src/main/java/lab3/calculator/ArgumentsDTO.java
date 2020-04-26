@@ -1,9 +1,9 @@
 package lab3.calculator;
 
-public class CalculatorDTO {
+public class ArgumentsDTO {
     private String inputPath;
 
-    public CalculatorDTO(String inputPath) {
+    public ArgumentsDTO(String inputPath) {
         setInputPath(inputPath);
     }
 

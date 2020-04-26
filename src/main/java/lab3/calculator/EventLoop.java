@@ -1,6 +1,10 @@
 package lab3.calculator;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Scanner;
 
 public class EventLoop {
@@ -28,6 +32,54 @@ public class EventLoop {
         return scanner.nextLine();
     }
 
+    private static boolean isNumeric(String strNum) {
+        try {
+            Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    private static Operation getOperationType(String operation) {
+        switch (operation) {
+            case "+":
+                return Operation.ADD;
+            case "-":
+                return Operation.SUB;
+            case "*":
+                return Operation.MUL;
+            case "/":
+                return Operation.DIV;
+            default:
+                return null;
+        }
+    }
+
+    public static String getVariablesString(Map<String, Double> variables) {
+        StringBuilder result = new StringBuilder();
+        for (Map.Entry<String, Double> var : variables.entrySet()) {
+            result
+                    .append(var.getKey())
+                    .append(":")
+                    .append(String.format("%.2f", var.getValue()))
+                    .append("\n");
+        }
+        return result.toString();
+    }
+
+    public static String getFunctionsString(Map<String, Function> functions) {
+        StringBuilder result = new StringBuilder();
+        for (Map.Entry<String, Function> fn : functions.entrySet()) {
+            result
+                    .append(fn.getKey())
+                    .append(":")
+                    .append(String.format("%.2f", fn.getValue().getResult()))
+                    .append("\n");
+        }
+        return result.toString();
+    }
+
     public void run() {
         System.out.println(getMenuInfo());
         while (true) {
@@ -50,7 +102,7 @@ public class EventLoop {
     public void run(File inputFile) {
         try (
                 FileReader fileReader = new FileReader(inputFile);
-                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                BufferedReader bufferedReader = new BufferedReader(fileReader)
         ) {
             String commandLine;
             while ((commandLine = bufferedReader.readLine()) != null) {
@@ -96,16 +148,23 @@ public class EventLoop {
                 if (args.length != 2) {
                     throw new IOException("Недостаточно аргументов: let <имя> = <значение>");
                 }
-                calculator.defineVariable(name, value);
+                if (isNumeric(value)) {
+                    calculator.defineVariable(name, Double.parseDouble(value));
+                } else {
+                    calculator.defineVariable(name, value);
+                }
                 break;
             case "fn":
                 if (args.length == 2) {
                     calculator.defineFunction(name, value);
                 } else if (args.length == 4) {
-                    String operation = args[2];
+                    Operation operation = getOperationType(args[2]);
+                    if (operation == null) {
+                        throw new Exception("Операция не определена");
+                    }
                     String rightOperator = args[3];
                     calculator.defineFunction(name, value, operation, rightOperator);
-                }else {
+                } else {
                     throw new IOException("Недостаточно аргументов");
                 }
                 break;
@@ -115,9 +174,9 @@ public class EventLoop {
                 }
                 return String.format("%.2f", calculator.getValue(name));
             case "printvars":
-                return calculator.getVariablesValue();
+                return getVariablesString(calculator.getVariables());
             case "printfns":
-                return calculator.getFunctionsValue();
+                return getFunctionsString(calculator.getFunctions());
             case "exit":
                 return "exit";
             default:
