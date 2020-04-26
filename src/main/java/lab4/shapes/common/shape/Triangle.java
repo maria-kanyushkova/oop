@@ -76,9 +76,9 @@ public class Triangle extends Shape implements ISolidShape {
 
     @Override
     public void draw(ICanvas canvas) {
+        canvas.fillPolygon(Arrays.asList(vertex1, vertex2, vertex3), fillColor);
         canvas.drawLine(vertex1, vertex2, outlineColor);
         canvas.drawLine(vertex2, vertex3, outlineColor);
         canvas.drawLine(vertex3, vertex1, outlineColor);
-        canvas.fillPolygon(Arrays.asList(vertex1, vertex2, vertex3), fillColor);
     }
 }

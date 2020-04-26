@@ -77,10 +77,10 @@ public class Rectangle extends Shape implements ISolidShape {
     public void draw(ICanvas canvas) {
         Point rightTop = new Point(rightBottom.x, leftTop.y);
         Point leftBottom = new Point(leftTop.x, rightBottom.y);
+        canvas.fillPolygon(Arrays.asList(leftTop, rightTop, rightBottom, leftBottom), fillColor);
         canvas.drawLine(leftTop, rightTop, outlineColor);
         canvas.drawLine(rightTop, rightBottom, outlineColor);
         canvas.drawLine(rightBottom, leftBottom, outlineColor);
         canvas.drawLine(leftBottom, leftTop, outlineColor);
-        canvas.fillPolygon(Arrays.asList(leftTop, rightTop, rightBottom, leftBottom), fillColor);
     }
 }

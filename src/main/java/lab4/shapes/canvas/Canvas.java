@@ -34,6 +34,7 @@ public class Canvas extends JPanel implements ICanvas {
     @Override
     public void fillPolygon(List<Point> points, Color fillColor) {
         painter.add((Graphics2D g2d) -> {
+            g2d.setColor(fillColor);
             Path2D path = new Path2D.Double();
             path.moveTo(points.get(0).x, points.get(0).y);
             points.stream().skip(1).forEach(point -> path.lineTo(point.x, point.y));

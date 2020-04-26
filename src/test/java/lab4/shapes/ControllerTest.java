@@ -1,5 +1,6 @@
 package lab4.shapes;
 
+import lab4.shapes.common.IShape;
 import lab4.shapes.common.Point;
 import lab4.shapes.common.shape.Circle;
 import lab4.shapes.common.shape.Line;
@@ -11,6 +12,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -45,6 +48,16 @@ public class ControllerTest {
             String expected = "";
             assertEquals(controller.getInfoAboutFigureWithMinPerimeter(), expected);
         }
+    }
+
+    @Test
+    @DisplayName("should append shape")
+    public void shouldAppendShape() {
+        List<IShape> expectedShapes = new ArrayList<>();
+        IShape shape = new Line(new Point(10, 10), new Point(100, 100), new Color(0, 0, 0));
+        expectedShapes.add(shape);
+        controller.appendShape(shape);
+        assertEquals(controller.getShapes(), expectedShapes);
     }
 
     @Nested
