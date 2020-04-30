@@ -10,10 +10,6 @@ import kotlin.math.pow
 import kotlin.math.atan2
 
 class Complex(private var real: Double = 0.0, private var image: Double = 0.0) {
-    companion object {
-        const val EPS = 10e-15
-    }
-
     fun re(): Double {
         return real
     }
@@ -47,9 +43,9 @@ class Complex(private var real: Double = 0.0, private var image: Double = 0.0) {
     }
 
     operator fun times(multiplier: Complex): Complex {
-        val left = (real * multiplier.re()) - (image * multiplier.im())
-        val right = (real * multiplier.im()) + (image * multiplier.re())
-        return Complex(left, right)
+        val realPart = (real * multiplier.re()) - (image * multiplier.im())
+        val imaginaryPart = (real * multiplier.im()) + (image * multiplier.re())
+        return Complex(realPart, imaginaryPart)
     }
 
     operator fun times(factor: Double): Complex {
@@ -58,9 +54,9 @@ class Complex(private var real: Double = 0.0, private var image: Double = 0.0) {
 
     operator fun div(divider: Complex): Complex {
         val common = (divider.re().pow(2) + divider.im().pow(2))
-        val left = ((real * divider.re()) + (image * divider.im())) / common
-        val right = ((image * divider.re()) - (real * divider.im())) / common
-        return Complex(left, right)
+        val realPart = ((real * divider.re()) + (image * divider.im())) / common
+        val imaginaryPart = ((image * divider.re()) - (real * divider.im())) / common
+        return Complex(realPart, imaginaryPart)
     }
 
     operator fun div(divider: Double): Complex {
@@ -131,7 +127,7 @@ class Complex(private var real: Double = 0.0, private var image: Double = 0.0) {
     }
 
     private fun eq(left: Double, right: Double): Boolean {
-        return abs(left - right) < EPS
+        return abs(left - right) < 10e-15
     }
 }
 
@@ -160,7 +156,7 @@ fun OutputStream.write(complex: Complex) {
 fun InputStream.read(complex: Complex) {
     val plus = '+'.toInt()
     val minus = '-'.toInt()
-    val suffix = 'i'.toInt()
+    val imaginaryUnit = 'i'.toInt()
 
     var input = read()
     val unary =
@@ -169,29 +165,31 @@ fun InputStream.read(complex: Complex) {
                 '-'
             } else '+'
 
-    var re = ""
+    var realPart = ""
     while (input != plus && input != minus) {
-        re += input.toChar()
+        realPart += input.toChar()
         input = read()
+    }
+    if (!NumberUtils.isCreatable(realPart)) {
+        throw IOException(realPart + "не вещественное число")
     }
 
     val sign = input.toChar()
     input = read()
 
-    var im = ""
-    while (input != suffix && input != -1) {
-        im += input.toChar()
+    var imaginaryPart = ""
+    while (input != imaginaryUnit && input != -1) {
+        imaginaryPart += input.toChar()
         input = read()
     }
-
-    if (!NumberUtils.isCreatable(re)) {
-        throw IOException("Something is wrong with real part!")
-    }
-    if (!NumberUtils.isCreatable(im)) {
-        throw IOException("Something is wrong with imaginary part!")
+    if (!NumberUtils.isCreatable(imaginaryPart)) {
+        throw IOException(imaginaryPart + "не вещественное число")
     }
 
-    val real = NumberUtils.toDouble(re)
-    val image = NumberUtils.toDouble(im)
-    complex += Complex(if (unary == '-') -real else real, if (sign == '-') -image else image)
+    val real = NumberUtils.toDouble(realPart)
+    val image = NumberUtils.toDouble(imaginaryPart)
+    complex += Complex(
+            if (unary == '-') -real else real,
+            if (sign == '-') -image else image
+    )
 }

@@ -14,22 +14,13 @@ import java.lang.System.out
 class ComplexTest {
     val EPS = 10e-15
 
-    private fun equalsRealPart(expected: Double, actual: Complex) {
-        assertEquals(expected, actual.re(), EPS)
-        assertEquals(0.0, actual.im())
-    }
-
-    private fun equalsImaginaryPart(expected: Double, actual: Complex) {
-        assertEquals(expected, actual.im(), EPS)
-        assertEquals(0.0, actual.re())
-    }
-
     @Test
     @DisplayName("should be existing real part")
     fun shouldBeExistingRealPart() {
         val complex = Complex(2.0)
         val expected = 2.0
-        equalsRealPart(expected, complex)
+        assertEquals(expected, complex.re(), EPS)
+        assertEquals(0.0, complex.im())
     }
 
     @Test
@@ -37,18 +28,19 @@ class ComplexTest {
     fun shouldBeExistingImaginaryPart() {
         val complex = Complex(0.0, 1.0)
         val expected = 1.0
-        equalsImaginaryPart(expected, complex)
+        assertEquals(expected, complex.im(), EPS)
+        assertEquals(0.0, complex.re())
     }
 
     @Nested
-    @DisplayName("should calculated magnitude")
+    @DisplayName("get magnitude")
     inner class Magnitude {
         private fun equalsMagnitude(expected: Double, actual: Complex) {
             assertEquals(expected, actual.getMagnitude(), EPS)
         }
 
         @Test
-        @DisplayName("of complex number")
+        @DisplayName("should be calculated magnitude of complex number")
         fun getMagnitudeOfPositiveComplexNumber() {
             val complex = Complex(2.0, 1.0)
             val expected = 2.23606797749979
@@ -56,7 +48,7 @@ class ComplexTest {
         }
 
         @Test
-        @DisplayName("of complex number with negative real part")
+        @DisplayName("should be calculated magnitude of complex number with negative real part")
         fun getMagnitudeOfComplexNumberWithNegativeRealPart() {
             val complex = Complex(-2.0, 1.0)
             val expected = 2.23606797749979
@@ -64,7 +56,7 @@ class ComplexTest {
         }
 
         @Test
-        @DisplayName("of complex number with negative imaginary part")
+        @DisplayName("should be calculated magnitude of complex number with negative imaginary part")
         fun getMagnitudeOfComplexNumberWithNegativeImaginaryPart() {
             val complex = Complex(2.0, -1.0)
             val expected = 2.23606797749979
@@ -72,7 +64,7 @@ class ComplexTest {
         }
 
         @Test
-        @DisplayName("of negative complex number")
+        @DisplayName("should be calculated magnitude of negative complex number")
         fun getMagnitudeOfNegativeComplexNumber() {
             val complex = Complex(-2.0, -1.0)
             val expected = 2.23606797749979
@@ -80,7 +72,7 @@ class ComplexTest {
         }
 
         @Test
-        @DisplayName("of complex number with real part is zero")
+        @DisplayName("should be calculated magnitude of complex number with real part is zero")
         fun getMagnitudeOfComplexNumberWithRealPartIsZero() {
             val complex = Complex(0.0, 1.0)
             val expected = 1.0
@@ -88,7 +80,7 @@ class ComplexTest {
         }
 
         @Test
-        @DisplayName("of complex number with imaginary part is zero")
+        @DisplayName("should be calculated magnitude of complex number with imaginary part is zero")
         fun getMagnitudeOfComplexNumberWithImaginaryPartIsZero() {
             val complex = Complex(2.0, 0.0)
             val expected = 2.0
@@ -96,7 +88,7 @@ class ComplexTest {
         }
 
         @Test
-        @DisplayName("of zero complex number")
+        @DisplayName("should be calculated magnitude of zero complex number")
         fun getMagnitudeOfComplexNumberIsZero() {
             val complex = Complex(0.0, 0.0)
             val expected = 0.0
@@ -105,14 +97,14 @@ class ComplexTest {
     }
 
     @Nested
-    @DisplayName("calculated argument")
+    @DisplayName("get argument")
     inner class Argument {
         private fun equalsArgument(expected: Double, actual: Complex) {
             assertEquals(expected, actual.getArgument(), EPS)
         }
 
         @Test
-        @DisplayName("of complex number")
+        @DisplayName("should be calculated argument of complex number")
         fun getArgumentOfPositiveComplexNumber() {
             val complex = Complex(2.0, 1.0)
             val expected = 0.4636476090008061
@@ -120,7 +112,7 @@ class ComplexTest {
         }
 
         @Test
-        @DisplayName("of complex number with negative real part")
+        @DisplayName("should be calculated argument of complex number with negative real part")
         fun getArgumentOfComplexNumberWithNegativeRealPart() {
             val complex = Complex(-2.0, 1.0)
             val expected = 2.677945044588987
@@ -128,7 +120,7 @@ class ComplexTest {
         }
 
         @Test
-        @DisplayName("of complex number with negative imaginary part")
+        @DisplayName("should be calculated argument of complex number with negative imaginary part")
         fun getArgumentOfComplexNumberWithNegativeImaginaryPart() {
             val complex = Complex(2.0, -1.0)
             val expected = -0.4636476090008061
@@ -136,7 +128,7 @@ class ComplexTest {
         }
 
         @Test
-        @DisplayName("of negative complex number")
+        @DisplayName("should be calculated argument of negative complex number")
         fun getArgumentOfNegativeComplexNumber() {
             val complex = Complex(-2.0, -1.0)
             val expected = -2.677945044588987
@@ -144,7 +136,7 @@ class ComplexTest {
         }
 
         @Test
-        @DisplayName("of complex number with real part is zero")
+        @DisplayName("should be calculated argument of complex number with real part is zero")
         fun getArgumentOfComplexNumberWithRealPartIsZero() {
             val complex = Complex(0.0, 1.0)
             val expected = 1.5707963267948966
@@ -152,7 +144,7 @@ class ComplexTest {
         }
 
         @Test
-        @DisplayName("of complex number with imaginary part is zero")
+        @DisplayName("should be calculated argument of complex number with imaginary part is zero")
         fun getArgumentOfComplexNumberWithImaginaryPartIsZero() {
             val complex = Complex(2.0, 0.0)
             val expected = 0.0
@@ -160,7 +152,7 @@ class ComplexTest {
         }
 
         @Test
-        @DisplayName("of zero complex number")
+        @DisplayName("should be calculated argument of zero complex number")
         fun getArgumentOfComplexNumberIsZero() {
             val complex = Complex(0.0, 0.0)
             val expected = 0.0
