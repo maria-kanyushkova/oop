@@ -9,53 +9,53 @@ import kotlin.math.sqrt
 import kotlin.math.pow
 import kotlin.math.atan2
 
-class Complex(private var real: Double = 0.0, private var image: Double = 0.0) {
+class Complex(private var real: Double = 0.0, private var imaginary: Double = 0.0) {
     fun re(): Double {
         return real
     }
 
     fun im(): Double {
-        return image
+        return imaginary
     }
 
     fun getMagnitude(): Double {
-        return sqrt(real.pow(2) + image.pow(2))
+        return sqrt(real.pow(2) + imaginary.pow(2))
     }
 
     fun getArgument(): Double {
-        return atan2(image, real)
+        return atan2(imaginary, real)
     }
 
     operator fun plus(addend: Complex): Complex {
-        return Complex(real + addend.re(), image + addend.im())
+        return Complex(real + addend.re(), imaginary + addend.im())
     }
 
     operator fun plus(addend: Double): Complex {
-        return Complex(real + addend, image)
+        return Complex(real + addend, imaginary)
     }
 
     operator fun minus(subtrahend: Complex): Complex {
-        return Complex(real - subtrahend.re(), image - subtrahend.im())
+        return Complex(real - subtrahend.re(), imaginary - subtrahend.im())
     }
 
     operator fun minus(subtrahend: Double): Complex {
-        return Complex(real - subtrahend, image)
+        return Complex(real - subtrahend, imaginary)
     }
 
     operator fun times(multiplier: Complex): Complex {
-        val realPart = (real * multiplier.re()) - (image * multiplier.im())
-        val imaginaryPart = (real * multiplier.im()) + (image * multiplier.re())
+        val realPart = (real * multiplier.re()) - (imaginary * multiplier.im())
+        val imaginaryPart = (real * multiplier.im()) + (imaginary * multiplier.re())
         return Complex(realPart, imaginaryPart)
     }
 
-    operator fun times(factor: Double): Complex {
-        return this * Complex(factor)
+    operator fun times(multiplier: Double): Complex {
+        return this * Complex(multiplier)
     }
 
     operator fun div(divider: Complex): Complex {
         val common = (divider.re().pow(2) + divider.im().pow(2))
-        val realPart = ((real * divider.re()) + (image * divider.im())) / common
-        val imaginaryPart = ((image * divider.re()) - (real * divider.im())) / common
+        val realPart = ((real * divider.re()) + (imaginary * divider.im())) / common
+        val imaginaryPart = ((imaginary * divider.re()) - (real * divider.im())) / common
         return Complex(realPart, imaginaryPart)
     }
 
@@ -64,17 +64,17 @@ class Complex(private var real: Double = 0.0, private var image: Double = 0.0) {
     }
 
     operator fun unaryPlus(): Complex {
-        return Complex(real, image)
+        return Complex(real, imaginary)
     }
 
     operator fun unaryMinus(): Complex {
-        return Complex(-real, -image)
+        return Complex(-real, -imaginary)
     }
 
     operator fun plusAssign(addend: Complex) {
         val complex = this + addend
         real = complex.re()
-        image = complex.im()
+        imaginary = complex.im()
     }
 
     operator fun plusAssign(addend: Double) {
@@ -84,7 +84,7 @@ class Complex(private var real: Double = 0.0, private var image: Double = 0.0) {
     operator fun minusAssign(subtrahend: Complex) {
         val complex = this - subtrahend
         real = complex.re()
-        image = complex.im()
+        imaginary = complex.im()
     }
 
     operator fun minusAssign(subtrahend: Double) {
@@ -94,33 +94,33 @@ class Complex(private var real: Double = 0.0, private var image: Double = 0.0) {
     operator fun timesAssign(multiplier: Complex) {
         val complex = this * multiplier
         real = complex.re()
-        image = complex.im()
+        imaginary = complex.im()
     }
 
     operator fun timesAssign(factor: Double) {
         val complex = this * factor
         real = complex.re()
-        image = complex.im()
+        imaginary = complex.im()
     }
 
     operator fun divAssign(divider: Complex) {
         val complex = this / divider
         real = complex.re()
-        image = complex.im()
+        imaginary = complex.im()
     }
 
     operator fun divAssign(divider: Double) {
         val complex = this / divider
         real = complex.re()
-        image = complex.im()
+        imaginary = complex.im()
     }
 
     override operator fun equals(other: Any?): Boolean {
         return when (other) {
-            is Complex -> eq(real, other.re()) && eq(image, other.im())
+            is Complex -> eq(real, other.re()) && eq(imaginary, other.im())
             is Double -> {
                 val complex = Complex(other)
-                return eq(real, complex.re()) && eq(image, complex.im())
+                return eq(real, complex.re()) && eq(imaginary, complex.im())
             }
             else -> return false
         }
@@ -131,42 +131,38 @@ class Complex(private var real: Double = 0.0, private var image: Double = 0.0) {
     }
 }
 
-operator fun Double.plus(other: Complex): Complex {
-    return Complex(this + other.re(), other.im())
+operator fun Double.plus(addend: Complex): Complex {
+    return Complex(this + addend.re(), addend.im())
 }
 
-operator fun Double.minus(other: Complex): Complex {
-    return Complex(this - other.re(), other.im())
+operator fun Double.minus(subtrahend: Complex): Complex {
+    return Complex(this - subtrahend.re(), subtrahend.im())
 }
 
-operator fun Double.times(other: Complex): Complex {
-    return Complex(this * other.re(), other.im())
+operator fun Double.times(multiplier: Complex): Complex {
+    return Complex(this * multiplier.re(), multiplier.im())
 }
 
-operator fun Double.div(other: Complex): Complex {
-    return Complex(this / other.re(), other.im())
+operator fun Double.div(divider: Complex): Complex {
+    return Complex(this / divider.re(), divider.im())
 }
 
-fun OutputStream.write(complex: Complex) {
-    val sign = if (complex.im() < 0) '-' else '+'
-    val str = "${complex.re()}$sign${abs(complex.im())}i"
+fun OutputStream.write(number: Complex) {
+    val sign = if (number.im() < 0) '-' else '+'
+    val str = "${number.re()}$sign${abs(number.im())}i"
     write(str.toByteArray())
 }
 
 fun InputStream.read(complex: Complex) {
-    val plus = '+'.toInt()
-    val minus = '-'.toInt()
-    val imaginaryUnit = 'i'.toInt()
-
     var input = read()
     val unary =
-            if (input == minus) {
+            if (input == '-'.toInt()) {
                 input = read()
                 '-'
             } else '+'
 
     var realPart = ""
-    while (input != plus && input != minus) {
+    while (input != '+'.toInt() && input != '-'.toInt()) {
         realPart += input.toChar()
         input = read()
     }
@@ -178,7 +174,7 @@ fun InputStream.read(complex: Complex) {
     input = read()
 
     var imaginaryPart = ""
-    while (input != imaginaryUnit && input != -1) {
+    while (input != 'i'.toInt() && input != -1) {
         imaginaryPart += input.toChar()
         input = read()
     }
