@@ -26,7 +26,7 @@ public class Canvas extends JPanel implements ICanvas {
     public void drawLine(Point from, Point to, Color outlineColor) {
         painter.add((Graphics2D g2d) -> {
             g2d.setPaint(outlineColor);
-            g2d.draw(new Line2D.Double(from.x, from.y, to.x, to.y));
+            g2d.draw(new Line2D.Double(from.getX(), from.getY(), to.getX(), to.getY()));
             return null;
         });
     }
@@ -36,8 +36,8 @@ public class Canvas extends JPanel implements ICanvas {
         painter.add((Graphics2D g2d) -> {
             g2d.setColor(fillColor);
             Path2D path = new Path2D.Double();
-            path.moveTo(points.get(0).x, points.get(0).y);
-            points.stream().skip(1).forEach(point -> path.lineTo(point.x, point.y));
+            path.moveTo(points.get(0).getX(), points.get(0).getY());
+            points.stream().skip(1).forEach(point -> path.lineTo(point.getX(), point.getY()));
             path.closePath();
             g2d.fill(path);
             return null;
@@ -48,7 +48,7 @@ public class Canvas extends JPanel implements ICanvas {
     public void drawCircle(Point center, double radius, Color outlineColor) {
         painter.add((Graphics2D g2d) -> {
             g2d.setColor(outlineColor);
-            g2d.draw(new Ellipse2D.Double(center.x, center.y, radius, radius));
+            g2d.draw(new Ellipse2D.Double(center.getX(), center.getY(), radius, radius));
             return null;
         });
     }
@@ -57,7 +57,7 @@ public class Canvas extends JPanel implements ICanvas {
     public void fillCircle(Point center, double radius, Color fillColor) {
         painter.add((Graphics2D g2d) -> {
             g2d.setColor(fillColor);
-            g2d.fill(new Ellipse2D.Double(center.x, center.y, radius, radius));
+            g2d.fill(new Ellipse2D.Double(center.getX(), center.getY(), radius, radius));
             return null;
         });
     }

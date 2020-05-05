@@ -21,7 +21,7 @@ public class Rectangle extends Shape implements ISolidShape {
         this.height = height;
         this.width = width;
         this.leftTop = leftTop;
-        this.rightBottom = new Point(leftTop.x + width, leftTop.y + height);
+        this.rightBottom = new Point(leftTop.getX() + width, leftTop.getY() + height);
         this.outlineColor = outlineColor;
         this.fillColor = fillColor;
     }
@@ -75,8 +75,8 @@ public class Rectangle extends Shape implements ISolidShape {
 
     @Override
     public void draw(ICanvas canvas) {
-        Point rightTop = new Point(rightBottom.x, leftTop.y);
-        Point leftBottom = new Point(leftTop.x, rightBottom.y);
+        Point rightTop = new Point(rightBottom.getX(), leftTop.getY());
+        Point leftBottom = new Point(leftTop.getX(), rightBottom.getY());
         canvas.fillPolygon(Arrays.asList(leftTop, rightTop, rightBottom, leftBottom), fillColor);
         canvas.drawLine(leftTop, rightTop, outlineColor);
         canvas.drawLine(rightTop, rightBottom, outlineColor);

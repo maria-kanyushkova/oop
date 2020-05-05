@@ -1,6 +1,5 @@
 package lab4.shapes;
 
-import lab4.shapes.MockCanvas;
 import lab4.shapes.common.Point;
 import lab4.shapes.common.shape.Circle;
 import org.junit.Test;
@@ -48,8 +47,8 @@ public class CircleTest {
         MockCanvas canvas = new MockCanvas();
         circle.draw(canvas);
         List<String> expected = new ArrayList<>();
-        expected.add("<circle center='x:100,00 y:100,00' radius='25,25' color='#000000' />");
         expected.add("<circleFill center='x:100,00 y:100,00' radius='25,25' fill='#1d8dd7' />");
+        expected.add("<circle center='x:100,00 y:100,00' radius='25,25' color='#000000' />");
         assertEquals(canvas.getOut(), expected);
     }
 }
