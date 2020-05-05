@@ -4,24 +4,16 @@ import common.OutputMock
 import common.OutputMock.setSystemInput
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import java.lang.System.`in`
 import java.lang.System.out
 
 class MyStringTest {
     private val NULL_CHAR = '\u0000'
-
-    private fun getMockArray(): Array<Char> {
-        return arrayOf('S', 'u', 'u', 'm', ' ', 'c', 'u', 'i', 'q', 'u', 'e')
-    }
-
-    private fun getMockString(): String {
-        return "Suum cuique"
-    }
+    private var mockString: String = ""
+    private var mockMyString: MyString = MyString()
+    private var mockCharArray: Array<Char> = arrayOf()
 
     private fun toCharArray(string: String): Array<Char> {
         var array = emptyArray<Char>()
@@ -29,495 +21,475 @@ class MyStringTest {
         return array
     }
 
+    @BeforeEach
+    fun init() {
+        mockString = "Suum cuique"
+        mockMyString = MyString(mockString)
+        mockCharArray = arrayOf('S', 'u', 'u', 'm', ' ', 'c', 'u', 'i', 'q', 'u', 'e')
+    }
+
     @Nested
-    @DisplayName("")
+    @DisplayName("Constructor")
     inner class Constructor {
         @Nested
-        @DisplayName("")
+        @DisplayName("CharArray")
         inner class CharArray {
             @Test
-            @DisplayName("")
-            fun `constructor(chars) has correct data`() {
-                val chars = getMockArray()
-                val actual = MyString(chars)
-                val expected = chars + NULL_CHAR
+            @DisplayName("should be define MyString has correct data")
+            fun shouldBeDefineCharArrayHasCorrectData() {
+                val actual = MyString(mockCharArray)
+                val expected = mockCharArray + NULL_CHAR
                 assertThat(expected, `is`(actual.getStringData()))
             }
 
             @Test
-            @DisplayName("")
-            fun `constructor(chars) has correct length`() {
-                val chars = getMockArray()
-                val actual = MyString(chars)
-                val expected = chars.size
+            @DisplayName("should be define MyString has correct length")
+            fun shouldBeDefineCharArrayHasCorrectLength() {
+                val actual = MyString(mockCharArray)
+                val expected = mockCharArray.size
                 assertEquals(actual.getLength(), expected)
             }
 
             @Test
-            @DisplayName("")
-            fun `constructor(chars) with null char in middle has correct length`() {
-                val chars = arrayOf('S', 'u', 'u', 'm', NULL_CHAR, 'c', 'u', 'i', 'q', 'u', 'e')
-                val actual = MyString(chars)
-                val expected = chars.size
-                assertEquals(actual.getLength(), expected)
-            }
-
-            @Test
-            @DisplayName("")
-            fun `constructor(chars) with null char in middle has correct data`() {
+            @DisplayName("should be define MyString with null char has correct data")
+            fun shouldBeDefineMyStringWithNullCharHasCorrectData() {
                 val chars = arrayOf('S', 'u', 'u', 'm', NULL_CHAR, 'c', 'u', 'i', 'q', 'u', 'e')
                 val actual = MyString(chars)
                 val expected = chars + NULL_CHAR
                 assertThat(expected, `is`(actual.getStringData()))
+            }
+
+            @Test
+            @DisplayName("should be define MyString with null char has correct length")
+            fun shouldBeDefineMyStringWithNullCharHasCorrectLength() {
+                val chars = arrayOf('S', 'u', 'u', 'm', NULL_CHAR, 'c', 'u', 'i', 'q', 'u', 'e')
+                val actual = MyString(chars)
+                val expected = chars.size
+                assertEquals(actual.getLength(), expected)
             }
         }
 
         @Nested
-        @DisplayName("")
+        @DisplayName("CharArray with Length")
         inner class CharArrayWithLength {
             @Test
-            @DisplayName("")
+            @DisplayName("should be define MyString has correct data")
             fun `constructor(chars, length) has correct data`() {
-                val chars = getMockArray()
-                val actual = MyString(chars, chars.size)
-                val expected = chars + NULL_CHAR
+                val actual = MyString(mockCharArray, mockCharArray.size)
+                val expected = mockCharArray + NULL_CHAR
                 assertThat(expected, `is`(actual.getStringData()))
             }
 
             @Test
-            @DisplayName("")
+            @DisplayName("should be define MyString has correct length")
             fun `constructor(chars, length) has correct length`() {
-                val chars = getMockArray()
-                val actual = MyString(chars, chars.size)
-                val expected = chars.size
+                val actual = MyString(mockCharArray, mockCharArray.size)
+                val expected = mockCharArray.size
                 assertEquals(actual.getLength(), expected)
             }
 
             @Test
-            @DisplayName("")
+            @DisplayName("should be define MyString has correct data if length is less then char array length")
             fun `constructor(chars, length) has correct data if length is less then chars`() {
-                val chars = getMockArray()
-                val actual = MyString(chars, chars.size - 7)
+                val actual = MyString(mockCharArray, mockCharArray.size - 7)
                 val expected = arrayOf('S', 'u', 'u', 'm', NULL_CHAR)
                 assertThat(expected, `is`(actual.getStringData()))
             }
 
             @Test
-            @DisplayName("")
+            @DisplayName("should be define MyString has correct length if length is less then char array length")
             fun `constructor(chars, length) has correct length if length is less then chars`() {
-                val chars = getMockArray()
-                val actual = MyString(chars, chars.size - 7)
+                val actual = MyString(mockCharArray, mockCharArray.size - 7)
                 val expected = arrayOf('S', 'u', 'u', 'm').size
                 assertEquals(actual.getLength(), expected)
             }
 
             @Test
-            @DisplayName("")
+            @DisplayName("should be define MyString has correct data if length is 0")
             fun `constructor(chars, length) has correct data if length is 0`() {
-                val chars = getMockArray()
-                val actual = MyString(chars, 0)
+                val actual = MyString(mockCharArray, 0)
                 val expected = arrayOf(NULL_CHAR)
                 assertThat(expected, `is`(actual.getStringData()))
             }
 
             @Test
-            @DisplayName("")
+            @DisplayName("should be define MyString has correct length if length is 0")
             fun `constructor(chars, length) has correct length if length is 0`() {
-                val chars = getMockArray()
-                val actual = MyString(chars, 0)
+                val actual = MyString(mockCharArray, 0)
                 val expected = emptyArray<Char>().size
                 assertEquals(actual.getLength(), expected)
             }
 
             @Test
-            @DisplayName("")
+            @DisplayName("should not define MyString throws if length is negative")
             fun `constructor(chars, length) throws if length is negative`() {
-                val chars = getMockArray()
-                assertThrows<StringIndexOutOfBoundsException> { MyString(chars, -chars.size) }
+                assertThrows<StringIndexOutOfBoundsException> { MyString(mockCharArray, -mockCharArray.size) }
             }
 
             @Test
-            @DisplayName("")
+            @DisplayName("should not define MyString throws if length is more than string has chars")
             fun `constructor(chars, length) throws if length is more then string has chars`() {
-                val chars = getMockArray()
-                assertThrows<StringIndexOutOfBoundsException> { MyString(chars, 2 * chars.size) }
+                assertThrows<StringIndexOutOfBoundsException> { MyString(mockCharArray, 2 * mockCharArray.size) }
             }
         }
 
         @Nested
-        @DisplayName("")
+        @DisplayName("String")
         inner class String {
             @Test
-            @DisplayName("")
+            @DisplayName("should be define MyString has correct data")
             fun `constructor(string) has correct data`() {
-                val actual = MyString(getMockString())
-                val expected = getMockString() + NULL_CHAR
-                assertThat(toCharArray(expected), `is`(actual.getStringData()))
+                val expected = mockString + NULL_CHAR
+                assertThat(toCharArray(expected), `is`(mockMyString.getStringData()))
             }
 
             @Test
-            @DisplayName("")
+            @DisplayName("should be define MyString has correct length")
             fun `constructor(string) has correct length`() {
-                val actual = MyString(getMockString())
-                val expected = getMockString().length
-                assertEquals(actual.getLength(), expected)
+                val expected = mockString.length
+                assertEquals(mockMyString.getLength(), expected)
             }
         }
 
         @Nested
-        @DisplayName("")
+        @DisplayName("MyString")
         inner class MyString {
             @Test
-            @DisplayName("")
+            @DisplayName("should be define MyString has correct data")
             fun `constructor(MyString) has correct data`() {
-                val chars = getMockArray()
-                val string = MyString(chars)
+                val string = MyString(mockCharArray)
                 val actual = MyString(string)
-                val expected = chars + NULL_CHAR
+                val expected = mockCharArray + NULL_CHAR
                 assertThat(expected, `is`(actual.getStringData()))
             }
 
             @Test
-            @DisplayName("")
+            @DisplayName("should be define MyString has correct length")
             fun `constructor(MyString) has correct length`() {
-                val chars = getMockArray()
-                val string = MyString(chars)
+                val string = MyString(mockCharArray)
                 val actual = MyString(string)
-                val expected = chars.size
+                val expected = mockCharArray.size
                 assertEquals(actual.getLength(), expected)
             }
         }
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("Method: substring(start, length)")
     inner class MethodSubstring {
         @Test
-        @DisplayName("")
+        @DisplayName("should be substring MyString has correct data")
         fun `substring has correct data`() {
-            val string = MyString(getMockString())
-            val actual = string.substring(2, 5)
-            val chars = getMockString().substring(2, 3 + 4)
+            val actual = mockMyString.substring(2, 5)
+            val chars = mockString.substring(2, 3 + 4)
             val expected = MyString(chars)
             assertThat(expected.getStringData(), `is`(actual.getStringData()))
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("should be substring MyString has correct length")
         fun `substring has correct length`() {
-            val string = MyString(getMockString())
-            val actual = string.substring(2, 5)
-            val chars = getMockString().substring(2, 3 + 4)
+            val actual = mockMyString.substring(2, 5)
+            val chars = mockString.substring(2, 3 + 4)
             val expected = MyString(chars)
             assertThat(expected.getLength(), `is`(actual.getLength()))
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("should be substring MyString has correct data if length is 0")
         fun `substring has correct data with zero length`() {
-            val string = MyString(getMockString())
-            val actual = string.substring(2, 0)
+            val actual = mockMyString.substring(2, 0)
             val chars = emptyArray<Char>()
             val expected = MyString(chars)
             assertThat(expected.getStringData(), `is`(actual.getStringData()))
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("should be substring MyString has length data if length is 0")
         fun `substring has correct length with zero length`() {
-            val string = MyString(getMockString())
-            val actual = string.substring(2, 0)
+            val actual = mockMyString.substring(2, 0)
             val chars = emptyArray<Char>()
             val expected = MyString(chars)
             assertThat(expected.getLength(), `is`(actual.getLength()))
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("should not substring MyString throws error if out of range")
         fun `substring throws error if out of range`() {
-            val actual = MyString(getMockString())
-            assertThrows<StringIndexOutOfBoundsException> { actual.substring(7, 5) }
+            assertThrows<StringIndexOutOfBoundsException> { mockMyString.substring(7, 5) }
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("should not substring MyString throws error if length is negative")
         fun `substring throws error if length is negative`() {
-            val actual = MyString(getMockString())
-            assertThrows<StringIndexOutOfBoundsException> { actual.substring(2, -5) }
+            assertThrows<StringIndexOutOfBoundsException> { mockMyString.substring(2, -5) }
         }
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("Method: clear()")
     inner class MethodClear {
         @Test
-        @DisplayName("")
+        @DisplayName("should be cleared data in MyString")
         fun `clear data`() {
-            val actual = MyString(getMockString())
-            actual.clear()
+            mockMyString.clear()
             val expected = MyString()
-            assertThat(expected.getStringData(), `is`(actual.getStringData()))
+            assertThat(expected.getStringData(), `is`(mockMyString.getStringData()))
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("should be cleared data with length in MyString")
         fun `clear length`() {
-            val actual = MyString(getMockString())
-            actual.clear()
+            mockMyString.clear()
             val expected = MyString()
-            assertThat(expected.getLength(), `is`(actual.getLength()))
+            assertThat(expected.getLength(), `is`(mockMyString.getLength()))
         }
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("Operator: =")
+    inner class OperatorAssignment {
+        @Test
+        @DisplayName("should be assignment MyString")
+        fun shouldBeAssignmentMyString() {
+            var actual = mockMyString
+            actual = actual
+            assertThat(mockMyString.getStringData(), `is`(actual.getStringData()))
+        }
+    }
+
+    @Nested
+    @DisplayName("Operator: +")
     inner class OperatorPlus {
         @Test
-        @DisplayName("")
+        @DisplayName("should be correct data after addition MyString")
         fun `plus has correct data with MyString`() {
-            val string = MyString(getMockString())
-            val other = MyString(getMockString())
-            val actual = string + other
-            val expected = toCharArray(getMockString() + getMockString() + NULL_CHAR)
+            val other = mockMyString
+            val actual = mockMyString + other
+            val expected = toCharArray(mockString + mockString + NULL_CHAR)
             assertThat(expected, `is`(actual.getStringData()))
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("should be correct length after addition MyString")
         fun `plus has correct length with MyString`() {
-            val string = MyString(getMockString())
-            val other = MyString(getMockString())
-            val actual = string + other
-            val expected = toCharArray(getMockString() + getMockString()).size
+            val other = mockMyString
+            val actual = mockMyString + other
+            val expected = toCharArray(mockString + mockString).size
             assertEquals(actual.getLength(), expected)
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("should be correct data after addition MyString and String")
         fun `plus has correct data with String`() {
-            val string = MyString(getMockString())
-            val other = getMockString()
-            val actual = string + other
-            val expected = toCharArray(getMockString() + getMockString() + NULL_CHAR)
+            val other = mockString
+            val actual = mockMyString + other
+            val expected = toCharArray(mockString + mockString + NULL_CHAR)
             assertThat(expected, `is`(actual.getStringData()))
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("should be correct length after addition MyString and String")
         fun `plus has correct length with String`() {
-            val string = MyString(getMockString())
-            val other = getMockString()
-            val actual = string + other
-            val expected = toCharArray(getMockString() + getMockString()).size
+            val other = mockString
+            val actual = mockMyString + other
+            val expected = toCharArray(mockString + mockString).size
             assertEquals(actual.getLength(), expected)
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("should be correct data after addition MyString and Char Array")
         fun `plus has correct data with Chars`() {
-            val string = MyString(getMockString())
-            val other = getMockArray()
-            val actual = string + other
-            val expected = toCharArray(getMockString() + getMockString() + NULL_CHAR)
+            val actual = mockMyString + mockCharArray
+            val expected = toCharArray(mockString + mockString + NULL_CHAR)
             assertThat(expected, `is`(actual.getStringData()))
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("should be correct length after addition MyString and Char Array")
         fun `plus has correct length with Chars`() {
-            val string = MyString(getMockString())
-            val other = getMockArray()
-            val actual = string + other
-            val expected = toCharArray(getMockString() + getMockString()).size
+            val actual = mockMyString + mockCharArray
+            val expected = toCharArray(mockString + mockString).size
             assertEquals(actual.getLength(), expected)
         }
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("Operator: +=")
     inner class OperatorPlusAssign {
         @Test
-        @DisplayName("")
+        @DisplayName("should be correct data after increment of MyString to MyString")
         fun `plus assign has correct data`() {
-            val actual = MyString(getMockString())
-            val other = MyString(getMockString())
+            val actual = mockMyString
+            val other = mockMyString
             actual += other
-            val expected = toCharArray(getMockString() + getMockString() + NULL_CHAR)
+            val expected = toCharArray(mockString + mockString + NULL_CHAR)
             assertThat(expected, `is`(actual.getStringData()))
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("should be correct length after increment of MyString to MyString")
         fun `plus assign has correct length`() {
-            val actual = MyString(getMockString())
-            val other = MyString(getMockString())
+            val actual = mockMyString
+            val other = mockMyString
             actual += other
-            val expected = toCharArray(getMockString() + getMockString()).size
+            val expected = toCharArray(mockString + mockString).size
             assertEquals(actual.getLength(), expected)
         }
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("Operator: ==")
     inner class OperatorEqual {
         @Test
-        @DisplayName("")
-        fun `equal with MyString`() {
-            val string = MyString(getMockString())
-            val other = MyString(getMockString())
-            assertTrue(string == other)
-            assertFalse(string != other)
+        @DisplayName("should be equal MyString")
+        fun shouldBeEqualMyString() {
+            assertTrue(mockMyString == mockMyString)
+            assertFalse(mockMyString != mockMyString)
         }
 
         @Test
-        @DisplayName("")
-        fun `equal with String`() {
-            val string = MyString(getMockString())
-            val other = getMockString()
-            assertTrue(string.equals(other))
-            assertFalse(!string.equals(other))
+        @DisplayName("should be equal MyString and String")
+        fun shouldBeEqualMyStringAndString() {
+            val other = mockString
+            assertTrue(mockMyString.equals(other))
+            assertFalse(!mockMyString.equals(other))
         }
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("Operator: !=")
     inner class OperatorNotEqual {
         @Test
-        @DisplayName("")
-        fun `not equal with MyString`() {
-            val string = MyString(getMockString())
-            val other = MyString(getMockString() + getMockString())
-            assertTrue(string != other)
-            assertFalse(string == other)
+        @DisplayName("should not equal MyString")
+        fun shouldNotBeEqualMyString() {
+            val other = MyString(mockString + mockString)
+            assertTrue(mockMyString != other)
+            assertFalse(mockMyString == other)
         }
 
         @Test
-        @DisplayName("")
-        fun `not equal with String`() {
-            val string = MyString(getMockString())
-            val other = getMockString() + getMockString()
-            assertTrue(!string.equals(other))
-            assertFalse(string.equals(other))
+        @DisplayName("should not equal MyString and String")
+        fun shouldNotBeEqualMyStringAndString() {
+            val other = mockString + mockString
+            assertTrue(!mockMyString.equals(other))
+            assertFalse(mockMyString.equals(other))
         }
 
         @Test
-        @DisplayName("")
-        fun `not equal with any other type`() {
-            val string = MyString(getMockString())
-            assertFalse(string.equals(10))
-            assertFalse(string.equals(null))
-            assertFalse(string.equals(true))
+        @DisplayName("should not equal MyString and any other type")
+        fun shouldNotBeEqualMyStringAndAnyOtherType() {
+            assertFalse(mockMyString.equals(10))
+            assertFalse(mockMyString.equals(null))
+            assertFalse(mockMyString.equals(true))
         }
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("Operator: < && >")
     inner class OperatorLessMore {
+        val string = MyString("abc")
+        val other = MyString("bbc")
+
         @Test
-        @DisplayName("")
-        fun `less more with MyString`() {
-            val string = MyString("abc")
-            val other = MyString("bbc")
+        @DisplayName("should be less MyString")
+        fun shouldBeLessMyString() {
             assertTrue(string < other)
+            assertFalse(other < string)
+        }
+
+        @Test
+        @DisplayName("should be more MyString")
+        fun shouldBeMoreMyString() {
             assertTrue(other > string)
             assertFalse(string > other)
-            assertFalse(other < string)
         }
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("Operator: <= && =>")
     inner class OperatorLessEqualMoreEqual {
+        val string = MyString("abc")
+        val other = MyString("abc")
+
         @Test
-        @DisplayName("")
-        fun `less equal more equal with MyString`() {
-            val string = MyString("abc")
-            val other = MyString("abc")
+        @DisplayName("should be less equals with MyString")
+        fun shouldBeLessEqualsWithMyString() {
             assertTrue(string <= other)
-            assertTrue(other >= string)
             assertFalse(string < other)
+            assertFalse(other < string)
+        }
+
+        @Test
+        @DisplayName("should be more equals with MyString")
+        fun shouldBeMoreEqualsWithMyString() {
+            assertTrue(other >= string)
             assertFalse(string > other)
             assertFalse(other > string)
-            assertFalse(other < string)
         }
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("Operator: set")
     inner class OperatorSet {
         @Test
-        @DisplayName("")
-        fun set() {
-            val actual = MyString(getMockString())
+        @DisplayName("should be set char in MyString")
+        fun shouldBeSetCharInMyString() {
             val expected = toCharArray("Suum!cuique") + NULL_CHAR
-            actual[4] = '!'
-            assertThat(actual.getStringData(), `is`(expected))
+            mockMyString[4] = '!'
+            assertThat(mockMyString.getStringData(), `is`(expected))
         }
 
         @Test
-        @DisplayName("")
-        fun `set throws if out of bounds`() {
-            val string = MyString(getMockString())
-            assertThrows<ArrayIndexOutOfBoundsException> { string[12] = '!' }
+        @DisplayName("should not set char out of range of MyString")
+        fun shouldNotSetCharOutOfRangeOfInMyString() {
+            assertThrows<ArrayIndexOutOfBoundsException> { mockMyString[12] = '!' }
         }
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("Operator: get")
     inner class OperatorGet {
         @Test
-        @DisplayName("")
-        fun get() {
-            val string = MyString(getMockString())
+        @DisplayName("should be get char in MyString")
+        fun shouldBeGetCharInMyString() {
             val expected = 'S'
-            val actual = string[0]
+            val actual = mockMyString[0]
             assertEquals(expected, actual)
         }
 
         @Test
-        @DisplayName("")
-        fun `get throws out of bounds`() {
-            val string = MyString(getMockString())
-            assertThrows<ArrayIndexOutOfBoundsException> { string[12] }
+        @DisplayName("should not get char out of range of MyString")
+        fun shouldNotGetCharOutOfRangeOfMyString() {
+            assertThrows<ArrayIndexOutOfBoundsException> { mockMyString[12] }
         }
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("Operator: <<")
     inner class OperatorPrint {
         @Test
-        @DisplayName("")
-        fun print() {
+        @DisplayName("should be print MyString in output")
+        fun shouldBePrintMyStringInOutput() {
             val mock = OutputMock()
-            val string = MyString(getMockString())
-            out.write(string)
-            val expected = getMockString() + NULL_CHAR
+            out.write(mockMyString)
+            val expected = mockString + NULL_CHAR
             assertEquals(expected, mock.read())
             mock.destruct()
         }
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("Operator: >>")
     inner class OperatorRead {
         @Test
-        @DisplayName("")
-        fun read() {
-            setSystemInput(getMockString())
+        @DisplayName("should be read MyString from input")
+        fun shouldBeReadMyStringFromInput() {
+            setSystemInput(mockString)
             val actual = MyString()
             `in`.read(actual)
-            val expected = toCharArray(getMockString()) + NULL_CHAR
+            val expected = toCharArray(mockString) + NULL_CHAR
             assertThat(actual.getStringData(), `is`(expected))
         }
-    }
-
-    @Test
-    @DisplayName("")
-    fun `mutation of one MyString doesnt mutate other MyString`() {
-        val string = MyString(getMockString())
-        val other = MyString(string)
-        other += string
-        assertThat(string.getStringData(), `is`(getMockArray() + NULL_CHAR))
-        assertThat(other.getStringData(), `is`(getMockArray() + getMockArray() + NULL_CHAR))
     }
 }
