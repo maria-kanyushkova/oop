@@ -51,11 +51,11 @@ public class RectangleTest {
         MockCanvas canvas = new MockCanvas();
         rectangle.draw(canvas);
         List<String> expected = new ArrayList<>();
+        expected.add("<polygonFill points='point0:`x:200,00 y:200,00` point1:`x:350,00 y:200,00` point2:`x:350,00 y:300,00` point3:`x:200,00 y:300,00` ' fill='#1d8dd7' />");
         expected.add("<line from='x:200,00 y:200,00' to='x:350,00 y:200,00' color='#000000' />");
         expected.add("<line from='x:350,00 y:200,00' to='x:350,00 y:300,00' color='#000000' />");
         expected.add("<line from='x:350,00 y:300,00' to='x:200,00 y:300,00' color='#000000' />");
         expected.add("<line from='x:200,00 y:300,00' to='x:200,00 y:200,00' color='#000000' />");
-        expected.add("<polygonFill points='point0:`x:200,00 y:200,00` point1:`x:350,00 y:200,00` point2:`x:350,00 y:300,00` point3:`x:200,00 y:300,00` ' fill='#1d8dd7' />");
         assertEquals(canvas.getOut(), expected);
     }
 }

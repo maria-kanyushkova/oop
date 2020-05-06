@@ -32,7 +32,7 @@ public class Line extends Shape {
 
     @Override
     public double getPerimeter() {
-        return Math.sqrt(Math.pow(endPoint.x - startPoint.x, 2) + Math.pow(endPoint.y - startPoint.y, 2));
+        return Math.sqrt(Math.pow(endPoint.getX() - startPoint.getX(), 2) + Math.pow(endPoint.getY() - startPoint.getY(), 2));
     }
 
     @Override

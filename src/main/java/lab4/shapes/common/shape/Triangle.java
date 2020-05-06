@@ -71,7 +71,7 @@ public class Triangle extends Shape implements ISolidShape {
     }
 
     private double getLineWidth(Point point1, Point point2) {
-        return Math.sqrt(Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2));
+        return Math.sqrt(Math.pow(point2.getX() - point1.getX(), 2) + Math.pow(point2.getY() - point1.getY(), 2));
     }
 
     @Override
