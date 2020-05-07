@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public class Graphics extends JPanel {
+public class CanvasGraphics extends JPanel {
     private static final int STROKE_WIDTH = 2;
     private List<Function<Graphics2D, Void>> painter = new ArrayList<>();
 

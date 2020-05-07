@@ -7,9 +7,9 @@ import java.awt.geom.*;
 import java.util.List;
 
 public class Canvas implements ICanvas {
-    private Graphics graphics = new Graphics();
+    private CanvasGraphics graphics = new CanvasGraphics();
 
-    public Graphics getGraphics() {
+    public CanvasGraphics getGraphics() {
         return graphics;
     }
 
