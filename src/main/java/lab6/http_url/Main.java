@@ -1,7 +1,6 @@
 package lab6.http_url;
 
 public class Main {
-
     public static void main(String[] args) {
         try {
             EventLoop eventLoop = new EventLoop();
@@ -10,5 +9,4 @@ public class Main {
             System.out.println(error.getLocalizedMessage());
         }
     }
-
 }

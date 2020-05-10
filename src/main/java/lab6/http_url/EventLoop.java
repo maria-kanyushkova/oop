@@ -1,7 +1,5 @@
 package lab6.http_url;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
 import java.util.Scanner;
 
 public class EventLoop {
@@ -23,9 +21,18 @@ public class EventLoop {
         return scanner.nextLine();
     }
 
+    public static boolean isStringNumber(String strNum) {
+        try {
+            Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
     public static int convertToNumber(String number) throws UrlParsingError {
-        if (!NumberUtils.isCreatable(number)) {
-            throw new UrlParsingError("Значение не является числом");
+        if (!isStringNumber(number)) {
+            throw new UrlParsingError("Illegal value");
         }
         return Integer.parseInt(number);
     }
