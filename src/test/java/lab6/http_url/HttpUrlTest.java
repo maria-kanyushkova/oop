@@ -1,5 +1,6 @@
 package lab6.http_url;
 
+import org.junit.Rule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -60,7 +61,7 @@ public class HttpUrlTest {
             }
 
             @Test
-            @DisplayName("try define HttpUrl if protocol is not existing")
+            @DisplayName("try define HttpUrl if protocol is not supporting")
             public void tryDefineHttpUrlIfProtocolIsNotExisting() {
                 String expected = "Invalid protocol";
                 exception = assertThrows(UrlParsingError.class, () -> new HttpUrl("ftp://github.com/document.txt"));
@@ -196,7 +197,7 @@ public class HttpUrlTest {
         }
 
         @Test
-        @DisplayName("shouldGetDocumentIfNotExistSlashSymbol")
+        @DisplayName("should get document if not exist slash symbol")
         public void shouldGetDocumentIfNotExistSlashSymbol() throws UrlParsingError {
             assertEquals("/", new HttpUrl("https://github.com").getDocument());
         }

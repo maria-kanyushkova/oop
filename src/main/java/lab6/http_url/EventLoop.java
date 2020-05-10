@@ -1,14 +1,16 @@
 package lab6.http_url;
 
+import common.StringUtils;
+
 import java.util.Scanner;
 
 public class EventLoop {
     private static String getMenuInfo() {
         return "0. help - выводится информация о командах\n" +
                 "1. url\n" +
-                "2. domain protocol\n" +
-                "3. domain document protocol\n" +
-                "4. domain document protocol port\n" +
+                "2. protocol://domain\n" +
+                "3. protocol://domain/document\n" +
+                "4. protocol://domain:port/document\n" +
                 "5. exit - выход с приложения";
     }
 
@@ -21,17 +23,8 @@ public class EventLoop {
         return scanner.nextLine();
     }
 
-    public static boolean isStringNumber(String strNum) {
-        try {
-            Double.parseDouble(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
     public static int convertToNumber(String number) throws UrlParsingError {
-        if (!isStringNumber(number)) {
+        if (!StringUtils.isStringNumber(number)) {
             throw new UrlParsingError("Illegal value");
         }
         return Integer.parseInt(number);

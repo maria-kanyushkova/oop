@@ -11,7 +11,7 @@ public class HttpUrl {
 
     public HttpUrl(String url) throws UrlParsingError {
         this.url = url;
-        this.protocol = parseProtocol();
+        this.protocol = convertToProtocol();
         this.domain = verifyDomain(parseDomain());
         this.port = verifyPort(parsePort());
         this.document = verifyDocument(parseDocument());
@@ -76,7 +76,7 @@ public class HttpUrl {
         }
     }
 
-    private Protocol parseProtocol() throws UrlParsingError {
+    private Protocol convertToProtocol() throws UrlParsingError {
         final String schemeDelimiter = "://";
         if (!url.contains(schemeDelimiter)) {
             throw new UrlParsingError("Protocol parsing error");
@@ -105,12 +105,7 @@ public class HttpUrl {
         }
         if (url.charAt(0) == ':') {
             int portPos = url.indexOf('/');
-            String portString;
-            if (portPos == -1) {
-                portString = url.substring(1);
-            } else {
-                portString = url.substring(1, portPos);
-            }
+            String portString = portPos == -1 ? url.substring(1) : url.substring(1, portPos);
             url = url.substring(portString.length() + 1);
             boolean portOk = !portString.isEmpty();
             if (portOk) {
