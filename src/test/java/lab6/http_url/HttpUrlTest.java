@@ -17,81 +17,75 @@ public class HttpUrlTest {
         @DisplayName("constructor(url)")
         class FullUrlConstructor {
             @Test
-            @DisplayName("can_pass_url_without_exceptions")
-            public void test1() throws UrlParsingError {
+            @DisplayName("should be define HttpUrl")
+            public void shouldBeDefineHttpUrl() throws UrlParsingError {
                 new HttpUrl("http://github.com/document.txt");
             }
 
             @Test
-            @DisplayName("if_document_is_empty_class_do_not_throw_exception")
-            public void test8() throws UrlParsingError {
+            @DisplayName("should to define HttpUrl with empty document")
+            public void shouldToDefineHttpUrlWithEmptyDocument() throws UrlParsingError {
                 new HttpUrl("http://github.com/");
                 new HttpUrl("http://github.com");
             }
 
             @Test
-            @DisplayName("if_url_contains_port_then_port_will_be_different_from_standard")
-            public void test12() throws UrlParsingError {
+            @DisplayName("should to define HttpUrl with document and port")
+            public void shouldToDefineHttpUrlWithDocumentAndPort() throws UrlParsingError {
                 new HttpUrl("http://github.com:14/document.txt");
             }
 
             @Test
-            @DisplayName("if_the_URL_contains_the_correct_port_class_do_not_throw_exception")
-            public void test9() throws UrlParsingError {
-                new HttpUrl("http://github.com:443/document.txt");
-            }
-
-            @Test
-            @DisplayName("if_scheme_incorrect_then_class_throw_exception")
-            public void test2() {
+            @DisplayName("try define HttpUrl if protocol incorrect")
+            public void tryDefineHttpUrlIfProtocolIncorrect() {
                 String expected = "Invalid protocol";
                 exception = assertThrows(UrlParsingError.class, () -> new HttpUrl("htts://github.com/document.txt"));
                 assertEquals(expected, exception.getMessage());
             }
 
             @Test
-            @DisplayName("if_scheme_incorrect_then_class_throw_exception")
-            public void test3() {
+            @DisplayName("try define HttpUrl if protocol symbols incorrect")
+            public void tryDefineHttpUrlIfProtocolSymbolsIncorrect() {
                 String expected = "Protocol parsing error";
                 exception = assertThrows(UrlParsingError.class, () -> new HttpUrl("http:/github.com/document.txt"));
                 assertEquals(expected, exception.getMessage());
             }
 
             @Test
-            @DisplayName("if_scheme_incorrect_then_class_throw_exception")
-            public void test4() {
+            @DisplayName("try define HttpUrl if protocol and domain symbols incorrect")
+            public void tryDefineHttpUrlIfProtocolAndDomainSymbolsIncorrect() {
                 String expected = "Domain name is empty";
                 exception = assertThrows(UrlParsingError.class, () -> new HttpUrl("http:///github.com/document.txt"));
                 assertEquals(expected, exception.getMessage());
             }
 
             @Test
-            @DisplayName("if_scheme_correct_but_protocol_type_not_supported_class_throw_exception")
-            public void test6() {
+            @DisplayName("try define HttpUrl if protocol is not existing")
+            public void tryDefineHttpUrlIfProtocolIsNotExisting() {
                 String expected = "Invalid protocol";
                 exception = assertThrows(UrlParsingError.class, () -> new HttpUrl("ftp://github.com/document.txt"));
                 assertEquals(expected, exception.getMessage());
             }
 
             @Test
-            @DisplayName("if_the_domain_contains_spaces_and_tabs_then_class_throw_exception")
-            public void test7() {
+            @DisplayName("try define HttpUrl if domain symbols incorrect")
+            public void tryDefineHttpUrlIfDomainSymbolsIncorrect() {
                 String expected = "Domain mustn't contain spaces, tabulation or slash";
                 exception = assertThrows(UrlParsingError.class, () -> new HttpUrl("http://github .com/document.txt"));
                 assertEquals(expected, exception.getMessage());
             }
 
             @Test
-            @DisplayName("if_the_URL_port_is_out_of_range")
-            public void test10() {
+            @DisplayName("try define HttpUrl if port symbols incorrect")
+            public void tryDefineHttpUrlIfPortSymbolsIncorrect() {
                 String expected = "Port parsing error";
                 exception = assertThrows(UrlParsingError.class, () -> new HttpUrl("http://github.com:999999/document.txt"));
                 assertEquals(expected, exception.getMessage());
             }
 
             @Test
-            @DisplayName("if_the_URL_contains_the_uncorrect_port_then_class_throw_exception")
-            public void test11() {
+            @DisplayName("try define HttpUrl if port is not existing")
+            public void tryDefineHttpUrlIfPortIsNotExisting() {
                 String expected = "Port parsing error";
                 exception = assertThrows(UrlParsingError.class, () -> new HttpUrl("http://github.com:/document.txt"));
                 assertEquals(expected, exception.getMessage());
@@ -102,48 +96,48 @@ public class HttpUrlTest {
         @DisplayName("constructor(domain, document, protocol, ?port)")
         class ParameterizedConstructor {
             @Test
-            @DisplayName("can_not_pass_an_invalid_document")
-            public void test21() throws UrlParsingError {
+            @DisplayName("should to define HttpUrl with exist domain and document")
+            public void shouldToDefineHttpUrlWithExistDomainAndDocument() throws UrlParsingError {
                 new HttpUrl("github.com", "document.txt");
             }
 
             @Test
-            @DisplayName("can_not_pass_an_invalid_document")
-            public void test22() throws UrlParsingError {
+            @DisplayName("should to define HttpUrl with exist domain and protocol")
+            public void shouldToDefineHttpUrlWithExistDomainAndProtocol() throws UrlParsingError {
                 new HttpUrl("github.com", Protocol.HTTP);
             }
 
             @Test
-            @DisplayName("can_not_pass_an_invalid_document")
-            public void test23() throws UrlParsingError {
+            @DisplayName("should to define HttpUrl with exist domain, document and protocol")
+            public void shouldToDefineHttpUrlWithExistDomainDocumentAndProtocol() throws UrlParsingError {
                 new HttpUrl("github.com", "document.txt", Protocol.HTTP);
             }
 
             @Test
-            @DisplayName("can_not_pass_an_invalid_document")
-            public void test24() throws UrlParsingError {
+            @DisplayName("should to define HttpUrl with exist domain, document, protocol and port")
+            public void shouldToDefineHttpUrlWithExistDomainDocumentProtocolAndPort() throws UrlParsingError {
                 new HttpUrl("github.com", "document.txt", Protocol.HTTP, 25);
             }
 
             @Test
-            @DisplayName("can_not_pass_an_invalid_domain_name")
-            public void test25() {
+            @DisplayName("try define HttpUrl if domain name is empty")
+            public void tryDefineHttpUrlIfDomainNameIsEmpty() {
                 String expected = "Domain name is empty";
                 exception = assertThrows(UrlParsingError.class, () -> new HttpUrl("", Protocol.HTTP));
                 assertEquals(expected, exception.getMessage());
             }
 
             @Test
-            @DisplayName("can_not_pass_an_invalid_domain_name")
-            public void test27() {
+            @DisplayName("try define HttpUrl if domain name is incorrect")
+            public void tryDefineHttpUrlIfDomainNameIsIncorrect() {
                 String expected = "Domain mustn't contain spaces, tabulation or slash";
                 exception = assertThrows(UrlParsingError.class, () -> new HttpUrl(" ", "document.txt"));
                 assertEquals(expected, exception.getMessage());
             }
 
             @Test
-            @DisplayName("can_not_pass_an_domain_name_with_scheme_or_slash")
-            public void test28() {
+            @DisplayName("try define HttpUrl if in domain name exist protocol with exist protocol param")
+            public void tryDefineHttpUrlIfInDomainNameExistProtocolWithExistProtocolParam() {
                 String expected = "Domain mustn't contain spaces, tabulation or slash";
                 exception = assertThrows(UrlParsingError.class, () -> new HttpUrl("https://github.github.com", Protocol.HTTP));
                 assertEquals(expected, exception.getMessage());
@@ -155,22 +149,22 @@ public class HttpUrlTest {
     @DisplayName("Method: getUrl()")
     class GetUrl {
         @Test
-        @DisplayName("")
-        public void test31() throws UrlParsingError {
+        @DisplayName("should get url")
+        public void shouldGetUrl() throws UrlParsingError {
             String expected = "http://github.com/document.txt";
             assertEquals(expected, new HttpUrl("http://github.com/document.txt").getUrl());
         }
 
         @Test
-        @DisplayName("")
-        public void test32() throws UrlParsingError {
+        @DisplayName("should get url with port")
+        public void shouldGetUrlWithPort() throws UrlParsingError {
             String expected = "http://github.com:458/document.txt";
             assertEquals(expected, new HttpUrl("http://github.com:458/document.txt").getUrl());
         }
 
         @Test
-        @DisplayName("")
-        public void test33() throws UrlParsingError {
+        @DisplayName("should get url with hidden port")
+        public void shouldGetUrlWithHiddenPort() throws UrlParsingError {
             String expected = "http://github.com/document.txt";
             assertEquals(expected, new HttpUrl("http://github.com:80/document.txt").getUrl());
         }
@@ -180,8 +174,8 @@ public class HttpUrlTest {
     @DisplayName("Method: getDomain()")
     class GetDomain {
         @Test
-        @DisplayName("")
-        public void test41() throws UrlParsingError {
+        @DisplayName("should get domain name")
+        public void shouldGetDomainName() throws UrlParsingError {
             assertEquals("github.com", new HttpUrl("https://github.com/").getDomain());
         }
     }
@@ -190,26 +184,27 @@ public class HttpUrlTest {
     @DisplayName("Method: getDocument()")
     class GetDocument {
         @Test
-        @DisplayName("")
-        public void test51() throws UrlParsingError {
-            assertEquals("/", new HttpUrl("https://github.com/").getDocument());
-        }
-
-        @Test
-        @DisplayName("")
-        public void test52() throws UrlParsingError {
-            assertEquals("/", new HttpUrl("https://github.com").getDocument());
-        }
-
-        @Test
-        @DisplayName("")
-        public void test53() throws UrlParsingError {
+        @DisplayName("should get document")
+        public void shouldGetDocument() throws UrlParsingError {
             assertEquals("/document.txt", new HttpUrl("http://github.com/document.txt").getDocument());
         }
 
         @Test
-        @DisplayName("")
-        public void test54() {
+        @DisplayName("should get document if exist slash symbol")
+        public void shouldGetDocumentIfExistSlashSymbol() throws UrlParsingError {
+            assertEquals("/", new HttpUrl("https://github.com/").getDocument());
+        }
+
+        @Test
+        @DisplayName("shouldGetDocumentIfNotExistSlashSymbol")
+        public void shouldGetDocumentIfNotExistSlashSymbol() throws UrlParsingError {
+            assertEquals("/", new HttpUrl("https://github.com").getDocument());
+        }
+
+
+        @Test
+        @DisplayName("try get document if document contain illegal symbols")
+        public void tryGetDocumentIfDocumentContainIllegalSymbols() {
             String expected = "Document mustn't contain spaces or tabulation";
             exception = assertThrows(UrlParsingError.class, () -> new HttpUrl("github.github.com", " "));
             assertEquals(expected, exception.getMessage());
@@ -220,20 +215,21 @@ public class HttpUrlTest {
     @DisplayName("Method: getProtocol()")
     class GetProtocol {
         @Test
-        @DisplayName("can_not_pass_an_invalid_document")
-        public void test61() throws UrlParsingError {
-            assertEquals(Protocol.HTTP, new HttpUrl("github.com", "document.txt").getProtocol());
-        }
-
-        @Test
-        @DisplayName("can_not_pass_an_invalid_document")
-        public void test62() throws UrlParsingError {
+        @DisplayName("should get protocol")
+        public void shouldGetProtocol() throws UrlParsingError {
             assertEquals(Protocol.HTTPS, new HttpUrl("github.com", "document.txt", Protocol.HTTPS).getProtocol());
         }
 
         @Test
-        @DisplayName("can_not_pass_an_invalid_document")
-        public void test63() {
+        @DisplayName("should get default protocol")
+        public void shouldGetDefaultProtocol() throws UrlParsingError {
+            assertEquals(Protocol.HTTP, new HttpUrl("github.com", "document.txt").getProtocol());
+        }
+
+
+        @Test
+        @DisplayName("try get protocol if protocol not defined")
+        public void tryGetProtocolIfProtocolNotDefined() {
             Protocol protocol = null;
             String expected = "Invalid protocol";
             exception = assertThrows(UrlParsingError.class, () -> new HttpUrl("github.github.com", protocol));
@@ -245,20 +241,20 @@ public class HttpUrlTest {
     @DisplayName("Method: getPort()")
     class GetPort {
         @Test
-        @DisplayName("")
-        public void test51() throws UrlParsingError {
+        @DisplayName("should get port")
+        public void shouldGetPort() throws UrlParsingError {
             assertEquals(14, new HttpUrl("http://github.com:14/document.txt").getPort());
         }
 
         @Test
-        @DisplayName("")
-        public void test52() throws UrlParsingError {
+        @DisplayName("should get default port for http")
+        public void shouldGetDefaultPortForHttp() throws UrlParsingError {
             assertEquals(80, new HttpUrl("http://github.com").getPort());
         }
 
         @Test
-        @DisplayName("")
-        public void test53() throws UrlParsingError {
+        @DisplayName("should get default port for https")
+        public void shouldGetDefaultPortForHttps() throws UrlParsingError {
             assertEquals(443, new HttpUrl("https://github.com").getPort());
         }
     }
