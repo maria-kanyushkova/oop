@@ -65,7 +65,7 @@ public class HttpUrl {
         return port;
     }
 
-    private Protocol stringToProtocol(String protocol) throws UrlParsingError {
+    private Protocol convertToProtocol(String protocol) throws UrlParsingError {
         switch (protocol) {
             case "http":
                 return Protocol.HTTP;
@@ -84,7 +84,7 @@ public class HttpUrl {
         int endPosition = url.indexOf(schemeDelimiter);
         String protocol = url.substring(0, endPosition);
         url = url.substring(endPosition + schemeDelimiter.length());
-        return stringToProtocol(protocol);
+        return convertToProtocol(protocol);
     }
 
     private String parseDomain() {
