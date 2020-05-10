@@ -30,7 +30,7 @@ public class Main {
             JFrame frame = createUIFrame();
 
             Canvas canvas = new Canvas();
-            frame.add(canvas);
+            frame.add(canvas.getGraphics());
             controller.draw(canvas);
 
         } catch (Exception error) {
