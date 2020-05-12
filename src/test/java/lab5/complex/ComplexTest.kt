@@ -15,8 +15,8 @@ class ComplexTest {
     val EPS = 10e-15
 
     private fun equalsComplexNumbers(expected: Complex, actual: Complex) {
-        assertEquals(expected.re(), actual.re(), EPS)
-        assertEquals(expected.im(), actual.im(), EPS)
+        assertEquals(expected.re, actual.re, EPS)
+        assertEquals(expected.im, actual.im, EPS)
     }
 
     @Test
@@ -24,8 +24,8 @@ class ComplexTest {
     fun shouldBeExistingRealPart() {
         val complex = Complex(2.0)
         val expected = 2.0
-        assertEquals(expected, complex.re(), EPS)
-        assertEquals(0.0, complex.im())
+        assertEquals(expected, complex.re, EPS)
+        assertEquals(0.0, complex.im)
     }
 
     @Test
@@ -33,15 +33,15 @@ class ComplexTest {
     fun shouldBeExistingImaginaryPart() {
         val complex = Complex(0.0, 1.0)
         val expected = 1.0
-        assertEquals(expected, complex.im(), EPS)
-        assertEquals(0.0, complex.re())
+        assertEquals(expected, complex.im, EPS)
+        assertEquals(0.0, complex.re)
     }
 
     @Nested
     @DisplayName("Method: getMagnitude()")
     inner class Magnitude {
         private fun equalsMagnitude(expected: Double, actual: Complex) {
-            assertEquals(expected, actual.getMagnitude(), EPS)
+            assertEquals(expected, actual.getMagnitude, EPS)
         }
 
         @Test
@@ -105,7 +105,7 @@ class ComplexTest {
     @DisplayName("Method: getArgument()")
     inner class Argument {
         private fun equalsArgument(expected: Double, actual: Complex) {
-            assertEquals(expected, actual.getArgument(), EPS)
+            assertEquals(expected, actual.getArgument, EPS)
         }
 
         @Test
@@ -426,7 +426,9 @@ class ComplexTest {
         fun shouldBeEqualComplexNumbers() {
             val complex = Complex(2.0, 1.0)
             val other = Complex(2.0, 1.0)
+            val other2 = Complex(3.0, 1.0)
             assertTrue(complex == other)
+            assertFalse(complex == other2)
         }
 
         @Test
@@ -434,7 +436,9 @@ class ComplexTest {
         fun shouldBeEqualComplexNumberAndDouble() {
             val complex = Complex(2.0, 0.0)
             val other = 2.0
+            val other2 = 3.0
             assertTrue(complex.equals(other))
+            assertFalse(complex.equals(other2))
         }
     }
 
@@ -447,6 +451,7 @@ class ComplexTest {
             val complex = Complex(2.0, 1.0)
             val other = Complex(1.0, 1.0)
             assertTrue(complex != other)
+            assertFalse(complex != complex)
         }
 
         @Test
@@ -454,7 +459,9 @@ class ComplexTest {
         fun shouldBeNotEqualComplexNumberAndDouble() {
             val complex = Complex(2.0, 0.0)
             val other = 1.0
+            val other2 = 2.0
             assertTrue(!complex.equals(other))
+            assertFalse(!complex.equals(other2))
         }
     }
 
