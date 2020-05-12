@@ -5,29 +5,33 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import kotlin.math.abs
-import kotlin.math.sqrt
-import kotlin.math.pow
 import kotlin.math.atan2
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class Complex(private var real: Double = 0.0, private var imaginary: Double = 0.0) {
-    fun re(): Double {
-        return real
-    }
+    val re: Double
+        get() {
+            return real
+        }
 
-    fun im(): Double {
-        return imaginary
-    }
+    val im: Double
+        get() {
+            return imaginary
+        }
 
-    fun getMagnitude(): Double {
-        return sqrt(real.pow(2) + imaginary.pow(2))
-    }
+    val getMagnitude: Double
+        get() {
+            return sqrt(real.pow(2) + imaginary.pow(2))
+        }
 
-    fun getArgument(): Double {
-        return atan2(imaginary, real)
-    }
+    val getArgument: Double
+        get() {
+            return atan2(imaginary, real)
+        }
 
     operator fun plus(addend: Complex): Complex {
-        return Complex(real + addend.re(), imaginary + addend.im())
+        return Complex(real + addend.re, imaginary + addend.im)
     }
 
     operator fun plus(addend: Double): Complex {
@@ -35,7 +39,7 @@ class Complex(private var real: Double = 0.0, private var imaginary: Double = 0.
     }
 
     operator fun minus(subtrahend: Complex): Complex {
-        return Complex(real - subtrahend.re(), imaginary - subtrahend.im())
+        return Complex(real - subtrahend.re, imaginary - subtrahend.im)
     }
 
     operator fun minus(subtrahend: Double): Complex {
@@ -43,8 +47,8 @@ class Complex(private var real: Double = 0.0, private var imaginary: Double = 0.
     }
 
     operator fun times(multiplier: Complex): Complex {
-        val realPart = (real * multiplier.re()) - (imaginary * multiplier.im())
-        val imaginaryPart = (real * multiplier.im()) + (imaginary * multiplier.re())
+        val realPart = (real * multiplier.re) - (imaginary * multiplier.im)
+        val imaginaryPart = (real * multiplier.im) + (imaginary * multiplier.re)
         return Complex(realPart, imaginaryPart)
     }
 
@@ -53,9 +57,9 @@ class Complex(private var real: Double = 0.0, private var imaginary: Double = 0.
     }
 
     operator fun div(divider: Complex): Complex {
-        val common = (divider.re().pow(2) + divider.im().pow(2))
-        val realPart = ((real * divider.re()) + (imaginary * divider.im())) / common
-        val imaginaryPart = ((imaginary * divider.re()) - (real * divider.im())) / common
+        val common = (divider.re.pow(2) + divider.im.pow(2))
+        val realPart = ((real * divider.re) + (imaginary * divider.im)) / common
+        val imaginaryPart = ((imaginary * divider.re) - (real * divider.im)) / common
         return Complex(realPart, imaginaryPart)
     }
 
@@ -73,8 +77,8 @@ class Complex(private var real: Double = 0.0, private var imaginary: Double = 0.
 
     operator fun plusAssign(addend: Complex) {
         val complex = this + addend
-        real = complex.re()
-        imaginary = complex.im()
+        real = complex.re
+        imaginary = complex.im
     }
 
     operator fun plusAssign(addend: Double) {
@@ -83,8 +87,8 @@ class Complex(private var real: Double = 0.0, private var imaginary: Double = 0.
 
     operator fun minusAssign(subtrahend: Complex) {
         val complex = this - subtrahend
-        real = complex.re()
-        imaginary = complex.im()
+        real = complex.re
+        imaginary = complex.im
     }
 
     operator fun minusAssign(subtrahend: Double) {
@@ -93,34 +97,34 @@ class Complex(private var real: Double = 0.0, private var imaginary: Double = 0.
 
     operator fun timesAssign(multiplier: Complex) {
         val complex = this * multiplier
-        real = complex.re()
-        imaginary = complex.im()
+        real = complex.re
+        imaginary = complex.im
     }
 
     operator fun timesAssign(factor: Double) {
         val complex = this * factor
-        real = complex.re()
-        imaginary = complex.im()
+        real = complex.re
+        imaginary = complex.im
     }
 
     operator fun divAssign(divider: Complex) {
         val complex = this / divider
-        real = complex.re()
-        imaginary = complex.im()
+        real = complex.re
+        imaginary = complex.im
     }
 
     operator fun divAssign(divider: Double) {
         val complex = this / divider
-        real = complex.re()
-        imaginary = complex.im()
+        real = complex.re
+        imaginary = complex.im
     }
 
     override operator fun equals(other: Any?): Boolean {
         return when (other) {
-            is Complex -> eq(real, other.re()) && eq(imaginary, other.im())
+            is Complex -> eq(real, other.re) && eq(imaginary, other.im)
             is Double -> {
                 val complex = Complex(other)
-                return eq(real, complex.re()) && eq(imaginary, complex.im())
+                return eq(real, complex.re) && eq(imaginary, complex.im)
             }
             else -> return false
         }
@@ -132,24 +136,24 @@ class Complex(private var real: Double = 0.0, private var imaginary: Double = 0.
 }
 
 operator fun Double.plus(addend: Complex): Complex {
-    return Complex(this + addend.re(), addend.im())
+    return Complex(this + addend.re, addend.im)
 }
 
 operator fun Double.minus(subtrahend: Complex): Complex {
-    return Complex(this - subtrahend.re(), subtrahend.im())
+    return Complex(this - subtrahend.re, subtrahend.im)
 }
 
 operator fun Double.times(multiplier: Complex): Complex {
-    return Complex(this * multiplier.re(), multiplier.im())
+    return Complex(this * multiplier.re, multiplier.im)
 }
 
 operator fun Double.div(divider: Complex): Complex {
-    return Complex(this / divider.re(), divider.im())
+    return Complex(this / divider.re, divider.im)
 }
 
 fun OutputStream.write(number: Complex) {
-    val sign = if (number.im() < 0) '-' else '+'
-    val str = "${number.re()}$sign${abs(number.im())}i"
+    val sign = if (number.im < 0) '-' else '+'
+    val str = "${number.re}$sign${abs(number.im)}i"
     write(str.toByteArray())
 }
 
