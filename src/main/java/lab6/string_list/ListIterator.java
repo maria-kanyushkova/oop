@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class ListIterator implements Iterator<String> {
-    private Node current;
-    private StringList list;
+    protected Node current;
+    protected StringList list;
 
     ListIterator(Node current, StringList list) {
         this.current = current;
@@ -17,10 +17,7 @@ public class ListIterator implements Iterator<String> {
     }
 
     String getCurrent() {
-        if (current == null) {
-            throw new NoSuchElementException("Iterator doesn't point to next element!");
-        }
-        return current.getValue();
+        return current == null ? null : current.getValue();
     }
 
     StringList getList() {
@@ -40,18 +37,5 @@ public class ListIterator implements Iterator<String> {
         }
         current = current.getNext();
         return next.getValue();
-    }
-
-    public boolean hasPrev() {
-        return current != null;
-    }
-
-    public String prev() {
-        Node prev = current;
-        if (prev == null) {
-            throw new NoSuchElementException("Iterator doesn't point to prev element!");
-        }
-        current = current.getPrev();
-        return prev.getValue();
     }
 }

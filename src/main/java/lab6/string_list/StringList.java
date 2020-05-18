@@ -1,5 +1,6 @@
 package lab6.string_list;
 
+import java.util.Iterator;
 import java.util.function.Consumer;
 
 public class StringList implements Iterable<String> {
@@ -21,8 +22,9 @@ public class StringList implements Iterable<String> {
     }
 
     void pushFront(String value) {
-        if (first == null) {
+        if (counter == 0) {
             first = new Node(value);
+            last = first;
         } else {
             Node node = new Node(value);
             first.setPrev(node);
@@ -32,30 +34,25 @@ public class StringList implements Iterable<String> {
         counter++;
     }
 
+
     void insert(ListIterator iterator, String value) throws Exception {
         if (iterator.getList() != this) {
             throw new Exception("Incorrect iterator!");
         }
-        Node node = new Node(value);
         if (iterator.getCurrentNode() == first) {
-            Node curr = first;
-            first = node;
-            node.setNext(curr);
-            curr.setPrev(node);
+            pushFront(value);
         } else if (!iterator.hasNext()) {
-            Node prev = last;
-            last = node;
-            last.setPrev(prev);
-            prev.setNext(last);
+            pushBack(value);
         } else {
-            Node curr = iterator.getCurrentNode();
-            Node prev = curr.getPrev();
+            Node node = new Node(value);
+            Node current = iterator.getCurrentNode();
+            Node prev = current.getPrev();
             prev.setNext(node);
             node.setPrev(prev);
-            node.setNext(curr);
-            curr.setPrev(node);
+            node.setNext(current);
+            current.setPrev(node);
+            counter++;
         }
-        counter++;
     }
 
     void clear() {
@@ -72,35 +69,27 @@ public class StringList implements Iterable<String> {
         counter = 0;
     }
 
-    String get(int index) {
-        if (index > counter || index < 0) {
-            throw new IndexOutOfBoundsException("Index out of bound!");
-        }
-        if (first == null) {
-            throw new NullPointerException("List is empty!");
-        }
-        Node next = first;
-        for (int i = 0; i < index; i++) {
-            next = next.getNext();
-        }
-        return next.getValue();
-    }
-
     void erase(ListIterator iterator) throws Exception {
         if (iterator.getList() != this) {
             throw new Exception("Incorrect iterator!");
         }
-        Node curr = iterator.getCurrentNode();
-        Node prev = curr.getPrev();
-        Node next = curr.getNext();
+        Node current = iterator.getCurrentNode();
+        if (current == null) {
+            throw new Exception("Current element is null!");
+        }
+        Node prev = current.getPrev();
+        Node next = current.getNext();
         if (prev != null) {
             prev.setNext(next);
         }
         if (next != null) {
             next.setPrev(prev);
         }
-        if (curr == first) {
+        if (current == first) {
             first = next;
+        }
+        if (current == last) {
+            last = prev;
         }
         counter--;
     }
@@ -113,9 +102,25 @@ public class StringList implements Iterable<String> {
         return counter;
     }
 
-    @Override
-    public ListIterator iterator() {
+    public final ListIterator begin() {
         return new ListIterator(first, this);
+    }
+
+    public final ListIterator end() {
+        return new ListIterator(last, this);
+    }
+
+    public final ListIterator rbegin() {
+        return new ListReverseIterator(last, this);
+    }
+
+    public final ListIterator rend() {
+        return new ListReverseIterator(first, this);
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return begin();
     }
 
     @Override
