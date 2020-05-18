@@ -37,12 +37,14 @@ public class StringListTest {
     @DisplayName("number of elements and whether node exist")
     class NumberOfNode {
         @Test
+        @DisplayName("should be state is correct if list is empty")
         public void listIsEmpty() {
             assertEquals(0, list.size());
             assertTrue(list.isEmpty());
         }
 
         @Test
+        @DisplayName("should be state is correct if list is not empty")
         public void listIsNotEmpty() {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
@@ -55,8 +57,8 @@ public class StringListTest {
     @DisplayName("push elements to list")
     class AddNode {
         @Test
-        @DisplayName("1. Вставка в конец одного элемента в пустой список")
-        public void test1() {
+        @DisplayName("should to push back element in empty list")
+        public void shouldToPushBackElementInEmptyList() {
             list.pushBack("Lorem");
             assertEquals(1, list.size());
             assertEqualsIteratorValue("Lorem", list.begin());
@@ -64,8 +66,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("2. Вставка элемента в конец существующего списка")
-        public void test2() {
+        @DisplayName("should to push back element in list")
+        public void shouldToPushBackElementInList() {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             assertEquals(2, list.size());
@@ -74,8 +76,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("3. Вставка элемента в начало пустого списка")
-        public void test3() {
+        @DisplayName("should to push front element in empty list")
+        public void shouldToPushFrontElementInEmptyList() {
             list.pushFront("Lorem");
             assertEquals(1, list.size());
             assertEqualsIteratorValue("Lorem", list.begin());
@@ -83,8 +85,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("4. Вставка элемента в начало заполненого списка")
-        public void test4() {
+        @DisplayName("should to push front element in list")
+        public void shouldToPushFrontElementInList() {
             list.pushBack("Lorem");
             list.pushFront("ipsum");
             assertEquals(2, list.size());
@@ -97,8 +99,8 @@ public class StringListTest {
     @DisplayName("iterators")
     class Iterators {
         @Test
-        @DisplayName("5. проверка итераторов при пустом списке")
-        public void test5() {
+        @DisplayName("should be correct iterators if is empty list")
+        public void shouldBeCorrectValueIfIsEmptyList() {
             assertNullIterator(list.begin());
             assertNullIterator(list.end());
             assertNullIterator(list.rbegin());
@@ -106,8 +108,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("6. проверка итераторов со списком из 1ого элемента")
-        public void test6() {
+        @DisplayName("should be correct iterators if list have one element")
+        public void shouldBeCorrectIteratorsIfListHaveOneElement() {
             list.pushBack("Lorem");
             assertEqualsIterators(list.begin(), list.end());
             assertEqualsIterators(list.begin(), list.rbegin());
@@ -115,8 +117,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("7. проверка итераторов на заполненном списке")
-        public void test7() {
+        @DisplayName("should be correct iterators in list")
+        public void shouldBeCorrectIteratorsInList() {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             list.pushBack("dolor");
@@ -127,8 +129,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("8. проверка итератора на заполненном списке")
-        public void listIsIterable() {
+        @DisplayName("should be iterable iterator in list")
+        public void shouldBeIterableIteratorInList() {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             list.pushBack("dolor");
@@ -143,8 +145,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("9. проверка реверсивного итератора на заполненном списке")
-        public void test9() {
+        @DisplayName("should be iterable reverse iterator in list")
+        public void shouldBeIterableReverseIteratorInList() {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             list.pushBack("dolor");
@@ -159,16 +161,16 @@ public class StringListTest {
     @DisplayName("delete all elements")
     class DeleteAllNodes {
         @Test
-        @DisplayName("")
-        public void clearEmptyList() {
+        @DisplayName("should be cleared empty list")
+        public void shouldBeClearedEmptyList() {
             list.clear();
             assertEquals(0, list.size());
             assertTrue(list.isEmpty());
         }
 
         @Test
-        @DisplayName("")
-        public void clearList() {
+        @DisplayName("should be cleared list")
+        public void shouldBeClearedList() {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             list.pushBack("dolor");
@@ -182,22 +184,22 @@ public class StringListTest {
     @DisplayName("insert element into position from iterator")
     class InsertNode {
         @Test
-        @DisplayName("11. Вставка элемента в начало пустого списка")
-        public void test11() throws Exception {
+        @DisplayName("should to insert element to start position in empty list")
+        public void shouldToInsertElementToStartPositionInEmptyList() throws Exception {
             list.insert(list.begin(), "Lorem");
             assertEqualsIteratorValue("Lorem", list.begin());
         }
 
         @Test
-        @DisplayName("12. Вставка элемента в конец пустого списка")
-        public void test12() throws Exception {
+        @DisplayName("should to insert element to end position in empty list")
+        public void shouldToInsertElementToEndPositionInEmptyList() throws Exception {
             list.insert(list.end(), "Lorem");
             assertEqualsIteratorValue("Lorem", list.end());
         }
 
         @Test
-        @DisplayName("13. Вставка элемента в любую позицию списка")
-        public void insertToMiddleOfList() throws Exception {
+        @DisplayName("should to insert element to list")
+        public void shouldToInsertElementToList() throws Exception {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             ListIterator it = list.begin();
@@ -212,8 +214,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("14. Вставка элемента в начало заполненного списка")
-        public void insertToFrontOfList() throws Exception {
+        @DisplayName("should to insert element to start position in list")
+        public void shouldToInsertElementToStartPositionInList() throws Exception {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             list.pushBack("dolor");
@@ -229,8 +231,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("15. Вставка элемента в конец заполненного списка")
-        public void insertToBackOfList() throws Exception {
+        @DisplayName("should to insert element to end position in list")
+        public void shouldToInsertElementToEndPositionInList() throws Exception {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             list.pushBack("dolor");
@@ -249,8 +251,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("16. Вставка элемента в конец заполненного списка")
-        public void insertNotBreakingList() throws Exception {
+        @DisplayName("should to insert element to end position to next element in list")
+        public void shouldToInsertElementToEndPositionToNextElementInList() throws Exception {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             list.pushBack("dolor");
@@ -264,8 +266,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("17. Попытка использовать итераторы другого списка при вставке")
-        public void insertIteratorFromOtherList() {
+        @DisplayName("try insert value with other iterators list")
+        public void tryInsertValueWithOtherIteratorsList() {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             list.pushBack("dolor");
@@ -279,20 +281,20 @@ public class StringListTest {
     @DisplayName("erase element in position from iterator")
     class EraseNode {
         @Test
-        @DisplayName("11. Удаление элемента из начала пустого списка")
-        public void test11(){
+        @DisplayName("should to erase element from start position in empty list")
+        public void shouldToEraseElementFromStartPositionInEmptyList(){
             assertThrows(Exception.class, () -> list.erase(list.begin()));
         }
 
         @Test
-        @DisplayName("12. Удаление элемента из конца пустого списка")
-        public void test12() {
+        @DisplayName("should to erase element from end position in empty list")
+        public void shouldToEraseElementFromEndPositionInEmptyList() {
             assertThrows(Exception.class, () -> list.erase(list.end()));
         }
 
         @Test
-        @DisplayName("13. Удаление элемента из начала списка")
-        public void eraseFromFront() throws Exception {
+        @DisplayName("should to erase element from start position in list")
+        public void shouldToEraseElementFromStartPositionInList() throws Exception {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             list.erase(list.begin());
@@ -301,8 +303,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("14. Удаление элемента из конца списка")
-        public void eraseFromBack() throws Exception {
+        @DisplayName("should to erase element from end position in list")
+        public void shouldToEraseElementFromEndPositionInList() throws Exception {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             list.erase(list.end());
@@ -311,8 +313,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("15. Удаление элемента из середины списка")
-        public void eraseFromMiddle() throws Exception {
+        @DisplayName("should to erase element in list")
+        public void shouldToEraseElementInList() throws Exception {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             list.pushBack("dolor");
@@ -325,8 +327,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("15. Удаление пустых строк из списка")
-        public void testRemoveAllEmptyStrings() throws Exception {
+        @DisplayName("should to erase empty string in list")
+        public void shouldToEraseEmptyStringInList() throws Exception {
             list.pushBack("Lorem");
             list.pushBack("");
             list.pushBack("ipsum");
@@ -349,8 +351,8 @@ public class StringListTest {
         }
 
         @Test
-        @DisplayName("17. Попытка использовать итераторы другого списка при удалении")
-        public void eraseIteratorFromOtherList() {
+        @DisplayName("try erase value with other iterators list")
+        public void tryEraseValueWithOtherIteratorsList() {
             list.pushBack("Lorem");
             list.pushBack("ipsum");
             list.pushBack("dolor");
