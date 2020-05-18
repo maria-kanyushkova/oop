@@ -5,6 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,6 +31,19 @@ public class StringListTest {
         assertNull(it1.getCurrent());
     }
 
+    public void assertValues(List<String> array, ListIterator it) {
+        for (String value : array) {
+            assertEqualsIteratorValue(value, it);
+            it.next();
+        }
+    }
+
+    public void initListWithValue(List<String> array) {
+        for (String value : array) {
+            list.pushBack(value);
+        }
+    }
+
     @BeforeEach
     public void initList() {
         list = new StringList();
@@ -46,8 +62,7 @@ public class StringListTest {
         @Test
         @DisplayName("should be state is correct if list is not empty")
         public void listIsNotEmpty() {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
+            initListWithValue(Arrays.asList("Lorem", "ipsum"));
             assertEquals(2, list.size());
             assertFalse(list.isEmpty());
         }
@@ -119,9 +134,7 @@ public class StringListTest {
         @Test
         @DisplayName("should be correct iterators in list")
         public void shouldBeCorrectIteratorsInList() {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
-            list.pushBack("dolor");
+            initListWithValue(Arrays.asList("Lorem", "ipsum", "dolor"));
             assertNotEqualsIterators(list.begin(), list.rbegin());
             assertNotEqualsIterators(list.end(), list.rend());
             assertEqualsIterators(list.begin(), list.rend());
@@ -131,9 +144,7 @@ public class StringListTest {
         @Test
         @DisplayName("should be iterable iterator in list")
         public void shouldBeIterableIteratorInList() {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
-            list.pushBack("dolor");
+            initListWithValue(Arrays.asList("Lorem", "ipsum", "dolor"));
             int counter = 0;
             ListIterator it = list.begin();
             for (final String string : list) {
@@ -147,9 +158,7 @@ public class StringListTest {
         @Test
         @DisplayName("should be iterable reverse iterator in list")
         public void shouldBeIterableReverseIteratorInList() {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
-            list.pushBack("dolor");
+            initListWithValue(Arrays.asList("Lorem", "ipsum", "dolor"));
             ListIterator it = list.rbegin();
             assertEquals("dolor", it.getCurrent());
             it.next();
@@ -171,9 +180,7 @@ public class StringListTest {
         @Test
         @DisplayName("should be cleared list")
         public void shouldBeClearedList() {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
-            list.pushBack("dolor");
+            initListWithValue(Arrays.asList("Lorem", "ipsum", "dolor"));
             list.clear();
             assertEquals(0, list.size());
             assertTrue(list.isEmpty());
@@ -200,62 +207,36 @@ public class StringListTest {
         @Test
         @DisplayName("should to insert element to list")
         public void shouldToInsertElementToList() throws Exception {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
+            initListWithValue(Arrays.asList("Lorem", "dolor"));
             ListIterator it = list.begin();
             it.next();
-            list.insert(it, "sit");
-            it = list.begin();
-            assertEqualsIteratorValue("Lorem", it);
-            it.next();
-            assertEqualsIteratorValue("sit", it);
-            it.next();
-            assertEqualsIteratorValue("ipsum", it);
+            list.insert(it, "ipsum");
+            assertValues(Arrays.asList("Lorem", "ipsum", "dolor"), list.begin());
         }
 
         @Test
         @DisplayName("should to insert element to start position in list")
         public void shouldToInsertElementToStartPositionInList() throws Exception {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
-            list.pushBack("dolor");
+            initListWithValue(Arrays.asList("Lorem", "ipsum", "dolor"));
             list.insert(list.begin(), "sit");
-            ListIterator it = list.begin();
-            assertEqualsIteratorValue("sit", it);
-            it.next();
-            assertEqualsIteratorValue("Lorem", it);
-            it.next();
-            assertEqualsIteratorValue("ipsum", it);
-            it.next();
-            assertEqualsIteratorValue("dolor", it);
+            assertValues(Arrays.asList("sit", "Lorem", "ipsum", "dolor"), list.begin());
         }
 
         @Test
         @DisplayName("should to insert element to end position in list")
         public void shouldToInsertElementToEndPositionInList() throws Exception {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
-            list.pushBack("dolor");
+            initListWithValue(Arrays.asList("Lorem", "ipsum", "dolor"));
             ListIterator it = list.begin();
             it.next();
             it.next();
             list.insert(it, "sit");
-            it = list.begin();
-            assertEqualsIteratorValue("Lorem", it);
-            it.next();
-            assertEqualsIteratorValue("ipsum", it);
-            it.next();
-            assertEqualsIteratorValue("sit", it);
-            it.next();
-            assertEqualsIteratorValue("dolor", it);
+            assertValues(Arrays.asList("Lorem", "ipsum", "sit", "dolor"), list.begin());
         }
 
         @Test
         @DisplayName("should to insert element to end position to next element in list")
         public void shouldToInsertElementToEndPositionToNextElementInList() throws Exception {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
-            list.pushBack("dolor");
+            initListWithValue(Arrays.asList("Lorem", "ipsum", "dolor"));
             ListIterator it = list.begin();
             it.next();
             it.next();
@@ -268,9 +249,7 @@ public class StringListTest {
         @Test
         @DisplayName("try insert value with other iterators list")
         public void tryInsertValueWithOtherIteratorsList() {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
-            list.pushBack("dolor");
+            initListWithValue(Arrays.asList("Lorem", "ipsum", "dolor"));
             StringList other = new StringList();
             other.pushBack("sit");
             assertThrows(Exception.class, () -> list.insert(other.begin(), "sit"));
@@ -282,7 +261,7 @@ public class StringListTest {
     class EraseNode {
         @Test
         @DisplayName("should to erase element from start position in empty list")
-        public void shouldToEraseElementFromStartPositionInEmptyList(){
+        public void shouldToEraseElementFromStartPositionInEmptyList() {
             assertThrows(Exception.class, () -> list.erase(list.begin()));
         }
 
@@ -295,8 +274,7 @@ public class StringListTest {
         @Test
         @DisplayName("should to erase element from start position in list")
         public void shouldToEraseElementFromStartPositionInList() throws Exception {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
+            initListWithValue(Arrays.asList("Lorem", "ipsum"));
             list.erase(list.begin());
             assertEqualsIteratorValue("ipsum", list.begin());
             assertEquals(1, list.size());
@@ -305,8 +283,7 @@ public class StringListTest {
         @Test
         @DisplayName("should to erase element from end position in list")
         public void shouldToEraseElementFromEndPositionInList() throws Exception {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
+            initListWithValue(Arrays.asList("Lorem", "ipsum"));
             list.erase(list.end());
             assertEqualsIteratorValue("Lorem", list.end());
             assertEquals(1, list.size());
@@ -315,9 +292,7 @@ public class StringListTest {
         @Test
         @DisplayName("should to erase element in list")
         public void shouldToEraseElementInList() throws Exception {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
-            list.pushBack("dolor");
+            initListWithValue(Arrays.asList("Lorem", "ipsum", "dolor"));
             ListIterator it = list.begin();
             it.next();
             list.erase(it);
@@ -329,11 +304,7 @@ public class StringListTest {
         @Test
         @DisplayName("should to erase empty string in list")
         public void shouldToEraseEmptyStringInList() throws Exception {
-            list.pushBack("Lorem");
-            list.pushBack("");
-            list.pushBack("ipsum");
-            list.pushBack("");
-            list.pushBack("dolor");
+            initListWithValue(Arrays.asList("Lorem", "", "ipsum", "", "dolor"));
             ListIterator it = list.begin();
             for (String string : list) {
                 if (string.isEmpty()) {
@@ -341,21 +312,14 @@ public class StringListTest {
                 }
                 it.next();
             }
-            it = list.begin();
-            assertEqualsIteratorValue("Lorem", it);
-            it.next();
-            assertEqualsIteratorValue("ipsum", it);
-            it.next();
-            assertEqualsIteratorValue("dolor", it);
+            assertValues(Arrays.asList("Lorem", "ipsum", "dolor"), list.begin());
             assertEquals(3, list.size());
         }
 
         @Test
         @DisplayName("try erase value with other iterators list")
         public void tryEraseValueWithOtherIteratorsList() {
-            list.pushBack("Lorem");
-            list.pushBack("ipsum");
-            list.pushBack("dolor");
+            initListWithValue(Arrays.asList("Lorem", "ipsum", "dolor"));
             StringList other = new StringList();
             other.pushBack("sit");
             assertThrows(Exception.class, () -> list.erase(other.begin()));
