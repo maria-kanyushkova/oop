@@ -33,16 +33,15 @@ class MyArray<T> : Iterable<T> {
     }
 
     fun resize(length: Int) {
-        if (length <= counter) {
+        if (length < counter) {
             var node = first
             for (i in 0..length) {
                 node = node!!.getNext()
             }
-            for (i in counter..length) {
-                if (last != null) {
-                    last!!.setNext(null)
-                    last = last!!.getPrev()
-                }
+            val end = length + 1
+            for (i in end..counter) {
+                last!!.setNext(null)
+                last = last!!.getPrev()
             }
         } else {
             for (i in counter..length) {

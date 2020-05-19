@@ -4,7 +4,7 @@ import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import java.util.*
+import org.junit.jupiter.api.Assertions.assertNull
 
 class MyArrayTest {
     var stringArray: MyArray<String> = MyArray()
@@ -219,6 +219,134 @@ class MyArrayTest {
             doubleArray = initArrayWithDoubleValue(doubleArray, listOf(0.00001, 0.00002, 0.00003))
             doubleArray.clear()
             assertEquals(0, doubleArray.size())
+        }
+    }
+
+    @Nested
+    @DisplayName("resize array")
+    inner class ResizeArray {
+        @Test
+        @DisplayName("should be resize empty string array")
+        fun shouldBeResizeEmptyStringArray() {
+            stringArray.resize(0)
+            assertEquals(0, stringArray.size())
+        }
+        @Test
+        @DisplayName("should be resize empty double array")
+        fun shouldBeResizeEmptyDoubleArray() {
+            doubleArray.resize(0)
+            assertEquals(0, doubleArray.size())
+        }
+
+        @Test
+        @DisplayName("should be resize string array")
+        fun shouldBeResizeStringArray() {
+            stringArray = initArrayWithStringValue(stringArray, listOf("Lorem", "ipsum", "dolor"))
+            stringArray.resize(2)
+            assertEqualsIteratorValue("Lorem", stringArray.begin())
+            assertEqualsIteratorValue("ipsum", stringArray.end())
+            assertEquals(2, stringArray.size())
+        }
+
+        @Test
+        @DisplayName("should be resize double array")
+        fun shouldBeResizeDoubleArray() {
+            doubleArray = initArrayWithDoubleValue(doubleArray, listOf(0.00001, 0.00002, 0.00003))
+            doubleArray.resize(2)
+            assertEqualsIteratorValue(0.00001, doubleArray.begin())
+            assertEqualsIteratorValue(0.00002, doubleArray.end())
+            assertEquals(2, doubleArray.size())
+        }
+
+        @Test
+        @DisplayName("should be resize string array")
+        fun shouldBeResizeStringArrayIn() {
+            stringArray = initArrayWithStringValue(stringArray, listOf("Lorem", "ipsum", "dolor"))
+            stringArray.resize(4)
+            assertEqualsIteratorValue("Lorem", stringArray.begin())
+            assertNullStringIterator(stringArray.end())
+            assertEquals(4, stringArray.size())
+        }
+
+        @Test
+        @DisplayName("should be resize double array to out array")
+        fun shouldBeResizeDoubleArrayToOutArray() {
+            doubleArray = initArrayWithDoubleValue(doubleArray, listOf(0.00001, 0.00002, 0.00003))
+            doubleArray.resize(4)
+            assertEqualsIteratorValue(0.00001, doubleArray.begin())
+            assertNullDoubleIterator(doubleArray.end())
+            assertEquals(4, doubleArray.size())
+        }
+    }
+
+    @Nested
+    @DisplayName("get element in array")
+    inner class Get {
+        @Test
+        @DisplayName("should get first element in string array")
+        fun shouldGetFirstElementInStringArray() {
+            stringArray = initArrayWithStringValue(stringArray, listOf("Lorem", "ipsum", "dolor"))
+            assertEquals("Lorem", stringArray[0])
+        }
+        @Test
+        @DisplayName("should get first element in double array")
+        fun shouldGetFirstElementInDoubleArray() {
+            doubleArray = initArrayWithDoubleValue(doubleArray, listOf(0.00001, 0.00002, 0.00003))
+            assertEquals(0.00001, doubleArray[0])
+        }
+
+        @Test
+        @DisplayName("should get middle element in string array")
+        fun shouldGetMiddleElementInStringArray() {
+            stringArray = initArrayWithStringValue(stringArray, listOf("Lorem", "ipsum", "dolor"))
+            assertEquals("ipsum", stringArray[1])
+        }
+
+        @Test
+        @DisplayName("should get middle element in double array")
+        fun shouldGetMiddleElementInDoubleArray() {
+            doubleArray = initArrayWithDoubleValue(doubleArray, listOf(0.00001, 0.00002, 0.00003))
+            assertEquals(0.00002, doubleArray[1])
+        }
+
+        @Test
+        @DisplayName("should get end element in string array")
+        fun shouldGetEndElementInStringArray() {
+            stringArray = initArrayWithStringValue(stringArray, listOf("Lorem", "ipsum", "dolor"))
+            assertEquals("dolor", stringArray[2])
+        }
+
+        @Test
+        @DisplayName("should get end element in double array")
+        fun shouldGetEndElementInDoubleArray() {
+            doubleArray = initArrayWithDoubleValue(doubleArray, listOf(0.00001, 0.00002, 0.00003))
+            assertEquals(0.00003, doubleArray[2])
+        }
+
+        @Test
+        @DisplayName("try get element in empty string array")
+        fun tryGetElementInEmptyStringArray() {
+            Assertions.assertThrows(NullPointerException::class.java) { stringArray[0] }
+        }
+
+        @Test
+        @DisplayName("try get element in empty double array")
+        fun tryGetElementInEmptyDoubleArray() {
+            Assertions.assertThrows(NullPointerException::class.java) { doubleArray[0] }
+        }
+
+        @Test
+        @DisplayName("try get element in out of range string array")
+        fun tryGetElementInOutOfRangeStringArray() {
+            stringArray = initArrayWithStringValue(stringArray, listOf("Lorem", "ipsum", "dolor"))
+            Assertions.assertThrows(IndexOutOfBoundsException::class.java) { stringArray[4] }
+        }
+
+        @Test
+        @DisplayName("try get element in out of range double array")
+        fun tryGetElementInOutOfRangeDoubleArray() {
+            doubleArray = initArrayWithDoubleValue(doubleArray, listOf(0.00001, 0.00002, 0.00003))
+            Assertions.assertThrows(IndexOutOfBoundsException::class.java) { doubleArray[4] }
         }
     }
 }
