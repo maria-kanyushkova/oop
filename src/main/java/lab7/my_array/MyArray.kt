@@ -7,7 +7,7 @@ class MyArray<T>: Iterable<T> {
     private var first: Node<T>? = null
     private var last: Node<T>? = null
 
-    fun pushBack(value: T?) {
+    fun push(value: T?) {
         if (counter == 0) {
             first = Node(value)
             last = first
@@ -45,7 +45,7 @@ class MyArray<T>: Iterable<T> {
             }
         } else {
             for (i in counter..length) {
-                pushBack(null)
+                push(null)
             }
         }
     }
