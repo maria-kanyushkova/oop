@@ -2,7 +2,7 @@ package lab7.my_array
 
 import java.util.function.Consumer
 
-class MyArray<T>: Iterable<T> {
+class MyArray<T> : Iterable<T> {
     private var counter: Int = 0
     private var first: Node<T>? = null
     private var last: Node<T>? = null
@@ -17,6 +17,7 @@ class MyArray<T>: Iterable<T> {
             last!!.setPrev(prev!!)
             prev.setNext(last!!)
         }
+        counter++
     }
 
     fun size(): Int {
@@ -48,6 +49,7 @@ class MyArray<T>: Iterable<T> {
                 push(null)
             }
         }
+        counter = length
     }
 
     fun clear() {
