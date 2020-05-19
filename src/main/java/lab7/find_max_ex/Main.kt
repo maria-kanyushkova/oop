@@ -17,22 +17,22 @@ fun main(args: Array<String>) {
     val athleteMaxWeight: Athlete? = findMaxEx(athletes, ::maxWeight)
     if (athleteMaxWeight != null) printAthleteInfo(athleteMaxWeight)
 
-    System.out.println()
+    println()
 
     val athleteMaxGrowth: Athlete? = findMaxEx(athletes, ::maxGrowth)
     if (athleteMaxGrowth != null) printAthleteInfo(athleteMaxGrowth)
 }
 
 fun maxWeight(la: Athlete, ra: Athlete): Boolean {
-    return defaultCompare(la.weight, ra.weight)
+    return la.weight >= ra.weight
 }
 
 fun maxGrowth(la: Athlete, ra: Athlete): Boolean {
-    return defaultCompare(la.growth, ra.growth)
+    return la.growth >= ra.growth
 }
 
 fun printAthleteInfo(athlete: Athlete) {
-    System.out.println("FirstName: " + athlete.firstName + "\n" +
+    println("FirstName: " + athlete.firstName + "\n" +
             "LastName: " + athlete.lastName + "\n" +
             "Patronymic: " + athlete.patronymic + "\n" +
             "Weight: " + athlete.weight + "\n" +
