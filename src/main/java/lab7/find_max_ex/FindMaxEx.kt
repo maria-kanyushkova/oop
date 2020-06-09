@@ -7,7 +7,7 @@ fun <T : Comparable<T>> defaultCompare(value: T, maxValue: T): Boolean {
 }
 
 fun <T : Comparable<T>> findMax(values: ArrayList<T>): T? {
-    return findMaxEx(values) { value: T, maxValue: T -> compareValues(value, maxValue) >= 0}
+    return findMaxEx(values) { maxValue: T, value: T -> compareValues(maxValue, value) <= 0}
 }
 
 fun <T, L : (value: T, maxValue: T) -> Boolean> findMaxEx(values: ArrayList<T>, less: L): T? {
@@ -17,7 +17,7 @@ fun <T, L : (value: T, maxValue: T) -> Boolean> findMaxEx(values: ArrayList<T>, 
     var max = values[0]
     val end = values.size - 1
     for (i in 1..end) {
-        if (less(values[i], max)) max = values[i]
+        if (less(max, values[i])) max = values[i]
     }
     return max
 }

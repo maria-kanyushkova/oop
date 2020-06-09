@@ -100,6 +100,30 @@ class FindMaxKtTest {
             val max = findMax(array)
             assertEquals("abcdefg", max)
         }
+
+        @Test
+        @DisplayName("should be correct value in char array at start")
+        fun shouldBeCorrectValueInCharArrayAtStart() {
+            val array = arrayListOf("j", "b", "c", "d", "e", "f", "a")
+            val max = findMax(array)
+            assertEquals("j", max)
+        }
+
+        @Test
+        @DisplayName("should be correct value in char array at middle")
+        fun shouldBeCorrectValueICharArrayAtMiddle() {
+            val array = arrayListOf("a", "b", "j", "d", "e", "f", "c")
+            val max = findMax(array)
+            assertEquals("j", max)
+        }
+
+        @Test
+        @DisplayName("should be correct value in char array at end")
+        fun shouldBeCorrectValueInCharArrayAtEnd() {
+            val array = arrayListOf("a", "b", "c", "d", "e", "f", "j")
+            val max = findMax(array)
+            assertEquals("j", max)
+        }
     }
 
     @Nested
@@ -109,7 +133,7 @@ class FindMaxKtTest {
         @DisplayName("should be correct value in empty array")
         fun shouldBeCorrectValueInEmptyArray() {
             val array = arrayListOf<People>()
-            val max = findMaxEx(array, { max: People, current: People -> max.growth >= current.growth })
+            val max = findMaxEx(array, { max: People, current: People -> max.growth <= current.growth })
             assertNull(max)
         }
 
@@ -117,7 +141,7 @@ class FindMaxKtTest {
         @DisplayName("should be correct value in types array by name")
         fun shouldBeCorrectValueInTypesArrayByName() {
             val array = getMockPeopleList()
-            val max = findMaxEx(array, { max: People, current: People -> max.name >= current.name })
+            val max = findMaxEx(array, { max: People, current: People -> max.name <= current.name })
             assertNotNull(max)
             assertEquals(max.name, "Obdulia Belisle")
         }
@@ -126,7 +150,7 @@ class FindMaxKtTest {
         @DisplayName("should be correct value in types array by growth")
         fun shouldBeCorrectValueInTypesArrayByGrowth() {
             val array = getMockPeopleList()
-            val max = findMaxEx(array, { max: People, current: People -> max.growth >= current.growth })
+            val max = findMaxEx(array, { max: People, current: People -> max.growth <= current.growth })
             assertNotNull(max)
             assertEquals(max.name, "Cecil Shaeffer")
         }
@@ -135,7 +159,7 @@ class FindMaxKtTest {
         @DisplayName("should be correct value in types array by weight")
         fun shouldBeCorrectValueInTypesArrayByWeight() {
             val array = getMockPeopleList()
-            val min = findMaxEx(array, { max: People, current: People -> max.weight <= current.weight })
+            val min = findMaxEx(array, { max: People, current: People -> max.weight >= current.weight })
             assertNotNull(min)
             assertEquals(min.name, "Graig Herriman")
         }
