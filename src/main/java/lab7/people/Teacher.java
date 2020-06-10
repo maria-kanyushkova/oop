@@ -1,6 +1,6 @@
 package lab7.people;
 
-public class Teacher extends PersonImpl<ITeacher> {
+public class Teacher extends PersonImpl<ITeacher> implements ITeacher {
     private String courseTitle;
 
     Teacher(String _firstName, String _lastName, String _patronymic, String _address, String _courseTitle) {
