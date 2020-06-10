@@ -24,11 +24,11 @@ fun main(args: Array<String>) {
 }
 
 fun maxWeight(la: Athlete, ra: Athlete): Boolean {
-    return la.weight >= ra.weight
+    return la.weight <= ra.weight
 }
 
 fun maxGrowth(la: Athlete, ra: Athlete): Boolean {
-    return la.growth >= ra.growth
+    return la.growth <= ra.growth
 }
 
 fun printAthleteInfo(athlete: Athlete) {

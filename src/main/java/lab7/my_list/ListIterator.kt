@@ -1,6 +1,6 @@
-package lab7.my_array
+package lab7.my_list
 
-open class ArrayIterator<T>(var current: Node<T>? = null, var array: MyArray<T>) : Iterable<T>, Iterator<T> {
+open class ListIterator<T>(var current: Node<T>? = null, var array: MyList<T>) : Iterable<T>, Iterator<T> {
     fun getCurrentNode(): Node<T>? {
         return current
     }
@@ -9,7 +9,7 @@ open class ArrayIterator<T>(var current: Node<T>? = null, var array: MyArray<T>)
         return if (current == null) null else current!!.getValue()
     }
 
-    fun getList(): MyArray<T>? {
+    fun getList(): MyList<T>? {
         return array
     }
 

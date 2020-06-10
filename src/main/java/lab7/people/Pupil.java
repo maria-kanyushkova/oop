@@ -1,6 +1,6 @@
 package lab7.people;
 
-public class Pupil extends PersonImpl<IPupil> {
+public class Pupil extends PersonImpl<IPupil> implements IPupil {
     private String schoolName;
     private String pupilClass;
 

@@ -1,4 +1,4 @@
-package lab7.my_array
+package lab7.my_list
 
 class Node<T>(private var value: T? = null) {
     private var prev: Node<T>? = null
