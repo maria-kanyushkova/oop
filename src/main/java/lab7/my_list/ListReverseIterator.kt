@@ -1,6 +1,6 @@
-package lab7.my_array
+package lab7.my_list
 
-class ArrayReverseIterator<T>(current: Node<T>? = null, array: MyArray<T>) : ArrayIterator<T>(current, array) {
+class ListReverseIterator<T>(current: Node<T>? = null, array: MyList<T>) : ListIterator<T>(current, array) {
     override operator fun hasNext(): Boolean {
         return current != null
     }
